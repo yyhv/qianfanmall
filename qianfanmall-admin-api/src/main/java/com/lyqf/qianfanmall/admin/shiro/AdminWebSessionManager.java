@@ -3,10 +3,10 @@ package com.lyqf.qianfanmall.admin.shiro;
 import com.alibaba.druid.util.StringUtils;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.apache.shiro.web.util.WebUtils;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 public class AdminWebSessionManager extends DefaultWebSessionManager {
@@ -24,7 +24,7 @@ public class AdminWebSessionManager extends DefaultWebSessionManager {
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
-        String id = WebUtils.toHttp(request).getHeader(LOGIN_TOKEN_KEY);
+        String id = ((HttpServletRequest) request).getHeader(LOGIN_TOKEN_KEY);
         if (!StringUtils.isEmpty(id)) {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);

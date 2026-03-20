@@ -6,7 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.express.config.ExpressProperties;
 import com.lyqf.qianfanmall.core.express.dao.ExpressInfo;
 import com.lyqf.qianfanmall.core.util.HttpUtil;
-import org.springframework.util.Base64Utils;
+import java.util.Base64;
 
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -138,7 +138,7 @@ public class ExpressService {
         byte[] src;
         try {
             src = MD5(content, charset).getBytes(charset);
-            return Base64Utils.encodeToString(src);
+            return Base64.getEncoder().encodeToString(src);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

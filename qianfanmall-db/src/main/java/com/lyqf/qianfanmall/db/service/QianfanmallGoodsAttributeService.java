@@ -5,7 +5,7 @@ import com.lyqf.qianfanmall.db.domain.QianfanmallGoodsAttribute;
 import com.lyqf.qianfanmall.db.domain.QianfanmallGoodsAttributeExample;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 

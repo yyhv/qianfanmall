@@ -6,7 +6,7 @@ import com.lyqf.qianfanmall.db.dao.QianfanmallRoleMapper;
 import com.lyqf.qianfanmall.db.domain.QianfanmallRole;
 import com.lyqf.qianfanmall.db.domain.QianfanmallRoleExample;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
