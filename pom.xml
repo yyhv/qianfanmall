@@ -25,7 +25,6 @@
         <module>qianfanmall-wx-api</module>
         <module>qianfanmall-admin-api</module>
         <module>qianfanmall-all</module>
-        <module>qianfanmall-all-war</module>
     </modules>
 
     <dependencyManagement>
