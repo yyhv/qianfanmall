@@ -9,7 +9,7 @@
 # 例如 ubuntu@122.51.199.160
 REMOTE=
 # 请设置本地SSH私钥文件id_rsa路径
-# 例如 /home/litemall/id_rsa
+# 例如 /home/qianfanmall/id_rsa
 ID_RSA=
 
 if test -z "$REMOTE"

@@ -191,16 +191,16 @@
  
   * `小商场`支持商品分享
   * `小商场`物流显示
-  * `小商场`优化商品购买样式，感谢[usgeek](https://github.com/linlinjava/litemall/pull/31) 
-  * `小商场`支持客服、关于页面、手机绑定，感谢[usgeek](https://github.com/linlinjava/litemall/pull/31) 
+  * `小商场`优化商品购买样式，感谢[usgeek](https://github.com/linlinjava/qianfanmall/pull/31) 
+  * `小商场`支持客服、关于页面、手机绑定，感谢[usgeek](https://github.com/linlinjava/qianfanmall/pull/31) 
   * `小商场`支持账号注册和密码找回时短信验证码
   * `管理后台`页面查询时默认基于创建时间排序
   * `基础系统`支持物流追踪  
-  * `基础系统`支持阿里云存储，感谢[usgeek](https://github.com/linlinjava/litemall/pull/31)  
+  * `基础系统`支持阿里云存储，感谢[usgeek](https://github.com/linlinjava/qianfanmall/pull/31)  
   * `项目`删除os模块，相关功能迁移至wx-api模块和admin-api模块
   * `项目`从默认单机多服务方案调整至默认单机单服务方案
   * `项目`暂时取消docker支持和.gitlab-ci.yml支持
-  * `项目`数据库添加litemall_system表，存储系统配置信息
+  * `项目`数据库添加qianfanmall_system表，存储系统配置信息
   * `项目`取消swagger支持
 
 ## V 0.7.0
@@ -210,8 +210,8 @@
   * `管理后台`页面查询时默认基于创建时间排序
   * `管理后台`多个页面完善页面效果
   * `管理后台`支持商品上架和商品编辑
-  * `基础系统`支持腾讯云短信提醒和邮件提醒，感谢[Menethil](https://github.com/linlinjava/litemall/pull/23)
-  * `基础系统`支持腾讯对象存储，感谢[Menethil](https://github.com/linlinjava/litemall/pull/24)
+  * `基础系统`支持腾讯云短信提醒和邮件提醒，感谢[Menethil](https://github.com/linlinjava/qianfanmall/pull/23)
+  * `基础系统`支持腾讯对象存储，感谢[Menethil](https://github.com/linlinjava/qianfanmall/pull/24)
   * `项目`数据库再次简化，同时小商城和管理后台代码进行相应调整
 
 ## V 0.6.0
@@ -236,9 +236,9 @@
   * `小商场`修复购物车商品不能删除
   * `小商场`支持微信支付
   * `管理后台`支持微信支付
-  * `基础系统`数据库litemall_collect的id设置自增
+  * `基础系统`数据库qianfanmall_collect的id设置自增
   * `基础系统`数据库删除region相关的四个临时表
-  * `基础系统`litemall-core模块swagger2配置，支持swagger文档
+  * `基础系统`qianfanmall-core模块swagger2配置，支持swagger文档
   * `项目`多模块maven结构重新设计
   * `项目`文档整理部署方案和上线方案
   * `项目`文档支持更新日志、贡献指南和常见问题
@@ -251,11 +251,11 @@
   * `小商场`商品无货时显示“商品已售空”
   * `管理后台`支持管理员同一账户多终端登录，方便演示
   * `管理后台`专题内容支持富文本编辑
-  * `基础系统`litemall-os-api的链接从`storage/index/index`调整至`os/index/index`
-  * `基础系统`litemall-os-api支持浏览器显示。
-  * `基础系统`新增litemall-core模块，综合了litemall-os-api、litemall-wx-api
-     和litemall-admin-api的共性代码
-  * `基础系统`新增litemall-all模块作为包裹模块，支持三个后端服务和静态文件
+  * `基础系统`qianfanmall-os-api的链接从`storage/index/index`调整至`os/index/index`
+  * `基础系统`qianfanmall-os-api支持浏览器显示。
+  * `基础系统`新增qianfanmall-core模块，综合了qianfanmall-os-api、qianfanmall-wx-api
+     和qianfanmall-admin-api的共性代码
+  * `基础系统`新增qianfanmall-all模块作为包裹模块，支持三个后端服务和静态文件
      打包成一个war项目包
      
 ## V 0.3.0 
@@ -269,7 +269,7 @@
 * `管理后台`的后端服务加密管理员密码
 * `管理后台`完善登录退出逻辑
 * `基础系统`数据库中除regions几个表，其他所有表都添加`add_time`和`deleted`字段
-* `基础系统`litemall-db模块不支持数据物理删除，删除则设置`deleted`，而查询则过滤`deleted`
+* `基础系统`qianfanmall-db模块不支持数据物理删除，删除则设置`deleted`，而查询则过滤`deleted`
 
 ## V 0.2.0
 

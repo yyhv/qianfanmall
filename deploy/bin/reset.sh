@@ -20,10 +20,10 @@ fi
 
 # 导入数据
 cd /home/ubuntu/deploy/db || exit 2
-mysql -h localhost -u $ROOT -p$PASSWORD < litemall.sql
+mysql -h localhost -u $ROOT -p$PASSWORD < qianfanmall.sql
 
 # 删除storage文件夹内文件
-cd /home/ubuntu/deploy/litemall/storage || exit 2
+cd /home/ubuntu/deploy/qianfanmall/storage || exit 2
 rm -f ./**
 
 # 重新部署服务

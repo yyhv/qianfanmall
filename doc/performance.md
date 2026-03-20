@@ -8,7 +8,7 @@
 
 ### 3.1 gzip压缩
 
-在litemall-all模块中配置gzip压缩
+在qianfanmall-all模块中配置gzip压缩
 ```
 server:
   compression:

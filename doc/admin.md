@@ -1,8 +1,8 @@
-# 4 litemall管理后台
+# 4 qianfanmall管理后台
 
 项目技术架构：
 
-* 管理后台前端，即litemall-admin模块
+* 管理后台前端，即qianfanmall-admin模块
   * vue
   * vuex
   * vue-router
@@ -10,7 +10,7 @@
   * element
   * vue-element-admin 4.3.0
   * 其他，见package.json
-* 管理后台后端, 即litemall-admin-api模块
+* 管理后台后端, 即qianfanmall-admin-api模块
   * Spring Boot 2.x
   * Spring MVC
 
@@ -19,7 +19,7 @@
 * `缺失`首页中实现一些小组件，同时点击能够跳转相应页面
 * `缺失`支持导出表所有数据
 
-## 4.1 litemall-admin-api
+## 4.1 qianfanmall-admin-api
 
 本节介绍管理后台的后台服务模块。
 
@@ -93,10 +93,10 @@
 
 #### 4.1.9.1 权限设计
 
-权限控制在数据库层面涉及到三个表`litemall_admin`, `litemall_role`和`litemall_permission`：
-* litemall_admin表中存在roleId字段，保存角色ID数组；
-* litemall_role表记录角色名称和角色介绍；
-* litemall_permission表记录角色所用于的权限值。
+权限控制在数据库层面涉及到三个表`qianfanmall_admin`, `qianfanmall_role`和`qianfanmall_permission`：
+* qianfanmall_admin表中存在roleId字段，保存角色ID数组；
+* qianfanmall_role表记录角色名称和角色介绍；
+* qianfanmall_permission表记录角色所用于的权限值。
 
 权限控制在后端层面通过这三个表可以构建出管理员所属的角色以及所拥有的操作权限。
 当管理员登录以后，访问一些受权限保护的后端地址时，后端会验证当前管理员的操作权限和后端地址需要的操作权限；
@@ -149,7 +149,7 @@
 因此，管理员勾选一个权限以后，后台权限即授权成功，同时前端的菜单权限和按钮权限也自动调整。
 具体实现细节见下文。
 
-后端权限基于shiro来实现，相关代码见litemall-admin-api模块。
+后端权限基于shiro来实现，相关代码见qianfanmall-admin-api模块。
 
 ##### 4.1.9.2 基本配置
 
@@ -276,11 +276,11 @@ job子包存在以下定时任务：
 > 虽然定时任务放在AdminOrderController类中，但是可能这里不是很合适，
 > 以后需要调整或者完善。
 
-## 4.2 litemall-admin
+## 4.2 qianfanmall-admin
 
 本章介绍管理后台的前端模块。
 
-litemall-admin模块的代码基于[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+qianfanmall-admin模块的代码基于[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
 
 
 #### 4.2.1 前端权限

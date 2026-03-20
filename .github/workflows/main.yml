@@ -47,8 +47,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm --prefix litemall-admin install
-    - run: npm --prefix litemall-admin run test
+    - run: npm --prefix qianfanmall-admin install
+    - run: npm --prefix qianfanmall-admin run test
 
   Litemall-vue:
     runs-on: ubuntu-latest
@@ -65,5 +65,5 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm --prefix litemall-vue install
-    - run: npm --prefix litemall-vue run test
+    - run: npm --prefix qianfanmall-vue install
+    - run: npm --prefix qianfanmall-vue run test

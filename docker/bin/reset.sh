@@ -10,7 +10,7 @@
 # i. 请在`XXXXXX`处设置相应的root密码
 # ii. 同时请注意root密码放在脚本是非常危险的，因此这里仅仅是用于开发测试阶段。
 ROOT=root
-PASSWORD=litemall123456
+PASSWORD=qianfanmall123456
 
 if test -z "$PASSWORD"
 then
@@ -19,7 +19,7 @@ then
 fi
 
 # 删除storage文件夹内文件
-cd /home/ubuntu/docker/litemall/storage || exit 2
+cd /home/ubuntu/docker/qianfanmall/storage || exit 2
 sudo rm -f ./**
 
 cd /home/ubuntu/docker || exit 3

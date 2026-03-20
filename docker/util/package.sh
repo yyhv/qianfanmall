@@ -3,8 +3,8 @@
 # 请注意
 # 本脚本的作用是把本项目编译的结果保存到deploy文件夹中
 # 1. 把项目数据库文件拷贝到docker/db/init-sql
-# 2. 编译litemall-admin
-# 3. 编译litemall-all模块，然后拷贝到docker/litemall
+# 2. 编译qianfanmall-admin
+# 3. 编译qianfanmall-all模块，然后拷贝到docker/qianfanmall
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR/../..
@@ -12,20 +12,20 @@ LITEMALL_HOME=$PWD
 echo "LITEMALL_HOME $LITEMALL_HOME"
 
 # 复制数据库
-cat $LITEMALL_HOME/litemall-db/sql/litemall_schema.sql > $LITEMALL_HOME/docker/db/init-sql/litemall.sql
-cat $LITEMALL_HOME/litemall-db/sql/litemall_table.sql >> $LITEMALL_HOME/docker/db/init-sql/litemall.sql
-cat $LITEMALL_HOME/litemall-db/sql/litemall_data.sql >> $LITEMALL_HOME/docker/db/init-sql/litemall.sql
+cat $LITEMALL_HOME/qianfanmall-db/sql/qianfanmall_schema.sql > $LITEMALL_HOME/docker/db/init-sql/qianfanmall.sql
+cat $LITEMALL_HOME/qianfanmall-db/sql/qianfanmall_table.sql >> $LITEMALL_HOME/docker/db/init-sql/qianfanmall.sql
+cat $LITEMALL_HOME/qianfanmall-db/sql/qianfanmall_data.sql >> $LITEMALL_HOME/docker/db/init-sql/qianfanmall.sql
 
-# 打包litemall-admin
-cd $LITEMALL_HOME/litemall-admin
+# 打包qianfanmall-admin
+cd $LITEMALL_HOME/qianfanmall-admin
 npm install --registry=https://registry.npm.taobao.org
 npm run build:dep
 
-# 打包litemall-vue
-cd $LITEMALL_HOME/litemall-vue
+# 打包qianfanmall-vue
+cd $LITEMALL_HOME/qianfanmall-vue
 npm install --registry=https://registry.npm.taobao.org
 npm run build:dep
 
 cd $LITEMALL_HOME
 mvn clean package
-cp -f $LITEMALL_HOME/litemall-all/target/litemall-all-*-exec.jar $LITEMALL_HOME/docker/litemall/litemall.jar
+cp -f $LITEMALL_HOME/qianfanmall-all/target/qianfanmall-all-*-exec.jar $LITEMALL_HOME/docker/qianfanmall/qianfanmall.jar

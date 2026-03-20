@@ -1,26 +1,26 @@
-# 2 litemall基础系统
+# 2 qianfanmall基础系统
 
-目前litemall基础系统由以下部分组成：
+目前qianfanmall基础系统由以下部分组成：
 
-* litemall-core模块
-* litemall-db模块
-* litemall-all模块
-* litemall-all-war模块
+* qianfanmall-core模块
+* qianfanmall-db模块
+* qianfanmall-all模块
+* qianfanmall-all-war模块
 
-litemall-db模块提供数据库访问服务。
+qianfanmall-db模块提供数据库访问服务。
 
-litemall-core模块提供通用服务。
+qianfanmall-core模块提供通用服务。
 
-litemall-all模块则只是一个包裹模块，几乎没有任何代码。该模块的作用是融合两个spring boot模块
-和litemall-admin模块静态文件到一个单独Spring Boot可执行jar包中。
+qianfanmall-all模块则只是一个包裹模块，几乎没有任何代码。该模块的作用是融合两个spring boot模块
+和qianfanmall-admin模块静态文件到一个单独Spring Boot可执行jar包中。
 
-litemall-all-war模块和litemall-all模块是一样的作用，只是采用war打包方式。
+qianfanmall-all-war模块和qianfanmall-all模块是一样的作用，只是采用war打包方式。
 
-## 2.2 litemall-db
+## 2.2 qianfanmall-db
 
-litemall-db模块是一个普通的Spring Boot应用，基于mybatis框架实现数据库访问操作，对外提供业务数据访问服务。
+qianfanmall-db模块是一个普通的Spring Boot应用，基于mybatis框架实现数据库访问操作，对外提供业务数据访问服务。
 
-此外，litemall-db最终是作为一个类库被其他模块所依赖使用，因此并不对外
+此外，qianfanmall-db最终是作为一个类库被其他模块所依赖使用，因此并不对外
 直接服务，没有使用Spring MVC技术。
 
 技术：
@@ -34,7 +34,7 @@ litemall-db模块是一个普通的Spring Boot应用，基于mybatis框架实现
 
 ![](./pics/platform/db-main.png)
 
-这里litemall-db模块可以分成以下几种代码：
+这里qianfanmall-db模块可以分成以下几种代码：
 
 * mybatis数据库访问代码
   * generator生成代码
@@ -62,27 +62,27 @@ mybatis数据库访问代码是指dao接口代码、dao数据库XML文件和doma
 1. 读取`mybatis-generator`文件夹下的`generatorConfig.xml`文件
 2. 根据`jdbcConnection`访问数据库
 3. 根据`table`, 自动生成三种代码:
-   * src文件夹`org.linlinjava.litemall.db.dao` 包内的Java代码
-   * src文件夹`org.linlinjava.litemall.db.domain` 包内的Java代码
-   * resources文件夹`org.linlinjava.litemall.db.domain.dao` 内的XML文件
+   * src文件夹`org.linlinjava.qianfanmall.db.dao` 包内的Java代码
+   * src文件夹`org.linlinjava.qianfanmall.db.domain` 包内的Java代码
+   * resources文件夹`org.linlinjava.qianfanmall.db.domain.dao` 内的XML文件
 
 以上三种代码即可封装对数据库的操作，开发者无需直接操作sql代码，
 而是直接操作Java代码来完成对数据库的访问处理。
 
 关于如何基于mybatis的Example代码来访问数据库，请查阅相关资料，
-或者参考本模块`org.linlinjava.litemall.db.service` 包内的Java代码。
+或者参考本模块`org.linlinjava.qianfanmall.db.service` 包内的Java代码。
 
 当然，为了达到数据库访问效率，开发者也可以手动自定义mapper文件和对应的Java代码。
 例如，当需要访问两个表的数据时，这里是在业务层通过Java代码遍历的形式来访问两个表，
 也可以通过自定义的mapper文件来实现。
 
-接下来，以`litemall_brand`表举例说明如何自动生成代码：
+接下来，以`qianfanmall_brand`表举例说明如何自动生成代码：
 
 1. mybatis generator插件会读取`table`标签
 
     ```
     <generatorConfiguration>
-         <table tableName="litemall_brand">
+         <table tableName="qianfanmall_brand">
              <generatedKey column="id" sqlStatement="MySql" identity="true" />
          </table>
     </generatorConfiguration>
@@ -122,20 +122,20 @@ mybatis数据库访问代码是指dao接口代码、dao数据库XML文件和doma
 
 1. dao代码
 
-   在src文件夹`org.linlinjava.litemall.db.domain` 包内的StatMapper.java代码定义了数据库访问的接口
+   在src文件夹`org.linlinjava.qianfanmall.db.domain` 包内的StatMapper.java代码定义了数据库访问的接口
 
 2. domain代码
  
-   如果希望数据库操作返回数据模型，可以在src文件夹`org.linlinjava.litemall.db.domain` 包内创建相应代码。
+   如果希望数据库操作返回数据模型，可以在src文件夹`org.linlinjava.qianfanmall.db.domain` 包内创建相应代码。
    而这里统计功能是采用简化的`List<Map>`保存数据，没有定义domain代码。
 
 3. XML文件
 
-   在resources文件夹`org.linlinjava.litemall.db.domain.dao` 内的StatMapper.xml文件则是实现真正的数据库访问操作。
+   在resources文件夹`org.linlinjava.qianfanmall.db.domain.dao` 内的StatMapper.xml文件则是实现真正的数据库访问操作。
 
 4. service代码
 
-   这里可以在`org.linlinjava.litemall.db.service` 内定义一个StatServie.java代码，调用底层mapper代码，对外服务。
+   这里可以在`org.linlinjava.qianfanmall.db.service` 内定义一个StatServie.java代码，调用底层mapper代码，对外服务。
     ```
     @Service
     public class StatService {
@@ -164,7 +164,7 @@ mybatis数据库访问代码是指dao接口代码、dao数据库XML文件和doma
 需要指出的是，这里的业务代码往往是单表相关的业务代码，而涉及到多表操作的java代码通常是在其他高层模块中实现。
 这里的业务分层并不是绝对的。例如，开发者可以取消这里的业务代码，而在其他模块中直接调用2.2.1所述代码。
 
-通常业务层代码在src文件夹`org.linlinjava.litemall.db.service` 包中。
+通常业务层代码在src文件夹`org.linlinjava.qianfanmall.db.service` 包中。
 
 ### 2.2.3 mybatis generator支持代码
 
@@ -182,9 +182,9 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
 1. 实现JsonStringArrayTypeHandler类；
 2. 在mybatis generator配置文件中，配置需要的字段；
     ```
-        <table tableName="litemall_goods">
+        <table tableName="qianfanmall_goods">
             <columnOverride column="gallery" javaType="java.lang.String[]"
-                            typeHandler="org.linlinjava.litemall.db.mybatis.JsonStringArrayTypeHandler"/>
+                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
     ```
 3. 使用mybatis generator自动生成代码，可以看到LitemallGoods的gallery是`String[]`类型。
@@ -199,16 +199,16 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
 
 本节介绍如果基于一个表创建新的服务组件。
 
-1. 在数据库里面创建一个表，例如`litemall_demo`:
+1. 在数据库里面创建一个表，例如`qianfanmall_demo`:
 
     ```sql
-    CREATE TABLE `litemall`.`litemall_demo` (
+    CREATE TABLE `qianfanmall`.`qianfanmall_demo` (
       `id` INT NOT NULL AUTO_INCREMENT,
       `name` VARCHAR(45) NULL,
       `address` VARCHAR(45) NULL,
       PRIMARY KEY (`id`));
       
-    INSERT INTO `litemall`.`litemall_demo` (`id`, `name`, `address`) 
+    INSERT INTO `qianfanmall`.`qianfanmall_demo` (`id`, `name`, `address`) 
     VALUES ('1', 'hello', 'world');
     ```
 
@@ -216,7 +216,7 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
 
     ```
     <generatorConfiguration>
-         <table tableName="litemall_demo">
+         <table tableName="qianfanmall_demo">
              <generatedKey column="id" sqlStatement="MySql" identity="true" />
          </table>
     </generatorConfiguration>
@@ -239,7 +239,7 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
     }
    ```
 
-5. 可以在`src/test/java/org.linlinjava.litemall.db`包里面创建LitemallDemoTest.java类,
+5. 可以在`src/test/java/org.linlinjava.qianfanmall.db`包里面创建LitemallDemoTest.java类,
     使用Junit进行测试。
 
     ```java
@@ -252,8 +252,8 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
     
        @Test
        public void test() {    
-        List<LitemallDemo> litemallDemoList = demoService.list();
-        Assert.assertTrue(litemallDemoList.size() != 0);
+        List<LitemallDemo> qianfanmallDemoList = demoService.list();
+        Assert.assertTrue(qianfanmallDemoList.size() != 0);
        }
     
     }
@@ -315,8 +315,8 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
 
 ### 2.2.7 事务管理
 
-litemall-db模块中不涉及到事务管理，而是在其他后台服务模块中涉及。
-但是其他后台服务模块因为依赖litemall-db模块，因此这里列出。
+qianfanmall-db模块中不涉及到事务管理，而是在其他后台服务模块中涉及。
+但是其他后台服务模块因为依赖qianfanmall-db模块，因此这里列出。
 
 事务管理的问题出现在多个表的修改操作中。
 
@@ -343,9 +343,9 @@ litemall-db模块中不涉及到事务管理，而是在其他后台服务模块
 目前没有采用，以后可能会基于其中之一重构数据库访问代码。
 开发者感兴趣的可以自行研究使用。
 
-## 2.3 litemall-core
+## 2.3 qianfanmall-core
 
-litemall-core模块是本项目通用的代码：
+qianfanmall-core模块是本项目通用的代码：
 
 * config
 
@@ -373,7 +373,7 @@ litemall-core模块是本项目通用的代码：
   
 * system
 
-  通过litemall-db模块的数据库访问，读取本项目系统配置信息。
+  通过qianfanmall-db模块的数据库访问，读取本项目系统配置信息。
 
 * validator
 
@@ -400,8 +400,8 @@ Jackson做一些设置。
 ### 2.3.2 util
 
 注意
-> 这里的util代码不会涉及具体业务，例如litemall-db模块中存在一个
-> OrderUtil类处理数据库中litemall_order表的一些转换工作。
+> 这里的util代码不会涉及具体业务，例如qianfanmall-db模块中存在一个
+> OrderUtil类处理数据库中qianfanmall_order表的一些转换工作。
 
 #### 2.3.2.1 ResponseUtil
 
@@ -630,28 +630,28 @@ public interface Storage {
          }
     ```
 
-## 2.4 litemall-all
+## 2.4 qianfanmall-all
 
 在章节1.5中讨论的部署方案中设计了一种单服务器单服务方案，
 也就是说两个后台服务和静态文件都部署在一个Spring Boot可执行jar包中。
 
-查看litemall-all模块，代码仅仅只有一个Application类。
+查看qianfanmall-all模块，代码仅仅只有一个Application类。
 
-实际的原理是litemall-all模块内的pom.xml文件：
+实际的原理是qianfanmall-all模块内的pom.xml文件：
 
 1. 打包方式是`jar`，因此最后会打包可执行jar格式；
-2. 对litemall-wx-api模块和litemall-admin-api模块依赖，
-   因此打包时会作为依赖库而打包到litemall-all模块的输出中；
-3. 使用copy-resources插件，在打包时把litemall-admin模块的dist
-   文件夹拷贝到litemall-all模块的static文件夹中；而这个文件夹
+2. 对qianfanmall-wx-api模块和qianfanmall-admin-api模块依赖，
+   因此打包时会作为依赖库而打包到qianfanmall-all模块的输出中；
+3. 使用copy-resources插件，在打包时把qianfanmall-admin模块的dist
+   文件夹拷贝到qianfanmall-all模块的static文件夹中；而这个文件夹
    正是Spring Boot应用的默认静态文件路径。
    
    注意：
-   > 这个插件只是简单的拷贝操作；因此开发者应该在打包litemall-all
-   > 之前确保先编译litemall-admin模块得到最终静态文件。
+   > 这个插件只是简单的拷贝操作；因此开发者应该在打包qianfanmall-all
+   > 之前确保先编译qianfanmall-admin模块得到最终静态文件。
 
 
-## 2.5 litemall-all-war
+## 2.5 qianfanmall-all-war
 
-litemall-all-war模块就是对litemall-all模块进行少量调整，
-最后打包时会在target目录下面生成litemall.war，用于tomcat部署。
+qianfanmall-all-war模块就是对qianfanmall-all模块进行少量调整，
+最后打包时会在target目录下面生成qianfanmall.war，用于tomcat部署。

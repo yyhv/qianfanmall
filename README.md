@@ -1,18 +1,18 @@
-# litemall
+# qianfanmall
 
 又一个小商场系统。
 
-litemall = Spring Boot后端 + Vue管理员前端 + 微信小程序用户前端 + Vue用户移动端
+qianfanmall = Spring Boot后端 + Vue管理员前端 + 微信小程序用户前端 + Vue用户移动端
 
-* [文档](https://linlinjava.gitbook.io/litemall)
-* [贡献](https://linlinjava.gitbook.io/litemall/contribute)
-* [FAQ](https://linlinjava.gitbook.io/litemall/faq)
-* [API](https://linlinjava.gitbook.io/litemall/api)
+* [文档](https://linlinjava.gitbook.io/qianfanmall)
+* [贡献](https://linlinjava.gitbook.io/qianfanmall/contribute)
+* [FAQ](https://linlinjava.gitbook.io/qianfanmall/faq)
+* [API](https://linlinjava.gitbook.io/qianfanmall/api)
 
 ## 项目代码
 
-* [码云](https://gitee.com/linlinjava/litemall)
-* [GitHub](https://github.com/linlinjava/litemall)
+* [码云](https://gitee.com/linlinjava/qianfanmall)
+* [GitHub](https://github.com/linlinjava/qianfanmall)
 
 ## 项目架构
 ![](./doc/pics/readme/project-structure.png)
@@ -63,26 +63,26 @@ litemall = Spring Boot后端 + Vue管理员前端 + 微信小程序用户前端 
     * [Nodejs](https://nodejs.org/en/download/)
     * [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
     
-2. 数据库依次导入litemall-db/sql下的数据库文件
-    * litemall_schema.sql
-    * litemall_table.sql
-    * litemall_data.sql
+2. 数据库依次导入qianfanmall-db/sql下的数据库文件
+    * qianfanmall_schema.sql
+    * qianfanmall_table.sql
+    * qianfanmall_data.sql
 
 3. 启动小商场和管理后台的后端服务
 
     打开命令行，输入以下命令
     ```bash
-    cd litemall
+    cd qianfanmall
     mvn install
     mvn clean package
-    java -Dfile.encoding=UTF-8 -jar litemall-all/target/litemall-all-0.1.0-exec.jar
+    java -Dfile.encoding=UTF-8 -jar qianfanmall-all/target/qianfanmall-all-0.1.0-exec.jar
     ```
     
 4. 启动管理后台前端
 
     打开命令行，输入以下命令
     ```bash
-    cd litemall/litemall-admin
+    cd qianfanmall/qianfanmall-admin
     npm install --registry=https://registry.npm.taobao.org
     npm run dev
     ```
@@ -90,22 +90,22 @@ litemall = Spring Boot后端 + Vue管理员前端 + 微信小程序用户前端 
     
 5. 启动小商城前端
    
-   这里存在两套小商场前端litemall-wx和renard-wx，开发者可以分别导入和测试：
+   这里存在两套小商场前端qianfanmall-wx和renard-wx，开发者可以分别导入和测试：
    
-   1. 微信开发工具导入litemall-wx项目;
+   1. 微信开发工具导入qianfanmall-wx项目;
    2. 项目配置，启用“不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书”
    3. 点击“编译”，即可在微信开发工具预览效果；
    4. 也可以点击“预览”，然后手机扫描登录（但是手机需开启调试功能）。
       
    注意：
    > 这里只是最简启动方式，而小商场的微信登录、微信支付等功能需开发者设置才能运行，
-   > 更详细方案请参考[文档](https://linlinjava.gitbook.io/litemall/project)。
+   > 更详细方案请参考[文档](https://linlinjava.gitbook.io/qianfanmall/project)。
 
 6. 启动轻商城前端
 
     打开命令行，输入以下命令
     ```bash
-    cd litemall/litemall-vue
+    cd qianfanmall/qianfanmall-vue
     npm install --registry=https://registry.npm.taobao.org
     npm run dev
     ```
@@ -130,32 +130,32 @@ litemall = Spring Boot后端 + Vue管理员前端 + 微信小程序用户前端 
 
    项目参考：
    
-   1. litemall项目数据库基于nideshop-mini-program项目数据库；
-   2. litemall项目的litemall-wx模块基于nideshop-mini-program开发。
+   1. qianfanmall项目数据库基于nideshop-mini-program项目数据库；
+   2. qianfanmall项目的qianfanmall-wx模块基于nideshop-mini-program开发。
 
 2. [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
   
    项目介绍： 一个基于Vue和Element的后台集成方案
   
-   项目参考：litemall项目的litemall-admin模块的前端框架基于vue-element-admin项目修改扩展。
+   项目参考：qianfanmall项目的qianfanmall-admin模块的前端框架基于vue-element-admin项目修改扩展。
 
 3. [mall-admin-web](https://github.com/macrozheng/mall-admin-web)
 
    项目介绍：mall-admin-web是一个电商后台管理系统的前端项目，基于Vue+Element实现。
 
-   项目参考：litemall项目的litemall-admin模块的一些页面布局样式参考了mall-admin-web项目。
+   项目参考：qianfanmall项目的qianfanmall-admin模块的一些页面布局样式参考了mall-admin-web项目。
 
 4. [biu](https://github.com/CaiBaoHong/biu)
 
    项目介绍：管理后台项目开发脚手架，基于vue-element-admin和springboot搭建，前后端分离方式开发和部署。
 
-   项目参考：litemall项目的权限管理功能参考了biu项目。
+   项目参考：qianfanmall项目的权限管理功能参考了biu项目。
 
 5. [vant--mobile-mall](https://github.com/qianzhaoy/vant--mobile-mall)
 
    项目介绍：基于有赞 vant 组件库的移动商城。
 
-   项目参考：litemall项目的litemall-vue模块基于vant--mobile-mall项目开发。
+   项目参考：qianfanmall项目的qianfanmall-vue模块基于vant--mobile-mall项目开发。
 
 ## 推荐
 
@@ -165,10 +165,10 @@ litemall = Spring Boot后端 + Vue管理员前端 + 微信小程序用户前端 
    
 2. [Taro_Mall](https://github.com/jiechud/taro-mall)
 
-    项目介绍：Taro_Mall是一款多端开源在线商城应用程序，后台是基于litemall基础上进行开发，前端采用Taro框架编写。
+    项目介绍：Taro_Mall是一款多端开源在线商城应用程序，后台是基于qianfanmall基础上进行开发，前端采用Taro框架编写。
 
 
 ## License
 
-[MIT](https://github.com/linlinjava/litemall/blob/master/LICENSE)
+[MIT](https://github.com/linlinjava/qianfanmall/blob/master/LICENSE)
 Copyright (c) 2018-present linlinjava
