@@ -16,10 +16,10 @@ import com.lyqf.qianfanmall.core.util.JacksonUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallAftersale;
-import com.lyqf.qianfanmall.db.domain.LitemallGoodsProduct;
-import com.lyqf.qianfanmall.db.domain.LitemallOrder;
-import com.lyqf.qianfanmall.db.domain.LitemallOrderGoods;
+import com.lyqf.qianfanmall.db.domain.QianfanmallAftersale;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoodsProduct;
+import com.lyqf.qianfanmall.db.domain.QianfanmallOrder;
+import com.lyqf.qianfanmall.db.domain.QianfanmallOrderGoods;
 import com.lyqf.qianfanmall.db.service.*;
 import com.lyqf.qianfanmall.db.util.AftersaleConstant;
 import com.lyqf.qianfanmall.db.util.OrderUtil;
@@ -40,13 +40,13 @@ public class AdminAftersaleController {
     private final Log logger = LogFactory.getLog(AdminAftersaleController.class);
 
     @Autowired
-    private LitemallAftersaleService aftersaleService;
+    private QianfanmallAftersaleService aftersaleService;
     @Autowired
-    private LitemallOrderService orderService;
+    private QianfanmallOrderService orderService;
     @Autowired
-    private LitemallOrderGoodsService orderGoodsService;
+    private QianfanmallOrderGoodsService orderGoodsService;
     @Autowired
-    private LitemallGoodsProductService goodsProductService;
+    private QianfanmallGoodsProductService goodsProductService;
     @Autowired
     private LogHelper logHelper;
     @Autowired
@@ -62,16 +62,16 @@ public class AdminAftersaleController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallAftersale> aftersaleList = aftersaleService.querySelective(orderId, aftersaleSn, status, page, limit, sort, order);
+        List<QianfanmallAftersale> aftersaleList = aftersaleService.querySelective(orderId, aftersaleSn, status, page, limit, sort, order);
         return ResponseUtil.okList(aftersaleList);
     }
 
     @RequiresPermissions("admin:aftersale:recept")
     @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "审核通过")
     @PostMapping("/recept")
-    public Object recept(@RequestBody LitemallAftersale aftersale) {
+    public Object recept(@RequestBody QianfanmallAftersale aftersale) {
         Integer id = aftersale.getId();
-        LitemallAftersale aftersaleOne = aftersaleService.findById(id);
+        QianfanmallAftersale aftersaleOne = aftersaleService.findById(id);
         if(aftersaleOne == null){
             return ResponseUtil.fail(AdminResponseCode.AFTERSALE_NOT_ALLOWED, "售后不存在");
         }
@@ -98,7 +98,7 @@ public class AdminAftersaleController {
         // 这里采用忽略失败，继续处理其他项。
         // 当然开发者可以采取其他处理方式，具体情况具体分析，例如利用事务回滚所有操作然后返回用户失败信息
         for(Integer id : ids) {
-            LitemallAftersale aftersale = aftersaleService.findById(id);
+            QianfanmallAftersale aftersale = aftersaleService.findById(id);
             if(aftersale == null){
                 continue;
             }
@@ -119,9 +119,9 @@ public class AdminAftersaleController {
     @RequiresPermissions("admin:aftersale:reject")
     @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "审核拒绝")
     @PostMapping("/reject")
-    public Object reject(@RequestBody LitemallAftersale aftersale) {
+    public Object reject(@RequestBody QianfanmallAftersale aftersale) {
         Integer id = aftersale.getId();
-        LitemallAftersale aftersaleOne = aftersaleService.findById(id);
+        QianfanmallAftersale aftersaleOne = aftersaleService.findById(id);
         if(aftersaleOne == null){
             return ResponseUtil.badArgumentValue();
         }
@@ -144,7 +144,7 @@ public class AdminAftersaleController {
     public Object batchReject(@RequestBody String body) {
         List<Integer> ids = JacksonUtil.parseIntegerList(body, "ids");
         for(Integer id : ids) {
-            LitemallAftersale aftersale = aftersaleService.findById(id);
+            QianfanmallAftersale aftersale = aftersaleService.findById(id);
             if(aftersale == null){
                 continue;
             }
@@ -165,9 +165,9 @@ public class AdminAftersaleController {
     @RequiresPermissions("admin:aftersale:refund")
     @RequiresPermissionsDesc(menu = {"商城管理", "售后管理"}, button = "退款")
     @PostMapping("/refund")
-    public Object refund(@RequestBody LitemallAftersale aftersale) {
+    public Object refund(@RequestBody QianfanmallAftersale aftersale) {
         Integer id = aftersale.getId();
-        LitemallAftersale aftersaleOne = aftersaleService.findById(id);
+        QianfanmallAftersale aftersaleOne = aftersaleService.findById(id);
         if(aftersaleOne == null){
             return ResponseUtil.badArgumentValue();
         }
@@ -175,7 +175,7 @@ public class AdminAftersaleController {
             return ResponseUtil.fail(AdminResponseCode.AFTERSALE_NOT_ALLOWED, "售后不能进行退款操作");
         }
         Integer orderId = aftersaleOne.getOrderId();
-        LitemallOrder order = orderService.findById(orderId);
+        QianfanmallOrder order = orderService.findById(orderId);
 
         // 微信退款
         WxPayRefundRequest wxPayRefundRequest = new WxPayRefundRequest();
@@ -212,8 +212,8 @@ public class AdminAftersaleController {
         // 如果是“退货退款”类型的售后，这里退款说明用户的货已经退回，则需要商品货品数量增加
         // 开发者也可以删除一下代码，在其他地方增加商品货品入库操作
         if(aftersale.getType().equals(AftersaleConstant.TYPE_GOODS_REQUIRED)) {
-            List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(orderId);
-            for (LitemallOrderGoods orderGoods : orderGoodsList) {
+            List<QianfanmallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(orderId);
+            for (QianfanmallOrderGoods orderGoods : orderGoodsList) {
                 Integer productId = orderGoods.getProductId();
                 Short number = orderGoods.getNumber();
                 goodsProductService.addStock(productId, number);

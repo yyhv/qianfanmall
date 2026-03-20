@@ -1,6 +1,6 @@
 package com.lyqf.qianfanmall.db.util;
 
-import com.lyqf.qianfanmall.db.domain.LitemallOrder;
+import com.lyqf.qianfanmall.db.domain.QianfanmallOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class OrderUtil {
     public static final Short STATUS_REFUND_CONFIRM = 203;
     public static final Short STATUS_AUTO_CONFIRM = 402;
 
-    public static String orderStatusText(LitemallOrder order) {
+    public static String orderStatusText(QianfanmallOrder order) {
         int status = order.getOrderStatus().intValue();
 
         if (status == 101) {
@@ -79,7 +79,7 @@ public class OrderUtil {
     }
 
 
-    public static OrderHandleOption build(LitemallOrder order) {
+    public static OrderHandleOption build(QianfanmallOrder order) {
         int status = order.getOrderStatus().intValue();
         OrderHandleOption handleOption = new OrderHandleOption();
 
@@ -145,45 +145,45 @@ public class OrderUtil {
     }
 
 
-    public static boolean isCreateStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isCreateStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_CREATE == qianfanmallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean hasPayed(LitemallOrder order) {
+    public static boolean hasPayed(QianfanmallOrder order) {
         return OrderUtil.STATUS_CREATE != order.getOrderStatus().shortValue()
                 && OrderUtil.STATUS_CANCEL != order.getOrderStatus().shortValue()
                 && OrderUtil.STATUS_AUTO_CANCEL != order.getOrderStatus().shortValue();
     }
 
-    public static boolean isPayStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isPayStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_PAY == qianfanmallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean isShipStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isShipStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_SHIP == qianfanmallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean isConfirmStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isConfirmStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_CONFIRM == qianfanmallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean isCancelStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isCancelStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_CANCEL == qianfanmallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean isAutoCancelStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isAutoCancelStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_AUTO_CANCEL == qianfanmallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean isRefundStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isRefundStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_REFUND == qianfanmallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean isRefundConfirmStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isRefundConfirmStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_REFUND_CONFIRM == qianfanmallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean isAutoConfirmStatus(LitemallOrder qianfanmallOrder) {
+    public static boolean isAutoConfirmStatus(QianfanmallOrder qianfanmallOrder) {
         return OrderUtil.STATUS_AUTO_CONFIRM == qianfanmallOrder.getOrderStatus().shortValue();
     }
 }

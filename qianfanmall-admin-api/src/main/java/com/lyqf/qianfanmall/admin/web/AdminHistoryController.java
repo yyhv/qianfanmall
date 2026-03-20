@@ -7,8 +7,8 @@ import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallSearchHistory;
-import com.lyqf.qianfanmall.db.service.LitemallSearchHistoryService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallSearchHistory;
+import com.lyqf.qianfanmall.db.service.QianfanmallSearchHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ public class AdminHistoryController {
     private final Log logger = LogFactory.getLog(AdminHistoryController.class);
 
     @Autowired
-    private LitemallSearchHistoryService searchHistoryService;
+    private QianfanmallSearchHistoryService searchHistoryService;
 
     @RequiresPermissions("admin:history:list")
     @RequiresPermissionsDesc(menu = {"用户管理", "搜索历史"}, button = "查询")
@@ -33,7 +33,7 @@ public class AdminHistoryController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallSearchHistory> historyList = searchHistoryService.querySelective(userId, keyword, page, limit,
+        List<QianfanmallSearchHistory> historyList = searchHistoryService.querySelective(userId, keyword, page, limit,
                 sort, order);
         return ResponseUtil.okList(historyList);
     }

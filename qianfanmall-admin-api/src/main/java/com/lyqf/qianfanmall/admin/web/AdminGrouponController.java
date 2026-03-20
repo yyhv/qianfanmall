@@ -10,12 +10,12 @@ import com.lyqf.qianfanmall.core.task.TaskService;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallGoods;
-import com.lyqf.qianfanmall.db.domain.LitemallGroupon;
-import com.lyqf.qianfanmall.db.domain.LitemallGrouponRules;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsService;
-import com.lyqf.qianfanmall.db.service.LitemallGrouponRulesService;
-import com.lyqf.qianfanmall.db.service.LitemallGrouponService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoods;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGroupon;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGrouponRules;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGrouponRulesService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGrouponService;
 import com.lyqf.qianfanmall.db.util.GrouponConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -37,11 +37,11 @@ public class AdminGrouponController {
     private final Log logger = LogFactory.getLog(AdminGrouponController.class);
 
     @Autowired
-    private LitemallGrouponRulesService rulesService;
+    private QianfanmallGrouponRulesService rulesService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
     @Autowired
-    private LitemallGrouponService grouponService;
+    private QianfanmallGrouponService grouponService;
     @Autowired
     private TaskService taskService;
 
@@ -53,15 +53,15 @@ public class AdminGrouponController {
                              @RequestParam(defaultValue = "10") Integer limit,
                              @Sort @RequestParam(defaultValue = "add_time") String sort,
                              @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallGroupon> grouponList = grouponService.querySelective(grouponRuleId, page, limit, sort, order);
+        List<QianfanmallGroupon> grouponList = grouponService.querySelective(grouponRuleId, page, limit, sort, order);
 
         List<Map<String, Object>> groupons = new ArrayList<>();
-        for (LitemallGroupon groupon : grouponList) {
+        for (QianfanmallGroupon groupon : grouponList) {
             try {
                 Map<String, Object> recordData = new HashMap<>();
-                List<LitemallGroupon> subGrouponList = grouponService.queryJoinRecord(groupon.getId());
-                LitemallGrouponRules rules = rulesService.findById(groupon.getRulesId());
-                LitemallGoods goods = goodsService.findById(rules.getGoodsId());
+                List<QianfanmallGroupon> subGrouponList = grouponService.queryJoinRecord(groupon.getId());
+                QianfanmallGrouponRules rules = rulesService.findById(groupon.getRulesId());
+                QianfanmallGoods goods = goodsService.findById(rules.getGoodsId());
 
                 recordData.put("groupon", groupon);
                 recordData.put("subGroupons", subGrouponList);
@@ -85,11 +85,11 @@ public class AdminGrouponController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallGrouponRules> rulesList = rulesService.querySelective(goodsId, page, limit, sort, order);
+        List<QianfanmallGrouponRules> rulesList = rulesService.querySelective(goodsId, page, limit, sort, order);
         return ResponseUtil.okList(rulesList);
     }
 
-    private Object validate(LitemallGrouponRules grouponRules) {
+    private Object validate(QianfanmallGrouponRules grouponRules) {
         Integer goodsId = grouponRules.getGoodsId();
         if (goodsId == null) {
             return ResponseUtil.badArgument();
@@ -113,13 +113,13 @@ public class AdminGrouponController {
     @RequiresPermissions("admin:groupon:update")
     @RequiresPermissionsDesc(menu = {"推广管理", "团购管理"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallGrouponRules grouponRules) {
+    public Object update(@RequestBody QianfanmallGrouponRules grouponRules) {
         Object error = validate(grouponRules);
         if (error != null) {
             return error;
         }
 
-        LitemallGrouponRules rules = rulesService.findById(grouponRules.getId());
+        QianfanmallGrouponRules rules = rulesService.findById(grouponRules.getId());
         if(rules == null){
             return ResponseUtil.badArgumentValue();
         }
@@ -128,7 +128,7 @@ public class AdminGrouponController {
         }
 
         Integer goodsId = grouponRules.getGoodsId();
-        LitemallGoods goods = goodsService.findById(goodsId);
+        QianfanmallGoods goods = goodsService.findById(goodsId);
         if (goods == null) {
             return ResponseUtil.badArgumentValue();
         }
@@ -146,14 +146,14 @@ public class AdminGrouponController {
     @RequiresPermissions("admin:groupon:create")
     @RequiresPermissionsDesc(menu = {"推广管理", "团购管理"}, button = "添加")
     @PostMapping("/create")
-    public Object create(@RequestBody LitemallGrouponRules grouponRules) {
+    public Object create(@RequestBody QianfanmallGrouponRules grouponRules) {
         Object error = validate(grouponRules);
         if (error != null) {
             return error;
         }
 
         Integer goodsId = grouponRules.getGoodsId();
-        LitemallGoods goods = goodsService.findById(goodsId);
+        QianfanmallGoods goods = goodsService.findById(goodsId);
         if (goods == null) {
             return ResponseUtil.fail(AdminResponseCode.GROUPON_GOODS_UNKNOWN, "团购商品不存在");
         }
@@ -178,7 +178,7 @@ public class AdminGrouponController {
     @RequiresPermissions("admin:groupon:delete")
     @RequiresPermissionsDesc(menu = {"推广管理", "团购管理"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallGrouponRules grouponRules) {
+    public Object delete(@RequestBody QianfanmallGrouponRules grouponRules) {
         Integer id = grouponRules.getId();
         if (id == null) {
             return ResponseUtil.badArgument();

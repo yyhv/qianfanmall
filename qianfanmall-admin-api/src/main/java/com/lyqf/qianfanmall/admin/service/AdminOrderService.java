@@ -37,15 +37,15 @@ public class AdminOrderService {
     private final Log logger = LogFactory.getLog(AdminOrderService.class);
 
     @Autowired
-    private LitemallOrderGoodsService orderGoodsService;
+    private QianfanmallOrderGoodsService orderGoodsService;
     @Autowired
-    private LitemallOrderService orderService;
+    private QianfanmallOrderService orderService;
     @Autowired
-    private LitemallGoodsProductService productService;
+    private QianfanmallGoodsProductService productService;
     @Autowired
-    private LitemallUserService userService;
+    private QianfanmallUserService userService;
     @Autowired
-    private LitemallCommentService commentService;
+    private QianfanmallCommentService commentService;
     @Autowired
     private WxPayService wxPayService;
     @Autowired
@@ -53,7 +53,7 @@ public class AdminOrderService {
     @Autowired
     private LogHelper logHelper;
     @Autowired
-    private LitemallCouponUserService couponUserService;
+    private QianfanmallCouponUserService couponUserService;
 
     public Object list(String nickname, String consignee, String orderSn, LocalDateTime start, LocalDateTime end, List<Short> orderStatusArray,
                        Integer page, Integer limit, String sort, String order) {
@@ -62,8 +62,8 @@ public class AdminOrderService {
     }
 
     public Object detail(Integer id) {
-        LitemallOrder order = orderService.findById(id);
-        List<LitemallOrderGoods> orderGoods = orderGoodsService.queryByOid(id);
+        QianfanmallOrder order = orderService.findById(id);
+        List<QianfanmallOrderGoods> orderGoods = orderGoodsService.queryByOid(id);
         UserVo user = userService.findUserVoById(order.getUserId());
         Map<String, Object> data = new HashMap<>();
         data.put("order", order);
@@ -100,7 +100,7 @@ public class AdminOrderService {
             return ResponseUtil.badArgument();
         }
 
-        LitemallOrder order = orderService.findById(orderId);
+        QianfanmallOrder order = orderService.findById(orderId);
         if (order == null) {
             return ResponseUtil.badArgument();
         }
@@ -153,8 +153,8 @@ public class AdminOrderService {
         }
 
         // 商品货品数量增加
-        List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(orderId);
-        for (LitemallOrderGoods orderGoods : orderGoodsList) {
+        List<QianfanmallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(orderId);
+        for (QianfanmallOrderGoods orderGoods : orderGoodsList) {
             Integer productId = orderGoods.getProductId();
             Short number = orderGoods.getNumber();
             if (productService.addStock(productId, number) == 0) {
@@ -163,8 +163,8 @@ public class AdminOrderService {
         }
 
         // 返还优惠券
-        List<LitemallCouponUser> couponUsers = couponUserService.findByOid(orderId);
-        for (LitemallCouponUser couponUser: couponUsers) {
+        List<QianfanmallCouponUser> couponUsers = couponUserService.findByOid(orderId);
+        for (QianfanmallCouponUser couponUser: couponUsers) {
             // 优惠券状态设置为可使用
             couponUser.setStatus(CouponUserConstant.STATUS_USABLE);
             couponUser.setUpdateTime(LocalDateTime.now());
@@ -199,7 +199,7 @@ public class AdminOrderService {
             return ResponseUtil.badArgument();
         }
 
-        LitemallOrder order = orderService.findById(orderId);
+        QianfanmallOrder order = orderService.findById(orderId);
         if (order == null) {
             return ResponseUtil.badArgument();
         }
@@ -238,7 +238,7 @@ public class AdminOrderService {
      */
     public Object delete(String body) {
         Integer orderId = JacksonUtil.parseInteger(body, "orderId");
-        LitemallOrder order = orderService.findById(orderId);
+        QianfanmallOrder order = orderService.findById(orderId);
         if (order == null) {
             return ResponseUtil.badArgument();
         }
@@ -272,7 +272,7 @@ public class AdminOrderService {
             return ResponseUtil.badArgument();
         }
         // 目前只支持回复一次
-        LitemallComment comment = commentService.findById(commentId);
+        QianfanmallComment comment = commentService.findById(commentId);
         if(comment == null){
             return ResponseUtil.badArgument();
         }
@@ -299,7 +299,7 @@ public class AdminOrderService {
         }
         BigDecimal actualPrice = new BigDecimal(newMoney);
 
-        LitemallOrder order = orderService.findById(orderId);
+        QianfanmallOrder order = orderService.findById(orderId);
         if (order == null) {
             return ResponseUtil.badArgument();
         }

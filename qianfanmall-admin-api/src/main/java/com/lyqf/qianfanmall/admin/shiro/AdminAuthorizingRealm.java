@@ -8,10 +8,10 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import com.lyqf.qianfanmall.core.util.bcrypt.BCryptPasswordEncoder;
-import com.lyqf.qianfanmall.db.domain.LitemallAdmin;
-import com.lyqf.qianfanmall.db.service.LitemallAdminService;
-import com.lyqf.qianfanmall.db.service.LitemallPermissionService;
-import com.lyqf.qianfanmall.db.service.LitemallRoleService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallAdmin;
+import com.lyqf.qianfanmall.db.service.QianfanmallAdminService;
+import com.lyqf.qianfanmall.db.service.QianfanmallPermissionService;
+import com.lyqf.qianfanmall.db.service.QianfanmallRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.util.Assert;
@@ -28,13 +28,13 @@ public class AdminAuthorizingRealm extends AuthorizingRealm {
 
     @Autowired
     @Lazy
-    private LitemallAdminService adminService;
+    private QianfanmallAdminService adminService;
     @Autowired
     @Lazy
-    private LitemallRoleService roleService;
+    private QianfanmallRoleService roleService;
     @Autowired
     @Lazy
-    private LitemallPermissionService permissionService;
+    private QianfanmallPermissionService permissionService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -42,7 +42,7 @@ public class AdminAuthorizingRealm extends AuthorizingRealm {
             throw new AuthorizationException("PrincipalCollection method argument cannot be null.");
         }
 
-        LitemallAdmin admin = (LitemallAdmin) getAvailablePrincipal(principals);
+        QianfanmallAdmin admin = (QianfanmallAdmin) getAvailablePrincipal(principals);
         Integer[] roleIds = admin.getRoleIds();
         Set<String> roles = roleService.queryByIds(roleIds);
         Set<String> permissions = permissionService.queryByRoleIds(roleIds);
@@ -66,12 +66,12 @@ public class AdminAuthorizingRealm extends AuthorizingRealm {
             throw new AccountException("密码不能为空");
         }
 
-        List<LitemallAdmin> adminList = adminService.findAdmin(username);
+        List<QianfanmallAdmin> adminList = adminService.findAdmin(username);
         Assert.state(adminList.size() < 2, "同一个用户名存在两个账户");
         if (adminList.size() == 0) {
             throw new UnknownAccountException("找不到用户（" + username + "）的帐号信息");
         }
-        LitemallAdmin admin = adminList.get(0);
+        QianfanmallAdmin admin = adminList.get(0);
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!encoder.matches(password, admin.getPassword())) {

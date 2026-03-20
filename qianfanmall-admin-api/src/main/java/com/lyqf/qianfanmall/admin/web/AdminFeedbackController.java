@@ -7,8 +7,8 @@ import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallFeedback;
-import com.lyqf.qianfanmall.db.service.LitemallFeedbackService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallFeedback;
+import com.lyqf.qianfanmall.db.service.QianfanmallFeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ public class AdminFeedbackController {
     private final Log logger = LogFactory.getLog(AdminFeedbackController.class);
 
     @Autowired
-    private LitemallFeedbackService feedbackService;
+    private QianfanmallFeedbackService feedbackService;
 
     @RequiresPermissions("admin:feedback:list")
     @RequiresPermissionsDesc(menu = {"用户管理", "意见反馈"}, button = "查询")
@@ -39,7 +39,7 @@ public class AdminFeedbackController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallFeedback> feedbackList = feedbackService.querySelective(userId, username, page, limit, sort,
+        List<QianfanmallFeedback> feedbackList = feedbackService.querySelective(userId, username, page, limit, sort,
                 order);
         return ResponseUtil.okList(feedbackList);
     }

@@ -40,23 +40,23 @@ public class WxGrouponController {
     private final Log logger = LogFactory.getLog(WxGrouponController.class);
 
     @Autowired
-    private LitemallGrouponRulesService rulesService;
+    private QianfanmallGrouponRulesService rulesService;
     @Autowired
     private WxGrouponRuleService wxGrouponRuleService;
     @Autowired
-    private LitemallGrouponService grouponService;
+    private QianfanmallGrouponService grouponService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
     @Autowired
-    private LitemallOrderService orderService;
+    private QianfanmallOrderService orderService;
     @Autowired
-    private LitemallOrderGoodsService orderGoodsService;
+    private QianfanmallOrderGoodsService orderGoodsService;
     @Autowired
-    private LitemallUserService userService;
+    private QianfanmallUserService userService;
     @Autowired
     private ExpressService expressService;
     @Autowired
-    private LitemallGrouponRulesService grouponRulesService;
+    private QianfanmallGrouponRulesService grouponRulesService;
 
     /**
      * 团购规则列表
@@ -87,18 +87,18 @@ public class WxGrouponController {
             return ResponseUtil.unlogin();
         }
 
-        LitemallGroupon groupon = grouponService.queryById(userId, grouponId);
+        QianfanmallGroupon groupon = grouponService.queryById(userId, grouponId);
         if (groupon == null) {
             return ResponseUtil.badArgumentValue();
         }
 
-        LitemallGrouponRules rules = rulesService.findById(groupon.getRulesId());
+        QianfanmallGrouponRules rules = rulesService.findById(groupon.getRulesId());
         if (rules == null) {
             return ResponseUtil.badArgumentValue();
         }
 
         // 订单信息
-        LitemallOrder order = orderService.findById(userId, groupon.getOrderId());
+        QianfanmallOrder order = orderService.findById(userId, groupon.getOrderId());
         if (null == order) {
             return ResponseUtil.fail(ORDER_UNKNOWN, "订单不存在");
         }
@@ -120,9 +120,9 @@ public class WxGrouponController {
         orderVo.put("expCode", order.getShipChannel());
         orderVo.put("expNo", order.getShipSn());
 
-        List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
+        List<QianfanmallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
         List<Map<String, Object>> orderGoodsVoList = new ArrayList<>(orderGoodsList.size());
-        for (LitemallOrderGoods orderGoods : orderGoodsList) {
+        for (QianfanmallOrderGoods orderGoods : orderGoodsList) {
             Map<String, Object> orderGoodsVo = new HashMap<>();
             orderGoodsVo.put("id", orderGoods.getId());
             orderGoodsVo.put("orderId", orderGoods.getOrderId());
@@ -157,10 +157,10 @@ public class WxGrouponController {
             linkGrouponId = groupon.getGrouponId();
 
         }
-        List<LitemallGroupon> groupons = grouponService.queryJoinRecord(linkGrouponId);
+        List<QianfanmallGroupon> groupons = grouponService.queryJoinRecord(linkGrouponId);
 
         UserVo joiner;
-        for (LitemallGroupon grouponItem : groupons) {
+        for (QianfanmallGroupon grouponItem : groupons) {
             joiner = userService.findUserVoById(grouponItem.getUserId());
             joiners.add(joiner);
         }
@@ -181,17 +181,17 @@ public class WxGrouponController {
      */
     @GetMapping("join")
     public Object join(@NotNull Integer grouponId) {
-        LitemallGroupon groupon = grouponService.queryById(grouponId);
+        QianfanmallGroupon groupon = grouponService.queryById(grouponId);
         if (groupon == null) {
             return ResponseUtil.badArgumentValue();
         }
 
-        LitemallGrouponRules rules = rulesService.findById(groupon.getRulesId());
+        QianfanmallGrouponRules rules = rulesService.findById(groupon.getRulesId());
         if (rules == null) {
             return ResponseUtil.badArgumentValue();
         }
 
-        LitemallGoods goods = goodsService.findById(rules.getGoodsId());
+        QianfanmallGoods goods = goodsService.findById(rules.getGoodsId());
         if (goods == null) {
             return ResponseUtil.badArgumentValue();
         }
@@ -216,7 +216,7 @@ public class WxGrouponController {
             return ResponseUtil.unlogin();
         }
 
-        List<LitemallGroupon> myGroupons;
+        List<QianfanmallGroupon> myGroupons;
         if (showType == 0) {
             myGroupons = grouponService.queryMyGroupon(userId);
         } else {
@@ -225,10 +225,10 @@ public class WxGrouponController {
 
         List<Map<String, Object>> grouponVoList = new ArrayList<>(myGroupons.size());
 
-        LitemallOrder order;
-        LitemallGrouponRules rules;
-        LitemallUser creator;
-        for (LitemallGroupon groupon : myGroupons) {
+        QianfanmallOrder order;
+        QianfanmallGrouponRules rules;
+        QianfanmallUser creator;
+        for (QianfanmallGroupon groupon : myGroupons) {
             order = orderService.findById(userId, groupon.getOrderId());
             rules = rulesService.findById(groupon.getRulesId());
             creator = userService.findById(groupon.getCreatorUserId());
@@ -258,9 +258,9 @@ public class WxGrouponController {
             grouponVo.put("actualPrice", order.getActualPrice());
             grouponVo.put("orderStatusText", OrderUtil.orderStatusText(order));
 
-            List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
+            List<QianfanmallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
             List<Map<String, Object>> orderGoodsVoList = new ArrayList<>(orderGoodsList.size());
-            for (LitemallOrderGoods orderGoods : orderGoodsList) {
+            for (QianfanmallOrderGoods orderGoods : orderGoodsList) {
                 Map<String, Object> orderGoodsVo = new HashMap<>();
                 orderGoodsVo.put("id", orderGoods.getId());
                 orderGoodsVo.put("goodsName", orderGoods.getGoodsName());

@@ -5,10 +5,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.JacksonUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallFootprint;
-import com.lyqf.qianfanmall.db.domain.LitemallGoods;
-import com.lyqf.qianfanmall.db.service.LitemallFootprintService;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallFootprint;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoods;
+import com.lyqf.qianfanmall.db.service.QianfanmallFootprintService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsService;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -30,9 +30,9 @@ public class WxFootprintController {
     private final Log logger = LogFactory.getLog(WxFootprintController.class);
 
     @Autowired
-    private LitemallFootprintService footprintService;
+    private QianfanmallFootprintService footprintService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
 
     /**
      * 删除用户足迹
@@ -54,7 +54,7 @@ public class WxFootprintController {
         if (footprintId == null) {
             return ResponseUtil.badArgument();
         }
-        LitemallFootprint footprint = footprintService.findById(userId, footprintId);
+        QianfanmallFootprint footprint = footprintService.findById(userId, footprintId);
 
         if (footprint == null) {
             return ResponseUtil.badArgumentValue();
@@ -82,16 +82,16 @@ public class WxFootprintController {
             return ResponseUtil.unlogin();
         }
 
-        List<LitemallFootprint> footprintList = footprintService.queryByAddTime(userId, page, limit);
+        List<QianfanmallFootprint> footprintList = footprintService.queryByAddTime(userId, page, limit);
 
         List<Object> footprintVoList = new ArrayList<>(footprintList.size());
-        for (LitemallFootprint footprint : footprintList) {
+        for (QianfanmallFootprint footprint : footprintList) {
             Map<String, Object> c = new HashMap<String, Object>();
             c.put("id", footprint.getId());
             c.put("goodsId", footprint.getGoodsId());
             c.put("addTime", footprint.getAddTime());
 
-            LitemallGoods goods = goodsService.findById(footprint.getGoodsId());
+            QianfanmallGoods goods = goodsService.findById(footprint.getGoodsId());
             c.put("name", goods.getName());
             c.put("brief", goods.getBrief());
             c.put("picUrl", goods.getPicUrl());

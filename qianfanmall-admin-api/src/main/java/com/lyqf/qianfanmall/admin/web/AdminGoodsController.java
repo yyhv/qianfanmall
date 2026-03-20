@@ -8,7 +8,7 @@ import com.lyqf.qianfanmall.admin.dto.GoodsAllinone;
 import com.lyqf.qianfanmall.admin.service.AdminGoodsService;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallGoods;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -74,7 +74,7 @@ public class AdminGoodsController {
     @RequiresPermissions("admin:goods:delete")
     @RequiresPermissionsDesc(menu = {"商品管理", "商品管理"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallGoods goods) {
+    public Object delete(@RequestBody QianfanmallGoods goods) {
         return adminGoodsService.delete(goods);
     }
 

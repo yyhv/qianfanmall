@@ -1,8 +1,8 @@
 package com.lyqf.qianfanmall.db.service;
 
-import com.lyqf.qianfanmall.db.domain.LitemallCart;
-import com.lyqf.qianfanmall.db.domain.LitemallCoupon;
-import com.lyqf.qianfanmall.db.domain.LitemallCouponUser;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCart;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCoupon;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCouponUser;
 import com.lyqf.qianfanmall.db.util.CouponConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,11 @@ import java.util.*;
 public class CouponVerifyService {
 
     @Autowired
-    private LitemallCouponUserService couponUserService;
+    private QianfanmallCouponUserService couponUserService;
     @Autowired
-    private LitemallCouponService couponService;
+    private QianfanmallCouponService couponService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
 
     /**
      * 检测优惠券是否适合
@@ -29,13 +29,13 @@ public class CouponVerifyService {
      * @param checkedGoodsPrice
      * @return
      */
-    public LitemallCoupon checkCoupon(Integer userId, Integer couponId, Integer userCouponId, BigDecimal checkedGoodsPrice, List<LitemallCart> cartList) {
-        LitemallCoupon coupon = couponService.findById(couponId);
+    public QianfanmallCoupon checkCoupon(Integer userId, Integer couponId, Integer userCouponId, BigDecimal checkedGoodsPrice, List<QianfanmallCart> cartList) {
+        QianfanmallCoupon coupon = couponService.findById(couponId);
         if (coupon == null || coupon.getDeleted()) {
             return null;
         }
 
-        LitemallCouponUser couponUser = couponUserService.findById(userCouponId);
+        QianfanmallCouponUser couponUser = couponUserService.findById(userCouponId);
         if (couponUser == null) {
             couponUser = couponUserService.queryOne(userId, couponId);
         } else if (!couponId.equals(couponUser.getCouponId())) {
@@ -66,17 +66,17 @@ public class CouponVerifyService {
         }
 
         // 检测商品是否符合
-        Map<Integer, List<LitemallCart>> cartMap = new HashMap<>();
+        Map<Integer, List<QianfanmallCart>> cartMap = new HashMap<>();
         //可使用优惠券的商品或分类
         List<Integer> goodsValueList = new ArrayList<>(Arrays.asList(coupon.getGoodsValue()));
         Short goodType = coupon.getGoodsType();
 
         if (goodType.equals(CouponConstant.GOODS_TYPE_CATEGORY) ||
                 goodType.equals((CouponConstant.GOODS_TYPE_ARRAY))) {
-            for (LitemallCart cart : cartList) {
+            for (QianfanmallCart cart : cartList) {
                 Integer key = goodType.equals(CouponConstant.GOODS_TYPE_ARRAY) ? cart.getGoodsId() :
                         goodsService.findById(cart.getGoodsId()).getCategoryId();
-                List<LitemallCart> carts = cartMap.get(key);
+                List<QianfanmallCart> carts = cartMap.get(key);
                 if (carts == null) {
                     carts = new LinkedList<>();
                 }
@@ -89,8 +89,8 @@ public class CouponVerifyService {
             BigDecimal total = new BigDecimal(0);
 
             for (Integer goodsId : goodsValueList) {
-                List<LitemallCart> carts = cartMap.get(goodsId);
-                for (LitemallCart cart : carts) {
+                List<QianfanmallCart> carts = cartMap.get(goodsId);
+                for (QianfanmallCart cart : carts) {
                     total = total.add(cart.getPrice().multiply(new BigDecimal(cart.getNumber())));
                 }
             }

@@ -3,9 +3,9 @@ package com.lyqf.qianfanmall.admin.service;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import com.lyqf.qianfanmall.core.util.IpUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallAdmin;
-import com.lyqf.qianfanmall.db.domain.LitemallLog;
-import com.lyqf.qianfanmall.db.service.LitemallLogService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallAdmin;
+import com.lyqf.qianfanmall.db.domain.QianfanmallLog;
+import com.lyqf.qianfanmall.db.service.QianfanmallLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -30,7 +30,7 @@ public class LogHelper {
     public static final  Integer LOG_TYPE_OTHER = 3;
 
     @Autowired
-    private LitemallLogService logService;
+    private QianfanmallLogService logService;
 
     public void logGeneralSucceed(String action) {
         logAdmin(LOG_TYPE_GENERAL, action, true, "", "");
@@ -82,11 +82,11 @@ public class LogHelper {
     }
 
     public void logAdmin(Integer type, String action, Boolean succeed, String result, String comment) {
-        LitemallLog log = new LitemallLog();
+        QianfanmallLog log = new QianfanmallLog();
 
         Subject currentUser = SecurityUtils.getSubject();
         if (currentUser != null) {
-            LitemallAdmin admin = (LitemallAdmin) currentUser.getPrincipal();
+            QianfanmallAdmin admin = (QianfanmallAdmin) currentUser.getPrincipal();
             if (admin != null) {
                 log.setAdmin(admin.getUsername());
             } else {

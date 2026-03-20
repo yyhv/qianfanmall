@@ -3,10 +3,10 @@ package com.lyqf.qianfanmall.wx.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallKeyword;
-import com.lyqf.qianfanmall.db.domain.LitemallSearchHistory;
-import com.lyqf.qianfanmall.db.service.LitemallKeywordService;
-import com.lyqf.qianfanmall.db.service.LitemallSearchHistoryService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallKeyword;
+import com.lyqf.qianfanmall.db.domain.QianfanmallSearchHistory;
+import com.lyqf.qianfanmall.db.service.QianfanmallKeywordService;
+import com.lyqf.qianfanmall.db.service.QianfanmallSearchHistoryService;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -30,9 +30,9 @@ public class WxSearchController {
     private final Log logger = LogFactory.getLog(WxSearchController.class);
 
     @Autowired
-    private LitemallKeywordService keywordsService;
+    private QianfanmallKeywordService keywordsService;
     @Autowired
-    private LitemallSearchHistoryService searchHistoryService;
+    private QianfanmallSearchHistoryService searchHistoryService;
 
     /**
      * 搜索页面信息
@@ -46,11 +46,11 @@ public class WxSearchController {
     @GetMapping("index")
     public Object index(@LoginUser Integer userId) {
         //取出输入框默认的关键词
-        LitemallKeyword defaultKeyword = keywordsService.queryDefault();
+        QianfanmallKeyword defaultKeyword = keywordsService.queryDefault();
         //取出热闹关键词
-        List<LitemallKeyword> hotKeywordList = keywordsService.queryHots();
+        List<QianfanmallKeyword> hotKeywordList = keywordsService.queryHots();
 
-        List<LitemallSearchHistory> historyList = null;
+        List<QianfanmallSearchHistory> historyList = null;
         if (userId != null) {
             //取出用户历史关键字
             historyList = searchHistoryService.queryByUid(userId);
@@ -77,10 +77,10 @@ public class WxSearchController {
     public Object helper(@NotEmpty String keyword,
                          @RequestParam(defaultValue = "1") Integer page,
                          @RequestParam(defaultValue = "10") Integer limit) {
-        List<LitemallKeyword> keywordsList = keywordsService.queryByKeyword(keyword, page, limit);
+        List<QianfanmallKeyword> keywordsList = keywordsService.queryByKeyword(keyword, page, limit);
         String[] keys = new String[keywordsList.size()];
         int index = 0;
-        for (LitemallKeyword key : keywordsList) {
+        for (QianfanmallKeyword key : keywordsList) {
             keys[index++] = key.getKeyword();
         }
         return ResponseUtil.ok(keys);

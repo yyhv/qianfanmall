@@ -30,19 +30,19 @@ public class WxCartController {
     private final Log logger = LogFactory.getLog(WxCartController.class);
 
     @Autowired
-    private LitemallCartService cartService;
+    private QianfanmallCartService cartService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
     @Autowired
-    private LitemallGoodsProductService productService;
+    private QianfanmallGoodsProductService productService;
     @Autowired
-    private LitemallAddressService addressService;
+    private QianfanmallAddressService addressService;
     @Autowired
-    private LitemallGrouponRulesService grouponRulesService;
+    private QianfanmallGrouponRulesService grouponRulesService;
     @Autowired
-    private LitemallCouponService couponService;
+    private QianfanmallCouponService couponService;
     @Autowired
-    private LitemallCouponUserService couponUserService;
+    private QianfanmallCouponUserService couponUserService;
     @Autowired
     private CouponVerifyService couponVerifyService;
 
@@ -58,13 +58,13 @@ public class WxCartController {
             return ResponseUtil.unlogin();
         }
 
-        List<LitemallCart> list = cartService.queryByUid(userId);
-        List<LitemallCart> cartList = new ArrayList<>();
+        List<QianfanmallCart> list = cartService.queryByUid(userId);
+        List<QianfanmallCart> cartList = new ArrayList<>();
         // TODO
         // 如果系统检查商品已删除或已下架，则系统自动删除。
         // 更好的效果应该是告知用户商品失效，允许用户点击按钮来清除失效商品。
-        for (LitemallCart cart : list) {
-            LitemallGoods goods = goodsService.findById(cart.getGoodsId());
+        for (QianfanmallCart cart : list) {
+            QianfanmallGoods goods = goodsService.findById(cart.getGoodsId());
             if (goods == null || !goods.getIsOnSale()) {
                 cartService.deleteById(cart.getId());
                 logger.debug("系统自动删除失效购物车商品 goodsId=" + cart.getGoodsId() + " productId=" + cart.getProductId());
@@ -78,7 +78,7 @@ public class WxCartController {
         BigDecimal goodsAmount = new BigDecimal(0.00);
         Integer checkedGoodsCount = 0;
         BigDecimal checkedGoodsAmount = new BigDecimal(0.00);
-        for (LitemallCart cart : cartList) {
+        for (QianfanmallCart cart : cartList) {
             goodsCount += cart.getNumber();
             goodsAmount = goodsAmount.add(cart.getPrice().multiply(new BigDecimal(cart.getNumber())));
             if (cart.getChecked()) {
@@ -110,7 +110,7 @@ public class WxCartController {
      * @return 加入购物车操作结果
      */
     @PostMapping("add")
-    public Object add(@LoginUser Integer userId, @RequestBody LitemallCart cart) {
+    public Object add(@LoginUser Integer userId, @RequestBody QianfanmallCart cart) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
@@ -129,14 +129,14 @@ public class WxCartController {
         }
 
         //判断商品是否可以购买
-        LitemallGoods goods = goodsService.findById(goodsId);
+        QianfanmallGoods goods = goodsService.findById(goodsId);
         if (goods == null || !goods.getIsOnSale()) {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
         }
 
-        LitemallGoodsProduct product = productService.findById(productId);
+        QianfanmallGoodsProduct product = productService.findById(productId);
         //判断购物车中是否存在此规格商品
-        LitemallCart existCart = cartService.queryExist(goodsId, productId, userId);
+        QianfanmallCart existCart = cartService.queryExist(goodsId, productId, userId);
         if (existCart == null) {
             //取得规格的信息,判断规格库存
             if (product == null || number > product.getNumber()) {
@@ -184,7 +184,7 @@ public class WxCartController {
      * @return 立即购买操作结果
      */
     @PostMapping("fastadd")
-    public Object fastadd(@LoginUser Integer userId, @RequestBody LitemallCart cart) {
+    public Object fastadd(@LoginUser Integer userId, @RequestBody QianfanmallCart cart) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
@@ -203,14 +203,14 @@ public class WxCartController {
         }
 
         //判断商品是否可以购买
-        LitemallGoods goods = goodsService.findById(goodsId);
+        QianfanmallGoods goods = goodsService.findById(goodsId);
         if (goods == null || !goods.getIsOnSale()) {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
         }
 
-        LitemallGoodsProduct product = productService.findById(productId);
+        QianfanmallGoodsProduct product = productService.findById(productId);
         //判断购物车中是否存在此规格商品
-        LitemallCart existCart = cartService.queryExist(goodsId, productId, userId);
+        QianfanmallCart existCart = cartService.queryExist(goodsId, productId, userId);
         if (existCart == null) {
             //取得规格的信息,判断规格库存
             if (product == null || number > product.getNumber()) {
@@ -254,7 +254,7 @@ public class WxCartController {
      * @return 修改结果
      */
     @PostMapping("update")
-    public Object update(@LoginUser Integer userId, @RequestBody LitemallCart cart) {
+    public Object update(@LoginUser Integer userId, @RequestBody QianfanmallCart cart) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
@@ -271,7 +271,7 @@ public class WxCartController {
 
         //判断是否存在该订单
         // 如果不存在，直接返回错误
-        LitemallCart existCart = cartService.findById(userId, id);
+        QianfanmallCart existCart = cartService.findById(userId, id);
         if (existCart == null) {
             return ResponseUtil.badArgumentValue();
         }
@@ -285,13 +285,13 @@ public class WxCartController {
         }
 
         //判断商品是否可以购买
-        LitemallGoods goods = goodsService.findById(goodsId);
+        QianfanmallGoods goods = goodsService.findById(goodsId);
         if (goods == null || !goods.getIsOnSale()) {
             return ResponseUtil.fail(GOODS_UNSHELVE, "商品已下架");
         }
 
         //取得规格的信息,判断规格库存
-        LitemallGoodsProduct product = productService.findById(productId);
+        QianfanmallGoodsProduct product = productService.findById(productId);
         if (product == null || product.getNumber() < number) {
             return ResponseUtil.fail(GOODS_UNSHELVE, "库存不足");
         }
@@ -384,8 +384,8 @@ public class WxCartController {
         }
 
         int goodsCount = 0;
-        List<LitemallCart> cartList = cartService.queryByUid(userId);
-        for (LitemallCart cart : cartList) {
+        List<QianfanmallCart> cartList = cartService.queryByUid(userId);
+        for (QianfanmallCart cart : cartList) {
             goodsCount += cart.getNumber();
         }
 
@@ -412,7 +412,7 @@ public class WxCartController {
         }
 
         // 收货地址
-        LitemallAddress checkedAddress = null;
+        QianfanmallAddress checkedAddress = null;
         if (addressId != null && !addressId.equals(0)) {
             checkedAddress = addressService.query(userId, addressId);
         }
@@ -421,7 +421,7 @@ public class WxCartController {
             // 如果仍然没有地址，则是没有收货地址
             // 返回一个空的地址id=0，这样前端则会提醒添加地址
             if (checkedAddress == null) {
-                checkedAddress = new LitemallAddress();
+                checkedAddress = new QianfanmallAddress();
                 checkedAddress.setId(0);
                 addressId = 0;
             } else {
@@ -431,17 +431,17 @@ public class WxCartController {
 
         // 团购优惠
         BigDecimal grouponPrice = new BigDecimal(0.00);
-        LitemallGrouponRules grouponRules = grouponRulesService.findById(grouponRulesId);
+        QianfanmallGrouponRules grouponRules = grouponRulesService.findById(grouponRulesId);
         if (grouponRules != null) {
             grouponPrice = grouponRules.getDiscount();
         }
 
         // 商品价格
-        List<LitemallCart> checkedGoodsList = null;
+        List<QianfanmallCart> checkedGoodsList = null;
         if (cartId == null || cartId.equals(0)) {
             checkedGoodsList = cartService.queryByUidAndChecked(userId);
         } else {
-            LitemallCart cart = cartService.findById(userId, cartId);
+            QianfanmallCart cart = cartService.findById(userId, cartId);
             if (cart == null) {
                 return ResponseUtil.badArgumentValue();
             }
@@ -449,7 +449,7 @@ public class WxCartController {
             checkedGoodsList.add(cart);
         }
         BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
-        for (LitemallCart cart : checkedGoodsList) {
+        for (QianfanmallCart cart : checkedGoodsList) {
             //  只有当团购规格商品ID符合才进行团购优惠
             if (grouponRules != null && grouponRules.getGoodsId().equals(cart.getGoodsId())) {
                 checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().subtract(grouponPrice).multiply(new BigDecimal(cart.getNumber())));
@@ -463,9 +463,9 @@ public class WxCartController {
         Integer tmpCouponId = 0;
         Integer tmpUserCouponId = 0;
         int tmpCouponLength = 0;
-        List<LitemallCouponUser> couponUserList = couponUserService.queryAll(userId);
-        for(LitemallCouponUser couponUser : couponUserList){
-            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, couponUser.getCouponId(), couponUser.getId(), checkedGoodsPrice, checkedGoodsList);
+        List<QianfanmallCouponUser> couponUserList = couponUserService.queryAll(userId);
+        for(QianfanmallCouponUser couponUser : couponUserList){
+            QianfanmallCoupon coupon = couponVerifyService.checkCoupon(userId, couponUser.getCouponId(), couponUser.getId(), checkedGoodsPrice, checkedGoodsList);
             if(coupon == null){
                 continue;
             }
@@ -494,7 +494,7 @@ public class WxCartController {
             userCouponId = tmpUserCouponId;
         }
         else {
-            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, couponId, userCouponId, checkedGoodsPrice, checkedGoodsList);
+            QianfanmallCoupon coupon = couponVerifyService.checkCoupon(userId, couponId, userCouponId, checkedGoodsPrice, checkedGoodsList);
             // 用户选择的优惠券有问题，则选择合适优惠券，否则使用用户选择的优惠券
             if(coupon == null){
                 couponPrice = tmpCouponPrice;

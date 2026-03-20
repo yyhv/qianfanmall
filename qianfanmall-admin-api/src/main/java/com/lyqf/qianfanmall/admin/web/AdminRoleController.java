@@ -15,12 +15,12 @@ import com.lyqf.qianfanmall.core.util.JacksonUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallAdmin;
-import com.lyqf.qianfanmall.db.domain.LitemallPermission;
-import com.lyqf.qianfanmall.db.domain.LitemallRole;
-import com.lyqf.qianfanmall.db.service.LitemallAdminService;
-import com.lyqf.qianfanmall.db.service.LitemallPermissionService;
-import com.lyqf.qianfanmall.db.service.LitemallRoleService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallAdmin;
+import com.lyqf.qianfanmall.db.domain.QianfanmallPermission;
+import com.lyqf.qianfanmall.db.domain.QianfanmallRole;
+import com.lyqf.qianfanmall.db.service.QianfanmallAdminService;
+import com.lyqf.qianfanmall.db.service.QianfanmallPermissionService;
+import com.lyqf.qianfanmall.db.service.QianfanmallRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
@@ -40,11 +40,11 @@ public class AdminRoleController {
     private final Log logger = LogFactory.getLog(AdminRoleController.class);
 
     @Autowired
-    private LitemallRoleService roleService;
+    private QianfanmallRoleService roleService;
     @Autowired
-    private LitemallPermissionService permissionService;
+    private QianfanmallPermissionService permissionService;
     @Autowired
-    private LitemallAdminService adminService;
+    private QianfanmallAdminService adminService;
 
     @RequiresPermissions("admin:role:list")
     @RequiresPermissionsDesc(menu = {"系统管理", "角色管理"}, button = "角色查询")
@@ -54,16 +54,16 @@ public class AdminRoleController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallRole> roleList = roleService.querySelective(name, page, limit, sort, order);
+        List<QianfanmallRole> roleList = roleService.querySelective(name, page, limit, sort, order);
         return ResponseUtil.okList(roleList);
     }
 
     @GetMapping("/options")
     public Object options() {
-        List<LitemallRole> roleList = roleService.queryAll();
+        List<QianfanmallRole> roleList = roleService.queryAll();
 
         List<Map<String, Object>> options = new ArrayList<>(roleList.size());
-        for (LitemallRole role : roleList) {
+        for (QianfanmallRole role : roleList) {
             Map<String, Object> option = new HashMap<>(2);
             option.put("value", role.getId());
             option.put("label", role.getName());
@@ -77,12 +77,12 @@ public class AdminRoleController {
     @RequiresPermissionsDesc(menu = {"系统管理", "角色管理"}, button = "角色详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
-        LitemallRole role = roleService.findById(id);
+        QianfanmallRole role = roleService.findById(id);
         return ResponseUtil.ok(role);
     }
 
 
-    private Object validate(LitemallRole role) {
+    private Object validate(QianfanmallRole role) {
         String name = role.getName();
         if (StringUtils.isEmpty(name)) {
             return ResponseUtil.badArgument();
@@ -94,7 +94,7 @@ public class AdminRoleController {
     @RequiresPermissions("admin:role:create")
     @RequiresPermissionsDesc(menu = {"系统管理", "角色管理"}, button = "角色添加")
     @PostMapping("/create")
-    public Object create(@RequestBody LitemallRole role) {
+    public Object create(@RequestBody QianfanmallRole role) {
         Object error = validate(role);
         if (error != null) {
             return error;
@@ -112,7 +112,7 @@ public class AdminRoleController {
     @RequiresPermissions("admin:role:update")
     @RequiresPermissionsDesc(menu = {"系统管理", "角色管理"}, button = "角色编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallRole role) {
+    public Object update(@RequestBody QianfanmallRole role) {
         Object error = validate(role);
         if (error != null) {
             return error;
@@ -125,15 +125,15 @@ public class AdminRoleController {
     @RequiresPermissions("admin:role:delete")
     @RequiresPermissionsDesc(menu = {"系统管理", "角色管理"}, button = "角色删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallRole role) {
+    public Object delete(@RequestBody QianfanmallRole role) {
         Integer id = role.getId();
         if (id == null) {
             return ResponseUtil.badArgument();
         }
 
         // 如果当前角色所对应管理员仍存在，则拒绝删除角色。
-        List<LitemallAdmin> adminList = adminService.all();
-        for (LitemallAdmin admin : adminList) {
+        List<QianfanmallAdmin> adminList = adminService.all();
+        for (QianfanmallAdmin admin : adminList) {
             Integer[] roleIds = admin.getRoleIds();
             for (Integer roleId : roleIds) {
                 if (id.equals(roleId)) {
@@ -198,7 +198,7 @@ public class AdminRoleController {
         }
 
         Subject currentUser = SecurityUtils.getSubject();
-        LitemallAdmin currentAdmin = (LitemallAdmin) currentUser.getPrincipal();
+        QianfanmallAdmin currentAdmin = (QianfanmallAdmin) currentUser.getPrincipal();
         Integer[] roles = currentAdmin.getRoleIds();
         List<Integer> roleIds = Arrays.asList(roles);
         Set<String> curPermissions = null;
@@ -239,7 +239,7 @@ public class AdminRoleController {
         // 先删除旧的权限，再更新新的权限
         permissionService.deleteByRoleId(roleId);
         for (String permission : permissions) {
-            LitemallPermission qianfanmallPermission = new LitemallPermission();
+            QianfanmallPermission qianfanmallPermission = new QianfanmallPermission();
             qianfanmallPermission.setRoleId(roleId);
             qianfanmallPermission.setPermission(permission);
             permissionService.add(qianfanmallPermission);

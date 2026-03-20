@@ -11,9 +11,9 @@ import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
 import com.lyqf.qianfanmall.db.domain.*;
-import com.lyqf.qianfanmall.db.service.LitemallAdminService;
-import com.lyqf.qianfanmall.db.service.LitemallNoticeAdminService;
-import com.lyqf.qianfanmall.db.service.LitemallNoticeService;
+import com.lyqf.qianfanmall.db.service.QianfanmallAdminService;
+import com.lyqf.qianfanmall.db.service.QianfanmallNoticeAdminService;
+import com.lyqf.qianfanmall.db.service.QianfanmallNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -33,11 +33,11 @@ public class AdminNoticeController {
     private final Log logger = LogFactory.getLog(AdminNoticeController.class);
 
     @Autowired
-    private LitemallNoticeService noticeService;
+    private QianfanmallNoticeService noticeService;
     @Autowired
-    private LitemallAdminService adminService;
+    private QianfanmallAdminService adminService;
     @Autowired
-    private LitemallNoticeAdminService noticeAdminService;
+    private QianfanmallNoticeAdminService noticeAdminService;
 
     @RequiresPermissions("admin:notice:list")
     @RequiresPermissionsDesc(menu = {"系统管理", "通知管理"}, button = "查询")
@@ -47,11 +47,11 @@ public class AdminNoticeController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallNotice> noticeList = noticeService.querySelective(title, content, page, limit, sort, order);
+        List<QianfanmallNotice> noticeList = noticeService.querySelective(title, content, page, limit, sort, order);
         return ResponseUtil.okList(noticeList);
     }
 
-    private Object validate(LitemallNotice notice) {
+    private Object validate(QianfanmallNotice notice) {
         String title = notice.getTitle();
         if (StringUtils.isEmpty(title)) {
             return ResponseUtil.badArgument();
@@ -61,14 +61,14 @@ public class AdminNoticeController {
 
     private Integer getAdminId(){
         Subject currentUser = SecurityUtils.getSubject();
-        LitemallAdmin admin = (LitemallAdmin) currentUser.getPrincipal();
+        QianfanmallAdmin admin = (QianfanmallAdmin) currentUser.getPrincipal();
         return admin.getId();
     }
 
     @RequiresPermissions("admin:notice:create")
     @RequiresPermissionsDesc(menu = {"推广管理", "通知管理"}, button = "添加")
     @PostMapping("/create")
-    public Object create(@RequestBody LitemallNotice notice) {
+    public Object create(@RequestBody QianfanmallNotice notice) {
         Object error = validate(notice);
         if (error != null) {
             return error;
@@ -77,11 +77,11 @@ public class AdminNoticeController {
         notice.setAdminId(getAdminId());
         noticeService.add(notice);
         // 2. 添加管理员通知记录
-        List<LitemallAdmin> adminList = adminService.all();
-        LitemallNoticeAdmin noticeAdmin = new LitemallNoticeAdmin();
+        List<QianfanmallAdmin> adminList = adminService.all();
+        QianfanmallNoticeAdmin noticeAdmin = new QianfanmallNoticeAdmin();
         noticeAdmin.setNoticeId(notice.getId());
         noticeAdmin.setNoticeTitle(notice.getTitle());
-        for(LitemallAdmin admin : adminList){
+        for(QianfanmallAdmin admin : adminList){
             noticeAdmin.setAdminId(admin.getId());
             noticeAdminService.add(noticeAdmin);
         }
@@ -92,8 +92,8 @@ public class AdminNoticeController {
     @RequiresPermissionsDesc(menu = {"推广管理", "通知管理"}, button = "详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
-        LitemallNotice notice = noticeService.findById(id);
-        List<LitemallNoticeAdmin> noticeAdminList = noticeAdminService.queryByNoticeId(id);
+        QianfanmallNotice notice = noticeService.findById(id);
+        List<QianfanmallNoticeAdmin> noticeAdminList = noticeAdminService.queryByNoticeId(id);
         Map<String, Object> data = new HashMap<>(2);
         data.put("notice", notice);
         data.put("noticeAdminList", noticeAdminList);
@@ -103,12 +103,12 @@ public class AdminNoticeController {
     @RequiresPermissions("admin:notice:update")
     @RequiresPermissionsDesc(menu = {"推广管理", "通知管理"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallNotice notice) {
+    public Object update(@RequestBody QianfanmallNotice notice) {
         Object error = validate(notice);
         if (error != null) {
             return error;
         }
-        LitemallNotice originalNotice = noticeService.findById(notice.getId());
+        QianfanmallNotice originalNotice = noticeService.findById(notice.getId());
         if (originalNotice == null) {
             return ResponseUtil.badArgument();
         }
@@ -121,7 +121,7 @@ public class AdminNoticeController {
         noticeService.updateById(notice);
         // 2. 更新管理员通知记录
         if(!originalNotice.getTitle().equals(notice.getTitle())){
-            LitemallNoticeAdmin noticeAdmin = new LitemallNoticeAdmin();
+            QianfanmallNoticeAdmin noticeAdmin = new QianfanmallNoticeAdmin();
             noticeAdmin.setNoticeTitle(notice.getTitle());
             noticeAdminService.updateByNoticeId(noticeAdmin, notice.getId());
         }
@@ -131,7 +131,7 @@ public class AdminNoticeController {
     @RequiresPermissions("admin:notice:delete")
     @RequiresPermissionsDesc(menu = {"推广管理", "通知管理"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallNotice notice) {
+    public Object delete(@RequestBody QianfanmallNotice notice) {
         // 1. 删除通知管理员记录
         noticeAdminService.deleteByNoticeId(notice.getId());
         // 2. 删除通知记录

@@ -2,10 +2,10 @@ package com.lyqf.qianfanmall.admin.job;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.lyqf.qianfanmall.db.domain.LitemallCoupon;
-import com.lyqf.qianfanmall.db.domain.LitemallCouponUser;
-import com.lyqf.qianfanmall.db.service.LitemallCouponService;
-import com.lyqf.qianfanmall.db.service.LitemallCouponUserService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCoupon;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCouponUser;
+import com.lyqf.qianfanmall.db.service.QianfanmallCouponService;
+import com.lyqf.qianfanmall.db.service.QianfanmallCouponUserService;
 import com.lyqf.qianfanmall.db.util.CouponConstant;
 import com.lyqf.qianfanmall.db.util.CouponUserConstant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,9 @@ public class CouponJob {
     private final Log logger = LogFactory.getLog(CouponJob.class);
 
     @Autowired
-    private LitemallCouponService couponService;
+    private QianfanmallCouponService couponService;
     @Autowired
-    private LitemallCouponUserService couponUserService;
+    private QianfanmallCouponUserService couponUserService;
 
     /**
      * 每隔一个小时检查
@@ -35,14 +35,14 @@ public class CouponJob {
     public void checkCouponExpired() {
         logger.info("系统开启任务检查优惠券是否已经过期");
 
-        List<LitemallCoupon> couponList = couponService.queryExpired();
-        for (LitemallCoupon coupon : couponList) {
+        List<QianfanmallCoupon> couponList = couponService.queryExpired();
+        for (QianfanmallCoupon coupon : couponList) {
             coupon.setStatus(CouponConstant.STATUS_EXPIRED);
             couponService.updateById(coupon);
         }
 
-        List<LitemallCouponUser> couponUserList = couponUserService.queryExpired();
-        for (LitemallCouponUser couponUser : couponUserList) {
+        List<QianfanmallCouponUser> couponUserList = couponUserService.queryExpired();
+        for (QianfanmallCouponUser couponUser : couponUserList) {
             couponUser.setStatus(CouponUserConstant.STATUS_EXPIRED);
             couponUserService.update(couponUser);
         }

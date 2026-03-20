@@ -5,8 +5,8 @@ import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.storage.StorageService;
 import com.lyqf.qianfanmall.core.util.CharUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallStorage;
-import com.lyqf.qianfanmall.db.service.LitemallStorageService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallStorage;
+import com.lyqf.qianfanmall.db.service.QianfanmallStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -32,14 +32,14 @@ public class WxStorageController {
     @Autowired
     private StorageService storageService;
     @Autowired
-    private LitemallStorageService qianfanmallStorageService;
+    private QianfanmallStorageService qianfanmallStorageService;
 
     private String generateKey(String originalFilename) {
         int index = originalFilename.lastIndexOf('.');
         String suffix = originalFilename.substring(index);
 
         String key = null;
-        LitemallStorage storageInfo = null;
+        QianfanmallStorage storageInfo = null;
 
         do {
             key = CharUtil.getRandomString(20) + suffix;
@@ -53,7 +53,7 @@ public class WxStorageController {
     @PostMapping("/upload")
     public Object upload(@RequestParam("file") MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
-        LitemallStorage qianfanmallStorage = storageService.store(file.getInputStream(), file.getSize(), file.getContentType(), originalFilename);
+        QianfanmallStorage qianfanmallStorage = storageService.store(file.getInputStream(), file.getSize(), file.getContentType(), originalFilename);
         return ResponseUtil.ok(qianfanmallStorage);
     }
 
@@ -65,7 +65,7 @@ public class WxStorageController {
      */
     @GetMapping("/fetch/{key:.+}")
     public ResponseEntity<Resource> fetch(@PathVariable String key) {
-        LitemallStorage qianfanmallStorage = qianfanmallStorageService.findByKey(key);
+        QianfanmallStorage qianfanmallStorage = qianfanmallStorageService.findByKey(key);
         if (qianfanmallStorage==null||key == null) {
             return ResponseEntity.notFound().build();
         }
@@ -90,7 +90,7 @@ public class WxStorageController {
      */
     @GetMapping("/download/{key:.+}")
     public ResponseEntity<Resource> download(@PathVariable String key) {
-        LitemallStorage qianfanmallStorage = qianfanmallStorageService.findByKey(key);
+        QianfanmallStorage qianfanmallStorage = qianfanmallStorageService.findByKey(key);
         if (qianfanmallStorage==null||key == null) {
             return ResponseEntity.notFound().build();
         }

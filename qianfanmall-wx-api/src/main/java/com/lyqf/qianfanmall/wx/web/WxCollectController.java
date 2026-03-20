@@ -14,12 +14,12 @@ import com.lyqf.qianfanmall.core.util.JacksonUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallCollect;
-import com.lyqf.qianfanmall.db.domain.LitemallGoods;
-import com.lyqf.qianfanmall.db.domain.LitemallTopic;
-import com.lyqf.qianfanmall.db.service.LitemallCollectService;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsService;
-import com.lyqf.qianfanmall.db.service.LitemallTopicService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCollect;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoods;
+import com.lyqf.qianfanmall.db.domain.QianfanmallTopic;
+import com.lyqf.qianfanmall.db.service.QianfanmallCollectService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsService;
+import com.lyqf.qianfanmall.db.service.QianfanmallTopicService;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -40,11 +40,11 @@ public class WxCollectController {
     private final Log logger = LogFactory.getLog(WxCollectController.class);
 
     @Autowired
-    private LitemallCollectService collectService;
+    private QianfanmallCollectService collectService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
     @Autowired
-    private LitemallTopicService topicService;
+    private QianfanmallTopicService topicService;
 
     /**
      * 用户收藏列表
@@ -66,24 +66,24 @@ public class WxCollectController {
             return ResponseUtil.unlogin();
         }
 
-        List<LitemallCollect> collectList = collectService.queryByType(userId, type, page, limit, sort, order);
+        List<QianfanmallCollect> collectList = collectService.queryByType(userId, type, page, limit, sort, order);
 
         List<Object> collects = new ArrayList<>(collectList.size());
-        for (LitemallCollect collect : collectList) {
+        for (QianfanmallCollect collect : collectList) {
             Map<String, Object> c = new HashMap<String, Object>();
             c.put("id", collect.getId());
             c.put("type", collect.getType());
             c.put("valueId", collect.getValueId());
             if (type == (byte)0){
             	//查询商品信息
-                LitemallGoods goods = goodsService.findById(collect.getValueId());
+                QianfanmallGoods goods = goodsService.findById(collect.getValueId());
                 c.put("name", goods.getName());
                 c.put("brief", goods.getBrief());
                 c.put("picUrl", goods.getPicUrl());
                 c.put("retailPrice", goods.getRetailPrice());
             } else {
             	//查询专题信息
-            	LitemallTopic topic = topicService.findById(collect.getValueId());
+            	QianfanmallTopic topic = topicService.findById(collect.getValueId());
 	            c.put("title", topic.getTitle());
 	            c.put("subtitle", topic.getTitle());
 	            c.put("price", topic.getPrice());
@@ -116,12 +116,12 @@ public class WxCollectController {
             return ResponseUtil.badArgument();
         }
 
-        LitemallCollect collect = collectService.queryByTypeAndValue(userId, type, valueId);
+        QianfanmallCollect collect = collectService.queryByTypeAndValue(userId, type, valueId);
 
         if (collect != null) {
             collectService.deleteById(collect.getId());
         } else {
-            collect = new LitemallCollect();
+            collect = new QianfanmallCollect();
             collect.setUserId(userId);
             collect.setValueId(valueId);
             collect.setType(type);

@@ -16,10 +16,10 @@ import com.lyqf.qianfanmall.admin.util.PermissionUtil;
 import com.lyqf.qianfanmall.core.util.IpUtil;
 import com.lyqf.qianfanmall.core.util.JacksonUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallAdmin;
-import com.lyqf.qianfanmall.db.service.LitemallAdminService;
-import com.lyqf.qianfanmall.db.service.LitemallPermissionService;
-import com.lyqf.qianfanmall.db.service.LitemallRoleService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallAdmin;
+import com.lyqf.qianfanmall.db.service.QianfanmallAdminService;
+import com.lyqf.qianfanmall.db.service.QianfanmallPermissionService;
+import com.lyqf.qianfanmall.db.service.QianfanmallRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
@@ -44,11 +44,11 @@ public class AdminAuthController {
     private final Log logger = LogFactory.getLog(AdminAuthController.class);
 
     @Autowired
-    private LitemallAdminService adminService;
+    private QianfanmallAdminService adminService;
     @Autowired
-    private LitemallRoleService roleService;
+    private QianfanmallRoleService roleService;
     @Autowired
-    private LitemallPermissionService permissionService;
+    private QianfanmallPermissionService permissionService;
     @Autowired
     private LogHelper logHelper;
 
@@ -119,7 +119,7 @@ public class AdminAuthController {
         }
 
         currentUser = SecurityUtils.getSubject();
-        LitemallAdmin admin = (LitemallAdmin) currentUser.getPrincipal();
+        QianfanmallAdmin admin = (QianfanmallAdmin) currentUser.getPrincipal();
         admin.setLastLoginIp(IpUtil.getIpAddr(request));
         admin.setLastLoginTime(LocalDateTime.now());
         adminService.updateById(admin);
@@ -155,7 +155,7 @@ public class AdminAuthController {
     @GetMapping("/info")
     public Object info() {
         Subject currentUser = SecurityUtils.getSubject();
-        LitemallAdmin admin = (LitemallAdmin) currentUser.getPrincipal();
+        QianfanmallAdmin admin = (QianfanmallAdmin) currentUser.getPrincipal();
 
         Map<String, Object> data = new HashMap<>();
         data.put("name", admin.getUsername());

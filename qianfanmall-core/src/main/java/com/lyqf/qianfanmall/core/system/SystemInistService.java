@@ -1,7 +1,7 @@
 package com.lyqf.qianfanmall.core.system;
 
 import com.lyqf.qianfanmall.core.util.SystemInfoPrinter;
-import com.lyqf.qianfanmall.db.service.LitemallSystemConfigService;
+import com.lyqf.qianfanmall.db.service.QianfanmallSystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ class SystemInistService {
     private void inist() {
         systemInistService = this;
         initConfigs();
-        SystemInfoPrinter.printInfo("Litemall 初始化信息", getSystemInfo());
+        SystemInfoPrinter.printInfo("Qianfanmall 初始化信息", getSystemInfo());
     }
 
 
@@ -34,31 +34,31 @@ class SystemInistService {
 
     static {
         // 小程序相关配置默认值
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_NEW, "6");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_HOT, "6");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_BRAND, "4");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_TOPIC, "4");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_CATLOG_LIST, "4");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_INDEX_CATLOG_GOODS, "4");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_WX_SHARE, "false");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_WX_INDEX_NEW, "6");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_WX_INDEX_HOT, "6");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_WX_INDEX_BRAND, "4");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_WX_INDEX_TOPIC, "4");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_WX_INDEX_CATLOG_LIST, "4");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_WX_INDEX_CATLOG_GOODS, "4");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_WX_SHARE, "false");
         // 运费相关配置默认值
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_EXPRESS_FREIGHT_VALUE, "8");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_EXPRESS_FREIGHT_MIN, "88");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_EXPRESS_FREIGHT_VALUE, "8");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_EXPRESS_FREIGHT_MIN, "88");
         // 订单相关配置默认值
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_ORDER_UNPAID, "30");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_ORDER_UNCONFIRM, "7");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_ORDER_COMMENT, "7");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_ORDER_UNPAID, "30");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_ORDER_UNCONFIRM, "7");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_ORDER_COMMENT, "7");
         // 商城相关配置默认值
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_NAME, "qianfanmall");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_ADDRESS, "上海");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_Latitude, "31.201900");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_LONGITUDE, "121.587839");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_PHONE, "021-xxxx-xxxx");
-        DEFAULT_CONFIGS.put(SystemConfig.LITEMALL_MALL_QQ, "705144434");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_MALL_NAME, "qianfanmall");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_MALL_ADDRESS, "上海");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_MALL_Latitude, "31.201900");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_MALL_LONGITUDE, "121.587839");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_MALL_PHONE, "021-xxxx-xxxx");
+        DEFAULT_CONFIGS.put(SystemConfig.QIANFANMALL_MALL_QQ, "705144434");
     }
 
     @Autowired
-    private LitemallSystemConfigService qianfanmallSystemConfigService;
+    private QianfanmallSystemConfigService qianfanmallSystemConfigService;
 
     private void initConfigs() {
         // 1. 读取数据库全部配置信息

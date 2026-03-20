@@ -1,8 +1,8 @@
 package com.lyqf.qianfanmall.admin.task;
 
 import com.lyqf.qianfanmall.core.task.TaskService;
-import com.lyqf.qianfanmall.db.domain.LitemallGrouponRules;
-import com.lyqf.qianfanmall.db.service.LitemallGrouponRulesService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGrouponRules;
+import com.lyqf.qianfanmall.db.service.QianfanmallGrouponRulesService;
 import com.lyqf.qianfanmall.db.util.GrouponConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -17,14 +17,14 @@ import java.util.List;
 public class AdminTaskStartupRunner implements ApplicationRunner {
 
     @Autowired
-    private LitemallGrouponRulesService rulesService;
+    private QianfanmallGrouponRulesService rulesService;
     @Autowired
     private TaskService taskService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        List<LitemallGrouponRules> grouponRulesList = rulesService.queryByStatus(GrouponConstant.RULE_STATUS_ON);
-        for(LitemallGrouponRules grouponRules : grouponRulesList){
+        List<QianfanmallGrouponRules> grouponRulesList = rulesService.queryByStatus(GrouponConstant.RULE_STATUS_ON);
+        for(QianfanmallGrouponRules grouponRules : grouponRulesList){
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expire =  grouponRules.getExpireTime();
             if(expire.isBefore(now)) {

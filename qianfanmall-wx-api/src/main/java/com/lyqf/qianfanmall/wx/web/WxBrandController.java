@@ -5,8 +5,8 @@ import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallBrand;
-import com.lyqf.qianfanmall.db.service.LitemallBrandService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallBrand;
+import com.lyqf.qianfanmall.db.service.QianfanmallBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ public class WxBrandController {
     private final Log logger = LogFactory.getLog(WxBrandController.class);
 
     @Autowired
-    private LitemallBrandService brandService;
+    private QianfanmallBrandService brandService;
 
     /**
      * 品牌列表
@@ -43,7 +43,7 @@ public class WxBrandController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallBrand> brandList = brandService.query(page, limit, sort, order);
+        List<QianfanmallBrand> brandList = brandService.query(page, limit, sort, order);
         return ResponseUtil.okList(brandList);
     }
 
@@ -55,7 +55,7 @@ public class WxBrandController {
      */
     @GetMapping("detail")
     public Object detail(@NotNull Integer id) {
-        LitemallBrand entity = brandService.findById(id);
+        QianfanmallBrand entity = brandService.findById(id);
         if (entity == null) {
             return ResponseUtil.badArgumentValue();
         }

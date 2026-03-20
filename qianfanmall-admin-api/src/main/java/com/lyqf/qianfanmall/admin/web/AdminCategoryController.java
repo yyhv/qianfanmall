@@ -6,8 +6,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.admin.vo.CategoryVo;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallCategory;
-import com.lyqf.qianfanmall.db.service.LitemallCategoryService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCategory;
+import com.lyqf.qianfanmall.db.service.QianfanmallCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ public class AdminCategoryController {
     private final Log logger = LogFactory.getLog(AdminCategoryController.class);
 
     @Autowired
-    private LitemallCategoryService categoryService;
+    private QianfanmallCategoryService categoryService;
 
     @RequiresPermissions("admin:category:list")
     @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "查询")
@@ -34,8 +34,8 @@ public class AdminCategoryController {
     public Object list() {
         List<CategoryVo> categoryVoList = new ArrayList<>();
 
-        List<LitemallCategory> categoryList = categoryService.queryByPid(0);
-        for (LitemallCategory category : categoryList) {
+        List<QianfanmallCategory> categoryList = categoryService.queryByPid(0);
+        for (QianfanmallCategory category : categoryList) {
             CategoryVo categoryVO = new CategoryVo();
             categoryVO.setId(category.getId());
             categoryVO.setDesc(category.getDesc());
@@ -46,8 +46,8 @@ public class AdminCategoryController {
             categoryVO.setLevel(category.getLevel());
 
             List<CategoryVo> children = new ArrayList<>();
-            List<LitemallCategory> subCategoryList = categoryService.queryByPid(category.getId());
-            for (LitemallCategory subCategory : subCategoryList) {
+            List<QianfanmallCategory> subCategoryList = categoryService.queryByPid(category.getId());
+            for (QianfanmallCategory subCategory : subCategoryList) {
                 CategoryVo subCategoryVo = new CategoryVo();
                 subCategoryVo.setId(subCategory.getId());
                 subCategoryVo.setDesc(subCategory.getDesc());
@@ -68,7 +68,7 @@ public class AdminCategoryController {
         return ResponseUtil.okList(categoryVoList);
     }
 
-    private Object validate(LitemallCategory category) {
+    private Object validate(QianfanmallCategory category) {
         String name = category.getName();
         if (StringUtils.isEmpty(name)) {
             return ResponseUtil.badArgument();
@@ -93,7 +93,7 @@ public class AdminCategoryController {
     @RequiresPermissions("admin:category:create")
     @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "添加")
     @PostMapping("/create")
-    public Object create(@RequestBody LitemallCategory category) {
+    public Object create(@RequestBody QianfanmallCategory category) {
         Object error = validate(category);
         if (error != null) {
             return error;
@@ -106,14 +106,14 @@ public class AdminCategoryController {
     @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
-        LitemallCategory category = categoryService.findById(id);
+        QianfanmallCategory category = categoryService.findById(id);
         return ResponseUtil.ok(category);
     }
 
     @RequiresPermissions("admin:category:update")
     @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallCategory category) {
+    public Object update(@RequestBody QianfanmallCategory category) {
         Object error = validate(category);
         if (error != null) {
             return error;
@@ -128,7 +128,7 @@ public class AdminCategoryController {
     @RequiresPermissions("admin:category:delete")
     @RequiresPermissionsDesc(menu = {"商场管理", "类目管理"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallCategory category) {
+    public Object delete(@RequestBody QianfanmallCategory category) {
         Integer id = category.getId();
         if (id == null) {
             return ResponseUtil.badArgument();
@@ -141,9 +141,9 @@ public class AdminCategoryController {
     @GetMapping("/l1")
     public Object catL1() {
         // 所有一级分类目录
-        List<LitemallCategory> l1CatList = categoryService.queryL1();
+        List<QianfanmallCategory> l1CatList = categoryService.queryL1();
         List<Map<String, Object>> data = new ArrayList<>(l1CatList.size());
-        for (LitemallCategory category : l1CatList) {
+        for (QianfanmallCategory category : l1CatList) {
             Map<String, Object> d = new HashMap<>(2);
             d.put("value", category.getId());
             d.put("label", category.getName());

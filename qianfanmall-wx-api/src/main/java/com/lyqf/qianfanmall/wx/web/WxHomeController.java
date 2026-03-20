@@ -4,8 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.system.SystemConfig;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallCategory;
-import com.lyqf.qianfanmall.db.domain.LitemallGoods;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCategory;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoods;
 import com.lyqf.qianfanmall.db.service.*;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import com.lyqf.qianfanmall.wx.service.HomeCacheManager;
@@ -33,25 +33,25 @@ public class WxHomeController {
     private final Log logger = LogFactory.getLog(WxHomeController.class);
 
     @Autowired
-    private LitemallAdService adService;
+    private QianfanmallAdService adService;
 
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
 
     @Autowired
-    private LitemallBrandService brandService;
+    private QianfanmallBrandService brandService;
 
     @Autowired
-    private LitemallTopicService topicService;
+    private QianfanmallTopicService topicService;
 
     @Autowired
-    private LitemallCategoryService categoryService;
+    private QianfanmallCategoryService categoryService;
 
     @Autowired
     private WxGrouponRuleService grouponService;
 
     @Autowired
-    private LitemallCouponService couponService;
+    private QianfanmallCouponService couponService;
 
     private final static ArrayBlockingQueue<Runnable> WORK_QUEUE = new ArrayBlockingQueue<>(9);
 
@@ -154,15 +154,15 @@ public class WxHomeController {
 
     private List<Map> getCategoryList() {
         List<Map> categoryList = new ArrayList<>();
-        List<LitemallCategory> catL1List = categoryService.queryL1WithoutRecommend(0, SystemConfig.getCatlogListLimit());
-        for (LitemallCategory catL1 : catL1List) {
-            List<LitemallCategory> catL2List = categoryService.queryByPid(catL1.getId());
+        List<QianfanmallCategory> catL1List = categoryService.queryL1WithoutRecommend(0, SystemConfig.getCatlogListLimit());
+        for (QianfanmallCategory catL1 : catL1List) {
+            List<QianfanmallCategory> catL2List = categoryService.queryByPid(catL1.getId());
             List<Integer> l2List = new ArrayList<>();
-            for (LitemallCategory catL2 : catL2List) {
+            for (QianfanmallCategory catL2 : catL2List) {
                 l2List.add(catL2.getId());
             }
 
-            List<LitemallGoods> categoryGoods;
+            List<QianfanmallGoods> categoryGoods;
             if (l2List.size() == 0) {
                 categoryGoods = new ArrayList<>();
             } else {

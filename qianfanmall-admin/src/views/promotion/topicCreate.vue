@@ -188,7 +188,7 @@ export default {
   computed: {
     headers() {
       return {
-        'X-Litemall-Admin-Token': getToken()
+        'X-Qianfanmall-Admin-Token': getToken()
       }
     }
   },

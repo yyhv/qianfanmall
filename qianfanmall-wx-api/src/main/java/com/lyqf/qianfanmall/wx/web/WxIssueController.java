@@ -6,8 +6,8 @@ import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallIssue;
-import com.lyqf.qianfanmall.db.service.LitemallIssueService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallIssue;
+import com.lyqf.qianfanmall.db.service.QianfanmallIssueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class WxIssueController {
     private final Log logger = LogFactory.getLog(WxIssueController.class);
 
     @Autowired
-    private LitemallIssueService issueService;
+    private QianfanmallIssueService issueService;
 
     /**
      * 帮助中心
@@ -34,7 +34,7 @@ public class WxIssueController {
                        @RequestParam(defaultValue = "10") Integer size,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallIssue> issueList = issueService.querySelective(question, page, size, sort, order);
+        List<QianfanmallIssue> issueList = issueService.querySelective(question, page, size, sort, order);
         return ResponseUtil.okList(issueList);
     }
 

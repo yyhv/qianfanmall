@@ -7,7 +7,7 @@ import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.core.system.SystemConfig;
 import com.lyqf.qianfanmall.core.util.JacksonUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.service.LitemallSystemConfigService;
+import com.lyqf.qianfanmall.db.service.QianfanmallSystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class AdminConfigController {
     private final Log logger = LogFactory.getLog(AdminConfigController.class);
 
     @Autowired
-    private LitemallSystemConfigService systemConfigService;
+    private QianfanmallSystemConfigService systemConfigService;
 
     @RequiresPermissions("admin:config:mall:list")
     @RequiresPermissionsDesc(menu = {"配置管理", "商场配置"}, button = "详情")

@@ -3,8 +3,8 @@ package com.lyqf.qianfanmall.db;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import com.lyqf.qianfanmall.db.dao.LitemallSystemMapper;
-import com.lyqf.qianfanmall.db.domain.LitemallSystem;
+import com.lyqf.qianfanmall.db.dao.QianfanmallSystemMapper;
+import com.lyqf.qianfanmall.db.domain.QianfanmallSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,11 +17,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 public class MapperReturnTest {
 
     @Autowired
-    private LitemallSystemMapper systemMapper;
+    private QianfanmallSystemMapper systemMapper;
 
     @Test
     public void test() {
-        LitemallSystem system = new LitemallSystem();
+        QianfanmallSystem system = new QianfanmallSystem();
         system.setKeyName("test-system-key");
         system.setKeyValue("test-system-value");
         int updates = systemMapper.insertSelective(system);

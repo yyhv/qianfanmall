@@ -5,11 +5,11 @@ import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallGoods;
-import com.lyqf.qianfanmall.db.domain.LitemallTopic;
-import com.lyqf.qianfanmall.db.service.LitemallCollectService;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsService;
-import com.lyqf.qianfanmall.db.service.LitemallTopicService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoods;
+import com.lyqf.qianfanmall.db.domain.QianfanmallTopic;
+import com.lyqf.qianfanmall.db.service.QianfanmallCollectService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsService;
+import com.lyqf.qianfanmall.db.service.QianfanmallTopicService;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -34,11 +34,11 @@ public class WxTopicController {
     private final Log logger = LogFactory.getLog(WxTopicController.class);
 
     @Autowired
-    private LitemallTopicService topicService;
+    private QianfanmallTopicService topicService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
 	@Autowired
-	private LitemallCollectService collectService;
+	private QianfanmallCollectService collectService;
 
     /**
      * 专题列表
@@ -52,7 +52,7 @@ public class WxTopicController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallTopic> topicList = topicService.queryList(page, limit, sort, order);
+        List<QianfanmallTopic> topicList = topicService.queryList(page, limit, sort, order);
         return ResponseUtil.okList(topicList);
     }
 
@@ -64,10 +64,10 @@ public class WxTopicController {
      */
     @GetMapping("detail")
     public Object detail(@LoginUser Integer userId, @NotNull Integer id) {
-        LitemallTopic topic = topicService.findById(id);
-        List<LitemallGoods> goods = new ArrayList<>();
+        QianfanmallTopic topic = topicService.findById(id);
+        List<QianfanmallGoods> goods = new ArrayList<>();
         for (Integer i : topic.getGoods()) {
-            LitemallGoods good = goodsService.findByIdVO(i);
+            QianfanmallGoods good = goodsService.findByIdVO(i);
             if (null != good)
                 goods.add(good);
         }
@@ -93,7 +93,7 @@ public class WxTopicController {
      */
     @GetMapping("related")
     public Object related(@NotNull Integer id) {
-        List<LitemallTopic> topicRelatedList = topicService.queryRelatedList(id, 0, 4);
+        List<QianfanmallTopic> topicRelatedList = topicService.queryRelatedList(id, 0, 4);
         return ResponseUtil.okList(topicRelatedList);
     }
 }

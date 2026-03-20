@@ -4,9 +4,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.task.Task;
 import com.lyqf.qianfanmall.core.util.BeanUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallGroupon;
-import com.lyqf.qianfanmall.db.domain.LitemallGrouponRules;
-import com.lyqf.qianfanmall.db.domain.LitemallOrder;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGroupon;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGrouponRules;
+import com.lyqf.qianfanmall.db.domain.QianfanmallOrder;
 import com.lyqf.qianfanmall.db.service.*;
 import com.lyqf.qianfanmall.db.util.GrouponConstant;
 import com.lyqf.qianfanmall.db.util.OrderUtil;
@@ -26,11 +26,11 @@ public class GrouponRuleExpiredTask extends Task {
     public void run() {
         logger.info("系统开始处理延时任务---团购规则过期---" + this.grouponRuleId);
 
-        LitemallOrderService orderService = BeanUtil.getBean(LitemallOrderService.class);
-        LitemallGrouponService grouponService = BeanUtil.getBean(LitemallGrouponService.class);
-        LitemallGrouponRulesService grouponRulesService = BeanUtil.getBean(LitemallGrouponRulesService.class);
+        QianfanmallOrderService orderService = BeanUtil.getBean(QianfanmallOrderService.class);
+        QianfanmallGrouponService grouponService = BeanUtil.getBean(QianfanmallGrouponService.class);
+        QianfanmallGrouponRulesService grouponRulesService = BeanUtil.getBean(QianfanmallGrouponRulesService.class);
 
-        LitemallGrouponRules grouponRules = grouponRulesService.findById(grouponRuleId);
+        QianfanmallGrouponRules grouponRules = grouponRulesService.findById(grouponRuleId);
         if(grouponRules == null){
             return;
         }
@@ -42,11 +42,11 @@ public class GrouponRuleExpiredTask extends Task {
         grouponRules.setStatus(GrouponConstant.RULE_STATUS_DOWN_EXPIRE);
         grouponRulesService.updateById(grouponRules);
 
-        List<LitemallGroupon> grouponList = grouponService.queryByRuleId(grouponRuleId);
+        List<QianfanmallGroupon> grouponList = grouponService.queryByRuleId(grouponRuleId);
         // 用户团购处理
-        for(LitemallGroupon groupon : grouponList){
+        for(QianfanmallGroupon groupon : grouponList){
             Short status = groupon.getStatus();
-            LitemallOrder order = orderService.findById(groupon.getOrderId());
+            QianfanmallOrder order = orderService.findById(groupon.getOrderId());
             if(status.equals(GrouponConstant.STATUS_NONE)){
                 groupon.setStatus(GrouponConstant.STATUS_FAIL);
                 grouponService.updateById(groupon);

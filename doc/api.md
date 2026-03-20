@@ -221,7 +221,7 @@ list是对象数组，total是总的数量。
 
 #### 1.4.2 商场自定义Header
 
-访问受保护商场API采用自定义`X-Litemall-Token`头部
+访问受保护商场API采用自定义`X-Qianfanmall-Token`头部
 
 1. 小商城（或轻商场）前端访问小商城后端登录API`/wx/auth/login`
 
@@ -249,11 +249,11 @@ list是对象数组，total是总的数量。
 3. 请求受保护API则，则采用自定义头部携带此token
 
         GET http://localhost:8080/wx/address/list
-        X-Litemall-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aGlzIGlzIGxpdGVtYWxsIHRva2VuIiwiYXVkIjoiTUlOSUFQUCIsImlzcyI6IkxJVEVNQUxMIiwiZXhwIjoxNTU3MzM2ODU0LCJ1c2VySWQiOjIsImlhdCI6MTU1NzMyOTY1NH0.JY1-cqOnmi-CVjFohZMqK2iAdAH4O6CKj0Cqd5tMF3M
+        X-Qianfanmall-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aGlzIGlzIGxpdGVtYWxsIHRva2VuIiwiYXVkIjoiTUlOSUFQUCIsImlzcyI6IkxJVEVNQUxMIiwiZXhwIjoxNTU3MzM2ODU0LCJ1c2VySWQiOjIsImlhdCI6MTU1NzMyOTY1NH0.JY1-cqOnmi-CVjFohZMqK2iAdAH4O6CKj0Cqd5tMF3M
 
 #### 1.4.3 管理后台自定义Header
 
-访问受保护管理后台API则是自定义`X-Litemall-Admin-Token`头部。
+访问受保护管理后台API则是自定义`X-Qianfanmall-Admin-Token`头部。
 
 1. 管理后台前端访问管理后台后端登录API`/admin/auth/login`
 
@@ -281,7 +281,7 @@ list是对象数组，total是总的数量。
 3. 请求受保护API时，则采用自定义头部携带此token
 
         GET http://localhost:8080/wx/address/list
-        X-Litemall-Admin-Token: f2dbcae8-6e25-4f8e-bc58-aa81d512c952
+        X-Qianfanmall-Admin-Token: f2dbcae8-6e25-4f8e-bc58-aa81d512c952
 
 ### 1.5 版本控制
 
@@ -371,13 +371,13 @@ API应该存在版本控制，以保证兼容性。
 
 ![](./pics/admin/login.png)
 
-然后，采用自定义`X-Litemall-Token`来携带token访问商场API
+然后，采用自定义`X-Qianfanmall-Token`来携带token访问商场API
 
 ![](./pics/admin/get_with_token.png)
 
 注意：
-> 访问受保护商场API是采用自定义`X-Litemall-Token`头部；
-> 而访问受保护管理后台API则是自定义`X-Litemall-Admin-Token`头部。
+> 访问受保护商场API是采用自定义`X-Qianfanmall-Token`头部；
+> 而访问受保护管理后台API则是自定义`X-Qianfanmall-Admin-Token`头部。
 
 #### 1.8.3 POST 示例
 
@@ -393,13 +393,13 @@ API应该存在版本控制，以保证兼容性。
 
 ![](./pics/admin/login.png)
 
-然后，采用自定义`X-Litemall-Token`来携带token访问商场API
+然后，采用自定义`X-Qianfanmall-Token`来携带token访问商场API
 
 ![](./pics/admin/get_with_token.png)
 
 注意：
-> 访问受保护商场API是采用自定义`X-Litemall-Token`头部；
-> 而访问受保护管理后台API则是自定义`X-Litemall-Admin-Token`头部。
+> 访问受保护商场API是采用自定义`X-Qianfanmall-Token`头部；
+> 而访问受保护管理后台API则是自定义`X-Qianfanmall-Admin-Token`头部。
 
 ### 1.9 API保护
 

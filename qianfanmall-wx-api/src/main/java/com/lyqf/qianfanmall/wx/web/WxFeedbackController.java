@@ -5,10 +5,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.RegexUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallFeedback;
-import com.lyqf.qianfanmall.db.domain.LitemallUser;
-import com.lyqf.qianfanmall.db.service.LitemallFeedbackService;
-import com.lyqf.qianfanmall.db.service.LitemallUserService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallFeedback;
+import com.lyqf.qianfanmall.db.domain.QianfanmallUser;
+import com.lyqf.qianfanmall.db.service.QianfanmallFeedbackService;
+import com.lyqf.qianfanmall.db.service.QianfanmallUserService;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -30,11 +30,11 @@ public class WxFeedbackController {
     private final Log logger = LogFactory.getLog(WxFeedbackController.class);
 
     @Autowired
-    private LitemallFeedbackService feedbackService;
+    private QianfanmallFeedbackService feedbackService;
     @Autowired
-    private LitemallUserService userService;
+    private QianfanmallUserService userService;
 
-    private Object validate(LitemallFeedback feedback) {
+    private Object validate(QianfanmallFeedback feedback) {
         String content = feedback.getContent();
         if (StringUtils.isEmpty(content)) {
             return ResponseUtil.badArgument();
@@ -69,7 +69,7 @@ public class WxFeedbackController {
      * @return 操作结果
      */
     @PostMapping("submit")
-    public Object submit(@LoginUser Integer userId, @RequestBody LitemallFeedback feedback) {
+    public Object submit(@LoginUser Integer userId, @RequestBody QianfanmallFeedback feedback) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
@@ -78,7 +78,7 @@ public class WxFeedbackController {
             return error;
         }
 
-        LitemallUser user = userService.findById(userId);
+        QianfanmallUser user = userService.findById(userId);
         String username = user.getUsername();
         feedback.setId(null);
         feedback.setUserId(userId);

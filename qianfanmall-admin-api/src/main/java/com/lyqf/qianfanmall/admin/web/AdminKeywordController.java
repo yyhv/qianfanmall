@@ -7,8 +7,8 @@ import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallKeyword;
-import com.lyqf.qianfanmall.db.service.LitemallKeywordService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallKeyword;
+import com.lyqf.qianfanmall.db.service.QianfanmallKeywordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +24,7 @@ public class AdminKeywordController {
     private final Log logger = LogFactory.getLog(AdminKeywordController.class);
 
     @Autowired
-    private LitemallKeywordService keywordService;
+    private QianfanmallKeywordService keywordService;
 
     @RequiresPermissions("admin:keyword:list")
     @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "查询")
@@ -34,11 +34,11 @@ public class AdminKeywordController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallKeyword> keywordList = keywordService.querySelective(keyword, url, page, limit, sort, order);
+        List<QianfanmallKeyword> keywordList = keywordService.querySelective(keyword, url, page, limit, sort, order);
         return ResponseUtil.okList(keywordList);
     }
 
-    private Object validate(LitemallKeyword keywords) {
+    private Object validate(QianfanmallKeyword keywords) {
         String keyword = keywords.getKeyword();
         if (StringUtils.isEmpty(keyword)) {
             return ResponseUtil.badArgument();
@@ -49,7 +49,7 @@ public class AdminKeywordController {
     @RequiresPermissions("admin:keyword:create")
     @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "添加")
     @PostMapping("/create")
-    public Object create(@RequestBody LitemallKeyword keyword) {
+    public Object create(@RequestBody QianfanmallKeyword keyword) {
         Object error = validate(keyword);
         if (error != null) {
             return error;
@@ -62,14 +62,14 @@ public class AdminKeywordController {
     @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
-        LitemallKeyword keyword = keywordService.findById(id);
+        QianfanmallKeyword keyword = keywordService.findById(id);
         return ResponseUtil.ok(keyword);
     }
 
     @RequiresPermissions("admin:keyword:update")
     @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallKeyword keyword) {
+    public Object update(@RequestBody QianfanmallKeyword keyword) {
         Object error = validate(keyword);
         if (error != null) {
             return error;
@@ -83,7 +83,7 @@ public class AdminKeywordController {
     @RequiresPermissions("admin:keyword:delete")
     @RequiresPermissionsDesc(menu = {"商场管理", "关键词"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallKeyword keyword) {
+    public Object delete(@RequestBody QianfanmallKeyword keyword) {
         Integer id = keyword.getId();
         if (id == null) {
             return ResponseUtil.badArgument();

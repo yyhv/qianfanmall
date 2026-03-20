@@ -5,11 +5,11 @@ import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.system.SystemConfig;
 import com.lyqf.qianfanmall.core.task.Task;
 import com.lyqf.qianfanmall.core.util.BeanUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallOrder;
-import com.lyqf.qianfanmall.db.domain.LitemallOrderGoods;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsProductService;
-import com.lyqf.qianfanmall.db.service.LitemallOrderGoodsService;
-import com.lyqf.qianfanmall.db.service.LitemallOrderService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallOrder;
+import com.lyqf.qianfanmall.db.domain.QianfanmallOrderGoods;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsProductService;
+import com.lyqf.qianfanmall.db.service.QianfanmallOrderGoodsService;
+import com.lyqf.qianfanmall.db.service.QianfanmallOrderService;
 import com.lyqf.qianfanmall.db.util.OrderUtil;
 import com.lyqf.qianfanmall.wx.service.WxOrderService;
 
@@ -34,12 +34,12 @@ public class OrderUnpaidTask extends Task {
     public void run() {
         logger.info("系统开始处理延时任务---订单超时未付款---" + this.orderId);
 
-        LitemallOrderService orderService = BeanUtil.getBean(LitemallOrderService.class);
-        LitemallOrderGoodsService orderGoodsService = BeanUtil.getBean(LitemallOrderGoodsService.class);
-        LitemallGoodsProductService productService = BeanUtil.getBean(LitemallGoodsProductService.class);
+        QianfanmallOrderService orderService = BeanUtil.getBean(QianfanmallOrderService.class);
+        QianfanmallOrderGoodsService orderGoodsService = BeanUtil.getBean(QianfanmallOrderGoodsService.class);
+        QianfanmallGoodsProductService productService = BeanUtil.getBean(QianfanmallGoodsProductService.class);
         WxOrderService wxOrderService = BeanUtil.getBean(WxOrderService.class);
 
-        LitemallOrder order = orderService.findById(this.orderId);
+        QianfanmallOrder order = orderService.findById(this.orderId);
         if(order == null){
             return;
         }
@@ -56,8 +56,8 @@ public class OrderUnpaidTask extends Task {
 
         // 商品货品数量增加
         Integer orderId = order.getId();
-        List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(orderId);
-        for (LitemallOrderGoods orderGoods : orderGoodsList) {
+        List<QianfanmallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(orderId);
+        for (QianfanmallOrderGoods orderGoods : orderGoodsList) {
             Integer productId = orderGoods.getProductId();
             Short number = orderGoods.getNumber();
             if (productService.addStock(productId, number) == 0) {

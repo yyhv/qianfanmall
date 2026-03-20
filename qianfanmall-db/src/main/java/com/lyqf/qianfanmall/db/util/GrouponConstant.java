@@ -1,6 +1,6 @@
 package com.lyqf.qianfanmall.db.util;
 
-import com.lyqf.qianfanmall.db.domain.LitemallOrder;
+import com.lyqf.qianfanmall.db.domain.QianfanmallOrder;
 
 public class GrouponConstant {
     public static final Short RULE_STATUS_ON = 0;

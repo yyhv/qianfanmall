@@ -8,8 +8,8 @@ import com.lyqf.qianfanmall.core.storage.StorageService;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallStorage;
-import com.lyqf.qianfanmall.db.service.LitemallStorageService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallStorage;
+import com.lyqf.qianfanmall.db.service.QianfanmallStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +29,7 @@ public class AdminStorageController {
     @Autowired
     private StorageService storageService;
     @Autowired
-    private LitemallStorageService qianfanmallStorageService;
+    private QianfanmallStorageService qianfanmallStorageService;
 
     @RequiresPermissions("admin:storage:list")
     @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "查询")
@@ -39,7 +39,7 @@ public class AdminStorageController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallStorage> storageList = qianfanmallStorageService.querySelective(key, name, page, limit, sort, order);
+        List<QianfanmallStorage> storageList = qianfanmallStorageService.querySelective(key, name, page, limit, sort, order);
         return ResponseUtil.okList(storageList);
     }
 
@@ -48,7 +48,7 @@ public class AdminStorageController {
     @PostMapping("/create")
     public Object create(@RequestParam("file") MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
-        LitemallStorage qianfanmallStorage = storageService.store(file.getInputStream(), file.getSize(),
+        QianfanmallStorage qianfanmallStorage = storageService.store(file.getInputStream(), file.getSize(),
                 file.getContentType(), originalFilename);
         return ResponseUtil.ok(qianfanmallStorage);
     }
@@ -57,7 +57,7 @@ public class AdminStorageController {
     @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "详情")
     @PostMapping("/read")
     public Object read(@NotNull Integer id) {
-        LitemallStorage storageInfo = qianfanmallStorageService.findById(id);
+        QianfanmallStorage storageInfo = qianfanmallStorageService.findById(id);
         if (storageInfo == null) {
             return ResponseUtil.badArgumentValue();
         }
@@ -67,7 +67,7 @@ public class AdminStorageController {
     @RequiresPermissions("admin:storage:update")
     @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallStorage qianfanmallStorage) {
+    public Object update(@RequestBody QianfanmallStorage qianfanmallStorage) {
         if (qianfanmallStorageService.update(qianfanmallStorage) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
@@ -77,7 +77,7 @@ public class AdminStorageController {
     @RequiresPermissions("admin:storage:delete")
     @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallStorage qianfanmallStorage) {
+    public Object delete(@RequestBody QianfanmallStorage qianfanmallStorage) {
         String key = qianfanmallStorage.getKey();
         if (StringUtils.isEmpty(key)) {
             return ResponseUtil.badArgument();

@@ -1,8 +1,8 @@
 package com.lyqf.qianfanmall.core.storage;
 
 import com.lyqf.qianfanmall.core.util.CharUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallStorage;
-import com.lyqf.qianfanmall.db.service.LitemallStorageService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallStorage;
+import com.lyqf.qianfanmall.db.service.QianfanmallStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 
@@ -17,7 +17,7 @@ public class StorageService {
     private String active;
     private Storage storage;
     @Autowired
-    private LitemallStorageService qianfanmallStorageService;
+    private QianfanmallStorageService qianfanmallStorageService;
 
     public String getActive() {
         return active;
@@ -43,12 +43,12 @@ public class StorageService {
      * @param contentType   文件类型
      * @param fileName      文件索引名
      */
-    public LitemallStorage store(InputStream inputStream, long contentLength, String contentType, String fileName) {
+    public QianfanmallStorage store(InputStream inputStream, long contentLength, String contentType, String fileName) {
         String key = generateKey(fileName);
         storage.store(inputStream, contentLength, contentType, key);
 
         String url = generateUrl(key);
-        LitemallStorage storageInfo = new LitemallStorage();
+        QianfanmallStorage storageInfo = new QianfanmallStorage();
         storageInfo.setName(fileName);
         storageInfo.setSize((int) contentLength);
         storageInfo.setType(contentType);
@@ -64,7 +64,7 @@ public class StorageService {
         String suffix = originalFilename.substring(index);
 
         String key = null;
-        LitemallStorage storageInfo = null;
+        QianfanmallStorage storageInfo = null;
 
         do {
             key = CharUtil.getRandomString(20) + suffix;

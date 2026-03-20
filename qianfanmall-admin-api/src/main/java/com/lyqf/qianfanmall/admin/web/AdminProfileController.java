@@ -11,13 +11,13 @@ import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.util.bcrypt.BCryptPasswordEncoder;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallAdmin;
-import com.lyqf.qianfanmall.db.domain.LitemallIssue;
-import com.lyqf.qianfanmall.db.domain.LitemallNotice;
-import com.lyqf.qianfanmall.db.domain.LitemallNoticeAdmin;
-import com.lyqf.qianfanmall.db.service.LitemallAdminService;
-import com.lyqf.qianfanmall.db.service.LitemallNoticeAdminService;
-import com.lyqf.qianfanmall.db.service.LitemallNoticeService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallAdmin;
+import com.lyqf.qianfanmall.db.domain.QianfanmallIssue;
+import com.lyqf.qianfanmall.db.domain.QianfanmallNotice;
+import com.lyqf.qianfanmall.db.domain.QianfanmallNoticeAdmin;
+import com.lyqf.qianfanmall.db.service.QianfanmallAdminService;
+import com.lyqf.qianfanmall.db.service.QianfanmallNoticeAdminService;
+import com.lyqf.qianfanmall.db.service.QianfanmallNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -38,11 +38,11 @@ public class AdminProfileController {
     private final Log logger = LogFactory.getLog(AdminProfileController.class);
 
     @Autowired
-    private LitemallAdminService adminService;
+    private QianfanmallAdminService adminService;
     @Autowired
-    private LitemallNoticeService noticeService;
+    private QianfanmallNoticeService noticeService;
     @Autowired
-    private LitemallNoticeAdminService noticeAdminService;
+    private QianfanmallNoticeAdminService noticeAdminService;
 
     @RequiresAuthentication
     @PostMapping("/password")
@@ -57,7 +57,7 @@ public class AdminProfileController {
         }
 
         Subject currentUser = SecurityUtils.getSubject();
-        LitemallAdmin admin = (LitemallAdmin) currentUser.getPrincipal();
+        QianfanmallAdmin admin = (QianfanmallAdmin) currentUser.getPrincipal();
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!encoder.matches(oldPassword, admin.getPassword())) {
@@ -73,7 +73,7 @@ public class AdminProfileController {
 
     private Integer getAdminId(){
         Subject currentUser = SecurityUtils.getSubject();
-        LitemallAdmin admin = (LitemallAdmin) currentUser.getPrincipal();
+        QianfanmallAdmin admin = (QianfanmallAdmin) currentUser.getPrincipal();
         return admin.getId();
     }
 
@@ -91,7 +91,7 @@ public class AdminProfileController {
                             @RequestParam(defaultValue = "10") Integer limit,
                             @Sort @RequestParam(defaultValue = "add_time") String sort,
                             @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallNoticeAdmin> noticeList = noticeAdminService.querySelective(title, type, getAdminId(), page, limit, sort, order);
+        List<QianfanmallNoticeAdmin> noticeList = noticeAdminService.querySelective(title, type, getAdminId(), page, limit, sort, order);
         return ResponseUtil.okList(noticeList);
     }
 
@@ -103,7 +103,7 @@ public class AdminProfileController {
             return ResponseUtil.badArgument();
         }
 
-        LitemallNoticeAdmin noticeAdmin = noticeAdminService.find(noticeId, getAdminId());
+        QianfanmallNoticeAdmin noticeAdmin = noticeAdminService.find(noticeId, getAdminId());
         if(noticeAdmin == null){
            return ResponseUtil.badArgumentValue();
         }
@@ -113,7 +113,7 @@ public class AdminProfileController {
 
         // 返回通知的相关信息
         Map<String, Object> data = new HashMap<>();
-        LitemallNotice notice = noticeService.findById(noticeId);
+        QianfanmallNotice notice = noticeService.findById(noticeId);
         data.put("title", notice.getTitle());
         data.put("content", notice.getContent());
         data.put("time", notice.getUpdateTime());
@@ -122,7 +122,7 @@ public class AdminProfileController {
             data.put("admin", "系统");
         }
         else{
-            LitemallAdmin admin = adminService.findById(notice.getAdminId());
+            QianfanmallAdmin admin = adminService.findById(notice.getAdminId());
             data.put("admin", admin.getUsername());
             data.put("avatar", admin.getAvatar());
         }

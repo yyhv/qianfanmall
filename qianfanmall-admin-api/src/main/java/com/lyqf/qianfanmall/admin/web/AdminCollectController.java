@@ -7,8 +7,8 @@ import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallCollect;
-import com.lyqf.qianfanmall.db.service.LitemallCollectService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCollect;
+import com.lyqf.qianfanmall.db.service.QianfanmallCollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ public class AdminCollectController {
     private final Log logger = LogFactory.getLog(AdminCollectController.class);
 
     @Autowired
-    private LitemallCollectService collectService;
+    private QianfanmallCollectService collectService;
 
 
     @RequiresPermissions("admin:collect:list")
@@ -36,7 +36,7 @@ public class AdminCollectController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallCollect> collectList = collectService.querySelective(userId, valueId, page, limit, sort, order);
+        List<QianfanmallCollect> collectList = collectService.querySelective(userId, valueId, page, limit, sort, order);
         return ResponseUtil.okList(collectList);
     }
 }

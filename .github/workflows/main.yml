@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   # Building and testing Java with Maven
   # https://docs.github.com/en/actions/guides/building-and-testing-java-with-maven
-  Litemall-all:
+  Qianfanmall-all:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,7 +32,7 @@ jobs:
 
   # Building and testing Node.js
   # https://docs.github.com/en/actions/guides/building-and-testing-nodejs
-  Litemall-admin:
+  Qianfanmall-admin:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -50,7 +50,7 @@ jobs:
     - run: npm --prefix qianfanmall-admin install
     - run: npm --prefix qianfanmall-admin run test
 
-  Litemall-vue:
+  Qianfanmall-vue:
     runs-on: ubuntu-latest
     strategy:
       matrix:

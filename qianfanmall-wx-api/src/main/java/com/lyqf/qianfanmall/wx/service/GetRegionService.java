@@ -1,7 +1,7 @@
 package com.lyqf.qianfanmall.wx.service;
 
-import com.lyqf.qianfanmall.db.domain.LitemallRegion;
-import com.lyqf.qianfanmall.db.service.LitemallRegionService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallRegion;
+import com.lyqf.qianfanmall.db.service.QianfanmallRegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +15,11 @@ import java.util.List;
 public class GetRegionService {
 
 	@Autowired
-	private LitemallRegionService regionService;
+	private QianfanmallRegionService regionService;
 
-	private static List<LitemallRegion> qianfanmallRegions;
+	private static List<QianfanmallRegion> qianfanmallRegions;
 
-	protected List<LitemallRegion> getLitemallRegions() {
+	protected List<QianfanmallRegion> getQianfanmallRegions() {
 		if(qianfanmallRegions==null){
 			createRegion();
 		}

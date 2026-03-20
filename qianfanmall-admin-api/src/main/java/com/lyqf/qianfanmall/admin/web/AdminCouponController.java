@@ -7,10 +7,10 @@ import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallCoupon;
-import com.lyqf.qianfanmall.db.domain.LitemallCouponUser;
-import com.lyqf.qianfanmall.db.service.LitemallCouponService;
-import com.lyqf.qianfanmall.db.service.LitemallCouponUserService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCoupon;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCouponUser;
+import com.lyqf.qianfanmall.db.service.QianfanmallCouponService;
+import com.lyqf.qianfanmall.db.service.QianfanmallCouponUserService;
 import com.lyqf.qianfanmall.db.util.CouponConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -27,9 +27,9 @@ public class AdminCouponController {
     private final Log logger = LogFactory.getLog(AdminCouponController.class);
 
     @Autowired
-    private LitemallCouponService couponService;
+    private QianfanmallCouponService couponService;
     @Autowired
-    private LitemallCouponUserService couponUserService;
+    private QianfanmallCouponUserService couponUserService;
 
     @RequiresPermissions("admin:coupon:list")
     @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "查询")
@@ -39,7 +39,7 @@ public class AdminCouponController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallCoupon> couponList = couponService.querySelective(name, type, status, page, limit, sort, order);
+        List<QianfanmallCoupon> couponList = couponService.querySelective(name, type, status, page, limit, sort, order);
         return ResponseUtil.okList(couponList);
     }
 
@@ -51,12 +51,12 @@ public class AdminCouponController {
                            @RequestParam(defaultValue = "10") Integer limit,
                            @Sort @RequestParam(defaultValue = "add_time") String sort,
                            @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallCouponUser> couponList = couponUserService.queryList(userId, couponId, status, page,
+        List<QianfanmallCouponUser> couponList = couponUserService.queryList(userId, couponId, status, page,
                 limit, sort, order);
         return ResponseUtil.okList(couponList);
     }
 
-    private Object validate(LitemallCoupon coupon) {
+    private Object validate(QianfanmallCoupon coupon) {
         String name = coupon.getName();
         if (StringUtils.isEmpty(name)) {
             return ResponseUtil.badArgument();
@@ -67,7 +67,7 @@ public class AdminCouponController {
     @RequiresPermissions("admin:coupon:create")
     @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "添加")
     @PostMapping("/create")
-    public Object create(@RequestBody LitemallCoupon coupon) {
+    public Object create(@RequestBody QianfanmallCoupon coupon) {
         Object error = validate(coupon);
         if (error != null) {
             return error;
@@ -87,14 +87,14 @@ public class AdminCouponController {
     @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "详情")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
-        LitemallCoupon coupon = couponService.findById(id);
+        QianfanmallCoupon coupon = couponService.findById(id);
         return ResponseUtil.ok(coupon);
     }
 
     @RequiresPermissions("admin:coupon:update")
     @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallCoupon coupon) {
+    public Object update(@RequestBody QianfanmallCoupon coupon) {
         Object error = validate(coupon);
         if (error != null) {
             return error;
@@ -108,7 +108,7 @@ public class AdminCouponController {
     @RequiresPermissions("admin:coupon:delete")
     @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallCoupon coupon) {
+    public Object delete(@RequestBody QianfanmallCoupon coupon) {
         couponService.deleteById(coupon.getId());
         return ResponseUtil.ok();
     }

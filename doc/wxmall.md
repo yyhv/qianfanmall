@@ -183,7 +183,7 @@
 
 见WxWebMvcConfiguration类、LoginUser和LoginUserHandlerMethodArgumentResolver类。
 
-小商城后端服务每一次请求都会检测是否存在HTTP头部域`X-Litemall-Token`。
+小商城后端服务每一次请求都会检测是否存在HTTP头部域`X-Qianfanmall-Token`。
 如果存在，则内部查询转换成LoginUser，然后作为请求参数。
 如果不存在，则作为null请求参数。
 

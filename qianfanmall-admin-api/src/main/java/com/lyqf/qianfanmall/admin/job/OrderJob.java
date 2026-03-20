@@ -22,31 +22,31 @@ public class OrderJob {
     private final Log logger = LogFactory.getLog(OrderJob.class);
 
     @Autowired
-    private LitemallOrderGoodsService orderGoodsService;
+    private QianfanmallOrderGoodsService orderGoodsService;
     @Autowired
-    private LitemallOrderService orderService;
+    private QianfanmallOrderService orderService;
     @Autowired
-    private LitemallGoodsProductService productService;
+    private QianfanmallGoodsProductService productService;
     @Autowired
-    private LitemallGrouponService grouponService;
+    private QianfanmallGrouponService grouponService;
     @Autowired
-    private LitemallGrouponRulesService rulesService;
+    private QianfanmallGrouponRulesService rulesService;
 
     /**
      * 自动确认订单
      * <p>
-     * 定时检查订单未确认情况，如果超时 LITEMALL_ORDER_UNCONFIRM 天则自动确认订单
+     * 定时检查订单未确认情况，如果超时 QIANFANMALL_ORDER_UNCONFIRM 天则自动确认订单
      * 定时时间是每天凌晨3点。
      * <p>
      * TODO
-     * 注意，因为是相隔一天检查，因此导致订单真正超时时间是 [LITEMALL_ORDER_UNCONFIRM, 1 + LITEMALL_ORDER_UNCONFIRM]
+     * 注意，因为是相隔一天检查，因此导致订单真正超时时间是 [QIANFANMALL_ORDER_UNCONFIRM, 1 + QIANFANMALL_ORDER_UNCONFIRM]
      */
     @Scheduled(cron = "0 0 3 * * ?")
     public void checkOrderUnconfirm() {
         logger.info("系统开启定时任务检查订单是否已经超期自动确认收货");
 
-        List<LitemallOrder> orderList = orderService.queryUnconfirm(SystemConfig.getOrderUnconfirm());
-        for (LitemallOrder order : orderList) {
+        List<QianfanmallOrder> orderList = orderService.queryUnconfirm(SystemConfig.getOrderUnconfirm());
+        for (QianfanmallOrder order : orderList) {
 
             // 设置订单已取消状态
             order.setOrderStatus(OrderUtil.STATUS_AUTO_CONFIRM);
@@ -64,23 +64,23 @@ public class OrderJob {
     /**
      * 可评价订单商品超期
      * <p>
-     * 定时检查订单商品评价情况，如果确认商品超时 LITEMALL_ORDER_COMMENT 天则取消可评价状态
+     * 定时检查订单商品评价情况，如果确认商品超时 QIANFANMALL_ORDER_COMMENT 天则取消可评价状态
      * 定时时间是每天凌晨4点。
      * <p>
      * TODO
-     * 注意，因为是相隔一天检查，因此导致订单真正超时时间是 [LITEMALL_ORDER_COMMENT, 1 + LITEMALL_ORDER_COMMENT]
+     * 注意，因为是相隔一天检查，因此导致订单真正超时时间是 [QIANFANMALL_ORDER_COMMENT, 1 + QIANFANMALL_ORDER_COMMENT]
      */
     @Scheduled(cron = "0 0 4 * * ?")
     public void checkOrderComment() {
         logger.info("系统开启任务检查订单是否已经超期未评价");
 
-        List<LitemallOrder> orderList = orderService.queryComment(SystemConfig.getOrderComment());
-        for (LitemallOrder order : orderList) {
+        List<QianfanmallOrder> orderList = orderService.queryComment(SystemConfig.getOrderComment());
+        for (QianfanmallOrder order : orderList) {
             order.setComments((short) 0);
             orderService.updateWithOptimisticLocker(order);
 
-            List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
-            for (LitemallOrderGoods orderGoods : orderGoodsList) {
+            List<QianfanmallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
+            for (QianfanmallOrderGoods orderGoods : orderGoodsList) {
                 orderGoods.setComment(-1);
                 orderGoodsService.updateById(orderGoods);
             }

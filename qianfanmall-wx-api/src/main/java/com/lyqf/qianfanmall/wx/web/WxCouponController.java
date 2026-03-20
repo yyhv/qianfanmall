@@ -6,10 +6,10 @@ import com.lyqf.qianfanmall.core.util.JacksonUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallCart;
-import com.lyqf.qianfanmall.db.domain.LitemallCoupon;
-import com.lyqf.qianfanmall.db.domain.LitemallCouponUser;
-import com.lyqf.qianfanmall.db.domain.LitemallGrouponRules;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCart;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCoupon;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCouponUser;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGrouponRules;
 import com.lyqf.qianfanmall.db.service.*;
 import com.lyqf.qianfanmall.db.util.CouponConstant;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
@@ -34,13 +34,13 @@ public class WxCouponController {
     private final Log logger = LogFactory.getLog(WxCouponController.class);
 
     @Autowired
-    private LitemallCouponService couponService;
+    private QianfanmallCouponService couponService;
     @Autowired
-    private LitemallCouponUserService couponUserService;
+    private QianfanmallCouponUserService couponUserService;
     @Autowired
-    private LitemallGrouponRulesService grouponRulesService;
+    private QianfanmallGrouponRulesService grouponRulesService;
     @Autowired
-    private LitemallCartService cartService;
+    private QianfanmallCartService cartService;
     @Autowired
     private CouponVerifyService couponVerifyService;
 
@@ -59,7 +59,7 @@ public class WxCouponController {
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
 
-        List<LitemallCoupon> couponList = couponService.queryList(page, limit, sort, order);
+        List<QianfanmallCoupon> couponList = couponService.queryList(page, limit, sort, order);
         return ResponseUtil.okList(couponList);
     }
 
@@ -85,16 +85,16 @@ public class WxCouponController {
             return ResponseUtil.unlogin();
         }
 
-        List<LitemallCouponUser> couponUserList = couponUserService.queryList(userId, null, status, page, limit, sort, order);
+        List<QianfanmallCouponUser> couponUserList = couponUserService.queryList(userId, null, status, page, limit, sort, order);
         List<CouponVo> couponVoList = change(couponUserList);
         return ResponseUtil.okList(couponVoList, couponUserList);
     }
 
-    private List<CouponVo> change(List<LitemallCouponUser> couponList) {
+    private List<CouponVo> change(List<QianfanmallCouponUser> couponList) {
         List<CouponVo> couponVoList = new ArrayList<>(couponList.size());
-        for(LitemallCouponUser couponUser : couponList){
+        for(QianfanmallCouponUser couponUser : couponList){
             Integer couponId = couponUser.getCouponId();
-            LitemallCoupon coupon = couponService.findById(couponId);
+            QianfanmallCoupon coupon = couponService.findById(couponId);
             CouponVo couponVo = new CouponVo();
             couponVo.setId(couponUser.getId());
             couponVo.setCid(coupon.getId());
@@ -129,17 +129,17 @@ public class WxCouponController {
 
         // 团购优惠
         BigDecimal grouponPrice = new BigDecimal(0.00);
-        LitemallGrouponRules grouponRules = grouponRulesService.findById(grouponRulesId);
+        QianfanmallGrouponRules grouponRules = grouponRulesService.findById(grouponRulesId);
         if (grouponRules != null) {
             grouponPrice = grouponRules.getDiscount();
         }
 
         // 商品价格
-        List<LitemallCart> checkedGoodsList = null;
+        List<QianfanmallCart> checkedGoodsList = null;
         if (cartId == null || cartId.equals(0)) {
             checkedGoodsList = cartService.queryByUidAndChecked(userId);
         } else {
-            LitemallCart cart = cartService.findById(userId, cartId);
+            QianfanmallCart cart = cartService.findById(userId, cartId);
             if (cart == null) {
                 return ResponseUtil.badArgumentValue();
             }
@@ -147,7 +147,7 @@ public class WxCouponController {
             checkedGoodsList.add(cart);
         }
         BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
-        for (LitemallCart cart : checkedGoodsList) {
+        for (QianfanmallCart cart : checkedGoodsList) {
             //  只有当团购规格商品ID符合才进行团购优惠
             if (grouponRules != null && grouponRules.getGoodsId().equals(cart.getGoodsId())) {
                 checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().subtract(grouponPrice).multiply(new BigDecimal(cart.getNumber())));
@@ -156,10 +156,10 @@ public class WxCouponController {
             }
         }
         // 计算优惠券可用情况
-        List<LitemallCouponUser> couponUserList = couponUserService.queryAll(userId);
+        List<QianfanmallCouponUser> couponUserList = couponUserService.queryAll(userId);
         List<CouponVo> couponVoList = change(couponUserList);
         for (CouponVo cv : couponVoList) {
-            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, cv.getCid(), cv.getId(), checkedGoodsPrice, checkedGoodsList);
+            QianfanmallCoupon coupon = couponVerifyService.checkCoupon(userId, cv.getCid(), cv.getId(), checkedGoodsPrice, checkedGoodsList);
             cv.setAvailable(coupon != null);
         }
 
@@ -184,7 +184,7 @@ public class WxCouponController {
             return ResponseUtil.badArgument();
         }
 
-        LitemallCoupon coupon = couponService.findById(couponId);
+        QianfanmallCoupon coupon = couponService.findById(couponId);
         if(coupon == null){
             return ResponseUtil.badArgumentValue();
         }
@@ -226,7 +226,7 @@ public class WxCouponController {
         }
 
         // 用户领券记录
-        LitemallCouponUser couponUser = new LitemallCouponUser();
+        QianfanmallCouponUser couponUser = new QianfanmallCouponUser();
         couponUser.setCouponId(couponId);
         couponUser.setUserId(userId);
         Short timeType = coupon.getTimeType();
@@ -262,7 +262,7 @@ public class WxCouponController {
             return ResponseUtil.badArgument();
         }
 
-        LitemallCoupon coupon = couponService.findByCode(code);
+        QianfanmallCoupon coupon = couponService.findByCode(code);
         if(coupon == null){
             return ResponseUtil.fail(WxResponseCode.COUPON_CODE_INVALID, "优惠券不正确");
         }
@@ -305,7 +305,7 @@ public class WxCouponController {
         }
 
         // 用户领券记录
-        LitemallCouponUser couponUser = new LitemallCouponUser();
+        QianfanmallCouponUser couponUser = new QianfanmallCouponUser();
         couponUser.setCouponId(couponId);
         couponUser.setUserId(userId);
         Short timeType = coupon.getTimeType();

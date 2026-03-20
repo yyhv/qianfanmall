@@ -4,7 +4,9 @@
       "Bash(find .:*)",
       "Bash(mkdir:*)",
       "Bash(mvn clean:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(perl:*)",
+      "Bash(chmod +x:*)"
     ]
   }
 }

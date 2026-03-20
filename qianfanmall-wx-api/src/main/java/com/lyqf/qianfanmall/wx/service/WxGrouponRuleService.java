@@ -3,11 +3,11 @@ package com.lyqf.qianfanmall.wx.service;
 import com.github.pagehelper.Page;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.lyqf.qianfanmall.db.domain.LitemallGoods;
-import com.lyqf.qianfanmall.db.domain.LitemallGrouponRules;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsService;
-import com.lyqf.qianfanmall.db.service.LitemallGrouponRulesService;
-import com.lyqf.qianfanmall.db.service.LitemallGrouponService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoods;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGrouponRules;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGrouponRulesService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGrouponService;
 import com.lyqf.qianfanmall.wx.vo.GrouponRuleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +19,11 @@ public class WxGrouponRuleService {
     private final Log logger = LogFactory.getLog(WxGrouponRuleService.class);
 
     @Autowired
-    private LitemallGrouponRulesService grouponRulesService;
+    private QianfanmallGrouponRulesService grouponRulesService;
     @Autowired
-    private LitemallGrouponService grouponService;
+    private QianfanmallGrouponService grouponService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
 
 
     public List<GrouponRuleVo> queryList(Integer page, Integer size) {
@@ -32,7 +32,7 @@ public class WxGrouponRuleService {
 
 
     public List<GrouponRuleVo> queryList(Integer page, Integer size, String sort, String order) {
-        Page<LitemallGrouponRules> grouponRulesList = (Page<LitemallGrouponRules>)grouponRulesService.queryList(page, size, sort, order);
+        Page<QianfanmallGrouponRules> grouponRulesList = (Page<QianfanmallGrouponRules>)grouponRulesService.queryList(page, size, sort, order);
 
         Page<GrouponRuleVo> grouponList = new Page<GrouponRuleVo>();
         grouponList.setPages(grouponRulesList.getPages());
@@ -40,9 +40,9 @@ public class WxGrouponRuleService {
         grouponList.setPageSize(grouponRulesList.getPageSize());
         grouponList.setTotal(grouponRulesList.getTotal());
 
-        for (LitemallGrouponRules rule : grouponRulesList) {
+        for (QianfanmallGrouponRules rule : grouponRulesList) {
             Integer goodsId = rule.getGoodsId();
-            LitemallGoods goods = goodsService.findById(goodsId);
+            QianfanmallGoods goods = goodsService.findById(goodsId);
             if (goods == null)
                 continue;
 

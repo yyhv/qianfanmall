@@ -7,8 +7,8 @@ import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallIssue;
-import com.lyqf.qianfanmall.db.service.LitemallIssueService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallIssue;
+import com.lyqf.qianfanmall.db.service.QianfanmallIssueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +24,7 @@ public class AdminIssueController {
     private final Log logger = LogFactory.getLog(AdminIssueController.class);
 
     @Autowired
-    private LitemallIssueService issueService;
+    private QianfanmallIssueService issueService;
 
     @RequiresPermissions("admin:issue:list")
     @RequiresPermissionsDesc(menu = {"商场管理", "通用问题"}, button = "查询")
@@ -34,11 +34,11 @@ public class AdminIssueController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallIssue> issueList = issueService.querySelective(question, page, limit, sort, order);
+        List<QianfanmallIssue> issueList = issueService.querySelective(question, page, limit, sort, order);
         return ResponseUtil.okList(issueList);
     }
 
-    private Object validate(LitemallIssue issue) {
+    private Object validate(QianfanmallIssue issue) {
         String question = issue.getQuestion();
         if (StringUtils.isEmpty(question)) {
             return ResponseUtil.badArgument();
@@ -53,7 +53,7 @@ public class AdminIssueController {
     @RequiresPermissions("admin:issue:create")
     @RequiresPermissionsDesc(menu = {"商场管理", "通用问题"}, button = "添加")
     @PostMapping("/create")
-    public Object create(@RequestBody LitemallIssue issue) {
+    public Object create(@RequestBody QianfanmallIssue issue) {
         Object error = validate(issue);
         if (error != null) {
             return error;
@@ -65,14 +65,14 @@ public class AdminIssueController {
     @RequiresPermissions("admin:issue:read")
     @GetMapping("/read")
     public Object read(@NotNull Integer id) {
-        LitemallIssue issue = issueService.findById(id);
+        QianfanmallIssue issue = issueService.findById(id);
         return ResponseUtil.ok(issue);
     }
 
     @RequiresPermissions("admin:issue:update")
     @RequiresPermissionsDesc(menu = {"商场管理", "通用问题"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallIssue issue) {
+    public Object update(@RequestBody QianfanmallIssue issue) {
         Object error = validate(issue);
         if (error != null) {
             return error;
@@ -87,7 +87,7 @@ public class AdminIssueController {
     @RequiresPermissions("admin:issue:delete")
     @RequiresPermissionsDesc(menu = {"商场管理", "通用问题"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallIssue issue) {
+    public Object delete(@RequestBody QianfanmallIssue issue) {
         Integer id = issue.getId();
         if (id == null) {
             return ResponseUtil.badArgument();

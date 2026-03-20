@@ -7,8 +7,8 @@ import com.lyqf.qianfanmall.admin.annotation.RequiresPermissionsDesc;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
 import com.lyqf.qianfanmall.core.validator.Order;
 import com.lyqf.qianfanmall.core.validator.Sort;
-import com.lyqf.qianfanmall.db.domain.LitemallComment;
-import com.lyqf.qianfanmall.db.service.LitemallCommentService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallComment;
+import com.lyqf.qianfanmall.db.service.QianfanmallCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class AdminCommentController {
     private final Log logger = LogFactory.getLog(AdminCommentController.class);
 
     @Autowired
-    private LitemallCommentService commentService;
+    private QianfanmallCommentService commentService;
 
     @RequiresPermissions("admin:comment:list")
     @RequiresPermissionsDesc(menu = {"商品管理", "评论管理"}, button = "查询")
@@ -32,14 +32,14 @@ public class AdminCommentController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallComment> commentList = commentService.querySelective(userId, valueId, page, limit, sort, order);
+        List<QianfanmallComment> commentList = commentService.querySelective(userId, valueId, page, limit, sort, order);
         return ResponseUtil.okList(commentList);
     }
 
     @RequiresPermissions("admin:comment:delete")
     @RequiresPermissionsDesc(menu = {"商品管理", "评论管理"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallComment comment) {
+    public Object delete(@RequestBody QianfanmallComment comment) {
         Integer id = comment.getId();
         if (id == null) {
             return ResponseUtil.badArgument();

@@ -1,7 +1,7 @@
 package com.lyqf.qianfanmall.db.service;
 
-import com.lyqf.qianfanmall.db.domain.LitemallCoupon;
-import com.lyqf.qianfanmall.db.domain.LitemallCouponUser;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCoupon;
+import com.lyqf.qianfanmall.db.domain.QianfanmallCouponUser;
 import com.lyqf.qianfanmall.db.util.CouponConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import java.util.List;
 public class CouponAssignService {
 
     @Autowired
-    private LitemallCouponUserService couponUserService;
+    private QianfanmallCouponUserService couponUserService;
     @Autowired
-    private LitemallCouponService couponService;
+    private QianfanmallCouponService couponService;
 
     /**
      * 分发注册优惠券
@@ -25,8 +25,8 @@ public class CouponAssignService {
      * @return
      */
     public void assignForRegister(Integer userId) {
-        List<LitemallCoupon> couponList = couponService.queryRegister();
-        for(LitemallCoupon coupon : couponList){
+        List<QianfanmallCoupon> couponList = couponService.queryRegister();
+        for(QianfanmallCoupon coupon : couponList){
             Integer couponId = coupon.getId();
 
             Integer count = couponUserService.countUserAndCoupon(userId, couponId);
@@ -36,7 +36,7 @@ public class CouponAssignService {
 
             Short limit = coupon.getLimit();
             while(limit > 0){
-                LitemallCouponUser couponUser = new LitemallCouponUser();
+                QianfanmallCouponUser couponUser = new QianfanmallCouponUser();
                 couponUser.setCouponId(couponId);
                 couponUser.setUserId(userId);
                 Short timeType = coupon.getTimeType();

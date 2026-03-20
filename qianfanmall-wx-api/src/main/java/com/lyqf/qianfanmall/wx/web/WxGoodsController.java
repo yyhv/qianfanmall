@@ -35,43 +35,43 @@ public class WxGoodsController {
 	private final Log logger = LogFactory.getLog(WxGoodsController.class);
 
 	@Autowired
-	private LitemallGoodsService goodsService;
+	private QianfanmallGoodsService goodsService;
 
 	@Autowired
-	private LitemallGoodsProductService productService;
+	private QianfanmallGoodsProductService productService;
 
 	@Autowired
-	private LitemallIssueService goodsIssueService;
+	private QianfanmallIssueService goodsIssueService;
 
 	@Autowired
-	private LitemallGoodsAttributeService goodsAttributeService;
+	private QianfanmallGoodsAttributeService goodsAttributeService;
 
 	@Autowired
-	private LitemallBrandService brandService;
+	private QianfanmallBrandService brandService;
 
 	@Autowired
-	private LitemallCommentService commentService;
+	private QianfanmallCommentService commentService;
 
 	@Autowired
-	private LitemallUserService userService;
+	private QianfanmallUserService userService;
 
 	@Autowired
-	private LitemallCollectService collectService;
+	private QianfanmallCollectService collectService;
 
 	@Autowired
-	private LitemallFootprintService footprintService;
+	private QianfanmallFootprintService footprintService;
 
 	@Autowired
-	private LitemallCategoryService categoryService;
+	private QianfanmallCategoryService categoryService;
 
 	@Autowired
-	private LitemallSearchHistoryService searchHistoryService;
+	private QianfanmallSearchHistoryService searchHistoryService;
 
 	@Autowired
-	private LitemallGoodsSpecificationService goodsSpecificationService;
+	private QianfanmallGoodsSpecificationService goodsSpecificationService;
 
 	@Autowired
-	private LitemallGrouponRulesService rulesService;
+	private QianfanmallGrouponRulesService rulesService;
 
 	private final static ArrayBlockingQueue<Runnable> WORK_QUEUE = new ArrayBlockingQueue<>(9);
 
@@ -92,7 +92,7 @@ public class WxGoodsController {
 	@GetMapping("detail")
 	public Object detail(@LoginUser Integer userId, @NotNull Integer id) {
 		// 商品信息
-		LitemallGoods info = goodsService.findById(id);
+		QianfanmallGoods info = goodsService.findById(id);
 
 		// 商品属性
 		Callable<List> goodsAttributeListCallable = () -> goodsAttributeService.queryByGid(id);
@@ -107,11 +107,11 @@ public class WxGoodsController {
 		Callable<List> issueCallable = () -> goodsIssueService.querySelective("", 1, 4, "", "");
 
 		// 商品品牌商
-		Callable<LitemallBrand> brandCallable = ()->{
+		Callable<QianfanmallBrand> brandCallable = ()->{
 			Integer brandId = info.getBrandId();
-			LitemallBrand brand;
+			QianfanmallBrand brand;
 			if (brandId == 0) {
-				brand = new LitemallBrand();
+				brand = new QianfanmallBrand();
 			} else {
 				brand = brandService.findById(info.getBrandId());
 			}
@@ -120,16 +120,16 @@ public class WxGoodsController {
 
 		// 评论
 		Callable<Map> commentsCallable = () -> {
-			List<LitemallComment> comments = commentService.queryGoodsByGid(id, 0, 2);
+			List<QianfanmallComment> comments = commentService.queryGoodsByGid(id, 0, 2);
 			List<Map<String, Object>> commentsVo = new ArrayList<>(comments.size());
 			long commentCount = PageInfo.of(comments).getTotal();
-			for (LitemallComment comment : comments) {
+			for (QianfanmallComment comment : comments) {
 				Map<String, Object> c = new HashMap<>();
 				c.put("id", comment.getId());
 				c.put("addTime", comment.getAddTime());
 				c.put("content", comment.getContent());
 				c.put("adminContent", comment.getAdminContent());
-				LitemallUser user = userService.findById(comment.getUserId());
+				QianfanmallUser user = userService.findById(comment.getUserId());
 				c.put("nickname", user == null ? "" : user.getNickname());
 				c.put("avatar", user == null ? "" : user.getAvatar());
 				c.put("picList", comment.getPicUrls());
@@ -153,7 +153,7 @@ public class WxGoodsController {
 		// 记录用户的足迹 异步处理
 		if (userId != null) {
 			executorService.execute(()->{
-				LitemallFootprint footprint = new LitemallFootprint();
+				QianfanmallFootprint footprint = new QianfanmallFootprint();
 				footprint.setUserId(userId);
 				footprint.setGoodsId(id);
 				footprintService.add(footprint);
@@ -164,7 +164,7 @@ public class WxGoodsController {
 		FutureTask<List> productListCallableTask = new FutureTask<>(productListCallable);
 		FutureTask<List> issueCallableTask = new FutureTask<>(issueCallable);
 		FutureTask<Map> commentsCallableTsk = new FutureTask<>(commentsCallable);
-		FutureTask<LitemallBrand> brandCallableTask = new FutureTask<>(brandCallable);
+		FutureTask<QianfanmallBrand> brandCallableTask = new FutureTask<>(brandCallable);
         FutureTask<List> grouponRulesCallableTask = new FutureTask<>(grouponRulesCallable);
 
 		executorService.submit(goodsAttributeListTask);
@@ -208,9 +208,9 @@ public class WxGoodsController {
 	 */
 	@GetMapping("category")
 	public Object category(@NotNull Integer id) {
-		LitemallCategory cur = categoryService.findById(id);
-		LitemallCategory parent = null;
-		List<LitemallCategory> children = null;
+		QianfanmallCategory cur = categoryService.findById(id);
+		QianfanmallCategory parent = null;
+		List<QianfanmallCategory> children = null;
 
 		if (cur.getPid() == 0) {
 			parent = cur;
@@ -260,7 +260,7 @@ public class WxGoodsController {
 
 		//添加到搜索历史
 		if (userId != null && !StringUtils.isEmpty(keyword)) {
-			LitemallSearchHistory searchHistoryVo = new LitemallSearchHistory();
+			QianfanmallSearchHistory searchHistoryVo = new QianfanmallSearchHistory();
 			searchHistoryVo.setKeyword(keyword);
 			searchHistoryVo.setUserId(userId);
 			searchHistoryVo.setFrom("wx");
@@ -268,18 +268,18 @@ public class WxGoodsController {
 		}
 
 		//查询列表数据
-		List<LitemallGoods> goodsList = goodsService.querySelective(categoryId, brandId, keyword, isHot, isNew, page, limit, sort, order);
+		List<QianfanmallGoods> goodsList = goodsService.querySelective(categoryId, brandId, keyword, isHot, isNew, page, limit, sort, order);
 
 		// 查询商品所属类目列表。
 		List<Integer> goodsCatIds = goodsService.getCatIds(brandId, keyword, isHot, isNew);
-		List<LitemallCategory> categoryList = null;
+		List<QianfanmallCategory> categoryList = null;
 		if (goodsCatIds.size() != 0) {
 			categoryList = categoryService.queryL2ByIds(goodsCatIds);
 		} else {
 			categoryList = new ArrayList<>(0);
 		}
 
-		PageInfo<LitemallGoods> pagedList = PageInfo.of(goodsList);
+		PageInfo<QianfanmallGoods> pagedList = PageInfo.of(goodsList);
 
 		Map<String, Object> entity = new HashMap<>();
 		entity.put("list", goodsList);
@@ -301,7 +301,7 @@ public class WxGoodsController {
 	 */
 	@GetMapping("related")
 	public Object related(@NotNull Integer id) {
-		LitemallGoods goods = goodsService.findById(id);
+		QianfanmallGoods goods = goodsService.findById(id);
 		if (goods == null) {
 			return ResponseUtil.badArgumentValue();
 		}
@@ -311,7 +311,7 @@ public class WxGoodsController {
 
 		// 查找六个相关商品
 		int related = 6;
-		List<LitemallGoods> goodsList = goodsService.queryByCategory(cid, 0, related);
+		List<QianfanmallGoods> goodsList = goodsService.queryByCategory(cid, 0, related);
 		return ResponseUtil.okList(goodsList);
 	}
 

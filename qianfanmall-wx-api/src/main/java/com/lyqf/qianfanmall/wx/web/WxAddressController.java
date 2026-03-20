@@ -4,9 +4,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.RegexUtil;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallAddress;
-import com.lyqf.qianfanmall.db.service.LitemallAddressService;
-import com.lyqf.qianfanmall.db.service.LitemallRegionService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallAddress;
+import com.lyqf.qianfanmall.db.service.QianfanmallAddressService;
+import com.lyqf.qianfanmall.db.service.QianfanmallRegionService;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import com.lyqf.qianfanmall.wx.service.GetRegionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +27,10 @@ public class WxAddressController extends GetRegionService {
 	private final Log logger = LogFactory.getLog(WxAddressController.class);
 
 	@Autowired
-	private LitemallAddressService addressService;
+	private QianfanmallAddressService addressService;
 
 	@Autowired
-	private LitemallRegionService regionService;
+	private QianfanmallRegionService regionService;
 
 
 	/**
@@ -44,7 +44,7 @@ public class WxAddressController extends GetRegionService {
 		if (userId == null) {
 			return ResponseUtil.unlogin();
 		}
-		List<LitemallAddress> addressList = addressService.queryByUid(userId);
+		List<QianfanmallAddress> addressList = addressService.queryByUid(userId);
 		return ResponseUtil.okList(addressList);
 	}
 
@@ -61,14 +61,14 @@ public class WxAddressController extends GetRegionService {
 			return ResponseUtil.unlogin();
 		}
 
-		LitemallAddress address = addressService.query(userId, id);
+		QianfanmallAddress address = addressService.query(userId, id);
 		if (address == null) {
 			return ResponseUtil.badArgumentValue();
 		}
 		return ResponseUtil.ok(address);
 	}
 
-	private Object validate(LitemallAddress address) {
+	private Object validate(QianfanmallAddress address) {
 		String name = address.getName();
 		if (StringUtils.isEmpty(name)) {
 			return ResponseUtil.badArgument();
@@ -124,7 +124,7 @@ public class WxAddressController extends GetRegionService {
 	 * @return 添加或更新操作结果
 	 */
 	@PostMapping("save")
-	public Object save(@LoginUser Integer userId, @RequestBody LitemallAddress address) {
+	public Object save(@LoginUser Integer userId, @RequestBody QianfanmallAddress address) {
 		if (userId == null) {
 			return ResponseUtil.unlogin();
 		}
@@ -143,7 +143,7 @@ public class WxAddressController extends GetRegionService {
 			address.setUserId(userId);
 			addressService.add(address);
 		} else {
-			LitemallAddress qianfanmallAddress = addressService.query(userId, address.getId());
+			QianfanmallAddress qianfanmallAddress = addressService.query(userId, address.getId());
 			if (qianfanmallAddress == null) {
 				return ResponseUtil.badArgumentValue();
 			}
@@ -167,7 +167,7 @@ public class WxAddressController extends GetRegionService {
 	 * @return 删除操作结果
 	 */
 	@PostMapping("delete")
-	public Object delete(@LoginUser Integer userId, @RequestBody LitemallAddress address) {
+	public Object delete(@LoginUser Integer userId, @RequestBody QianfanmallAddress address) {
 		if (userId == null) {
 			return ResponseUtil.unlogin();
 		}
@@ -175,7 +175,7 @@ public class WxAddressController extends GetRegionService {
 		if (id == null) {
 			return ResponseUtil.badArgument();
 		}
-		LitemallAddress qianfanmallAddress = addressService.query(userId, id);
+		QianfanmallAddress qianfanmallAddress = addressService.query(userId, id);
 		if (qianfanmallAddress == null) {
 			return ResponseUtil.badArgumentValue();
 		}

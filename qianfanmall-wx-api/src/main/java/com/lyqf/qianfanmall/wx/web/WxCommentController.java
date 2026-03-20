@@ -4,11 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.domain.LitemallComment;
-import com.lyqf.qianfanmall.db.service.LitemallCommentService;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsService;
-import com.lyqf.qianfanmall.db.service.LitemallTopicService;
-import com.lyqf.qianfanmall.db.service.LitemallUserService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallComment;
+import com.lyqf.qianfanmall.db.service.QianfanmallCommentService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsService;
+import com.lyqf.qianfanmall.db.service.QianfanmallTopicService;
+import com.lyqf.qianfanmall.db.service.QianfanmallUserService;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import com.lyqf.qianfanmall.wx.dto.UserInfo;
 import com.lyqf.qianfanmall.wx.service.UserInfoService;
@@ -32,17 +32,17 @@ public class WxCommentController {
     private final Log logger = LogFactory.getLog(WxCommentController.class);
 
     @Autowired
-    private LitemallCommentService commentService;
+    private QianfanmallCommentService commentService;
     @Autowired
-    private LitemallUserService userService;
+    private QianfanmallUserService userService;
     @Autowired
     private UserInfoService userInfoService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
     @Autowired
-    private LitemallTopicService topicService;
+    private QianfanmallTopicService topicService;
 
-    private Object validate(LitemallComment comment) {
+    private Object validate(QianfanmallComment comment) {
         String content = comment.getContent();
         if (StringUtils.isEmpty(content)) {
             return ResponseUtil.badArgument();
@@ -87,7 +87,7 @@ public class WxCommentController {
      * @return 发表评论操作结果
      */
     @PostMapping("post")
-    public Object post(@LoginUser Integer userId, @RequestBody LitemallComment comment) {
+    public Object post(@LoginUser Integer userId, @RequestBody QianfanmallComment comment) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
@@ -134,10 +134,10 @@ public class WxCommentController {
                        @NotNull Integer showType,
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit) {
-        List<LitemallComment> commentList = commentService.query(type, valueId, showType, page, limit);
+        List<QianfanmallComment> commentList = commentService.query(type, valueId, showType, page, limit);
 
         List<Map<String, Object>> commentVoList = new ArrayList<>(commentList.size());
-        for (LitemallComment comment : commentList) {
+        for (QianfanmallComment comment : commentList) {
             Map<String, Object> commentVo = new HashMap<>();
             commentVo.put("addTime", comment.getAddTime());
             commentVo.put("content", comment.getContent());

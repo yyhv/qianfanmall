@@ -1,45 +1,45 @@
 package com.lyqf.qianfanmall.admin.dto;
 
-import com.lyqf.qianfanmall.db.domain.LitemallGoods;
-import com.lyqf.qianfanmall.db.domain.LitemallGoodsAttribute;
-import com.lyqf.qianfanmall.db.domain.LitemallGoodsProduct;
-import com.lyqf.qianfanmall.db.domain.LitemallGoodsSpecification;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoods;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoodsAttribute;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoodsProduct;
+import com.lyqf.qianfanmall.db.domain.QianfanmallGoodsSpecification;
 
 public class GoodsAllinone {
-    LitemallGoods goods;
-    LitemallGoodsSpecification[] specifications;
-    LitemallGoodsAttribute[] attributes;
-    LitemallGoodsProduct[] products;
+    QianfanmallGoods goods;
+    QianfanmallGoodsSpecification[] specifications;
+    QianfanmallGoodsAttribute[] attributes;
+    QianfanmallGoodsProduct[] products;
 
-    public LitemallGoods getGoods() {
+    public QianfanmallGoods getGoods() {
         return goods;
     }
 
-    public void setGoods(LitemallGoods goods) {
+    public void setGoods(QianfanmallGoods goods) {
         this.goods = goods;
     }
 
-    public LitemallGoodsProduct[] getProducts() {
+    public QianfanmallGoodsProduct[] getProducts() {
         return products;
     }
 
-    public void setProducts(LitemallGoodsProduct[] products) {
+    public void setProducts(QianfanmallGoodsProduct[] products) {
         this.products = products;
     }
 
-    public LitemallGoodsSpecification[] getSpecifications() {
+    public QianfanmallGoodsSpecification[] getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(LitemallGoodsSpecification[] specifications) {
+    public void setSpecifications(QianfanmallGoodsSpecification[] specifications) {
         this.specifications = specifications;
     }
 
-    public LitemallGoodsAttribute[] getAttributes() {
+    public QianfanmallGoodsAttribute[] getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(LitemallGoodsAttribute[] attributes) {
+    public void setAttributes(QianfanmallGoodsAttribute[] attributes) {
         this.attributes = attributes;
     }
 

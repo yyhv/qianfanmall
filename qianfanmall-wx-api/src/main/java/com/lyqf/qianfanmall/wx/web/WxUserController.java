@@ -3,7 +3,7 @@ package com.lyqf.qianfanmall.wx.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.service.LitemallOrderService;
+import com.lyqf.qianfanmall.db.service.QianfanmallOrderService;
 import com.lyqf.qianfanmall.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +24,7 @@ public class WxUserController {
     private final Log logger = LogFactory.getLog(WxUserController.class);
 
     @Autowired
-    private LitemallOrderService orderService;
+    private QianfanmallOrderService orderService;
 
     /**
      * 用户个人页面数据

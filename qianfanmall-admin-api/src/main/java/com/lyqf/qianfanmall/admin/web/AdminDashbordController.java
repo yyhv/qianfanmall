@@ -3,10 +3,10 @@ package com.lyqf.qianfanmall.admin.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.util.ResponseUtil;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsProductService;
-import com.lyqf.qianfanmall.db.service.LitemallGoodsService;
-import com.lyqf.qianfanmall.db.service.LitemallOrderService;
-import com.lyqf.qianfanmall.db.service.LitemallUserService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsProductService;
+import com.lyqf.qianfanmall.db.service.QianfanmallGoodsService;
+import com.lyqf.qianfanmall.db.service.QianfanmallOrderService;
+import com.lyqf.qianfanmall.db.service.QianfanmallUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +23,13 @@ public class AdminDashbordController {
     private final Log logger = LogFactory.getLog(AdminDashbordController.class);
 
     @Autowired
-    private LitemallUserService userService;
+    private QianfanmallUserService userService;
     @Autowired
-    private LitemallGoodsService goodsService;
+    private QianfanmallGoodsService goodsService;
     @Autowired
-    private LitemallGoodsProductService productService;
+    private QianfanmallGoodsProductService productService;
     @Autowired
-    private LitemallOrderService orderService;
+    private QianfanmallOrderService orderService;
 
     @GetMapping("")
     public Object info() {

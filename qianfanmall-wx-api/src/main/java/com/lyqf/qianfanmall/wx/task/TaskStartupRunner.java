@@ -4,8 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.lyqf.qianfanmall.core.system.SystemConfig;
 import com.lyqf.qianfanmall.core.task.TaskService;
-import com.lyqf.qianfanmall.db.domain.LitemallOrder;
-import com.lyqf.qianfanmall.db.service.LitemallOrderService;
+import com.lyqf.qianfanmall.db.domain.QianfanmallOrder;
+import com.lyqf.qianfanmall.db.service.QianfanmallOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -19,14 +19,14 @@ import java.util.List;
 public class TaskStartupRunner implements ApplicationRunner {
 
     @Autowired
-    private LitemallOrderService orderService;
+    private QianfanmallOrderService orderService;
     @Autowired
     private TaskService taskService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        List<LitemallOrder> orderList = orderService.queryUnpaid(SystemConfig.getOrderUnpaid());
-        for(LitemallOrder order : orderList){
+        List<QianfanmallOrder> orderList = orderService.queryUnpaid(SystemConfig.getOrderUnpaid());
+        for(QianfanmallOrder order : orderList){
             LocalDateTime add = order.getAddTime();
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expire =  add.plusMinutes(SystemConfig.getOrderUnpaid());
