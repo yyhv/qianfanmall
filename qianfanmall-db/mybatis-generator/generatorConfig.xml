@@ -51,9 +51,9 @@
             <property name="useJSR310Types" value="true"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="org.linlinjava.qianfanmall.db.domain" targetProject="src/main/java"/>
-        <sqlMapGenerator targetPackage="org.linlinjava.qianfanmall.db.dao" targetProject="src/main/resources"/>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="org.linlinjava.qianfanmall.db.dao"
+        <javaModelGenerator targetPackage="com.lyqf.qianfanmall.db.domain" targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="com.lyqf.qianfanmall.db.dao" targetProject="src/main/resources"/>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.lyqf.qianfanmall.db.dao"
                              targetProject="src/main/java"/>
         <!--表名-->
         <table tableName="qianfanmall_ad">
@@ -65,7 +65,7 @@
         <table tableName="qianfanmall_admin">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="role_ids" javaType="java.lang.Integer[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
         <table tableName="qianfanmall_brand">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -73,7 +73,7 @@
         <table tableName="qianfanmall_cart">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="specifications" javaType="java.lang.String[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
         <table tableName="qianfanmall_category">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -84,13 +84,13 @@
         <table tableName="qianfanmall_comment">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="pic_urls" javaType="java.lang.String[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
 
         <table tableName="qianfanmall_feedback">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="pic_urls" javaType="java.lang.String[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
 
         <table tableName="qianfanmall_footprint">
@@ -99,7 +99,7 @@
         <table tableName="qianfanmall_goods">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="gallery" javaType="java.lang.String[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
         <table tableName="qianfanmall_goods_attribute">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -110,7 +110,7 @@
         <table tableName="qianfanmall_goods_product">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="specifications" javaType="java.lang.String[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
         <table tableName="qianfanmall_issue">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -124,7 +124,7 @@
         <table tableName="qianfanmall_order_goods">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="specifications" javaType="java.lang.String[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
         <table tableName="qianfanmall_region">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -138,7 +138,7 @@
         <table tableName="qianfanmall_topic">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="goods" javaType="java.lang.Integer[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
         <table tableName="qianfanmall_user">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -156,7 +156,7 @@
         <table tableName="qianfanmall_coupon">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="goods_value" javaType="java.lang.Integer[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
         <table tableName="qianfanmall_coupon_user">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -179,7 +179,7 @@
         <table tableName="qianfanmall_aftersale">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="pictures" javaType="java.lang.String[]"
-                            typeHandler="org.linlinjava.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
     </context>
 </generatorConfiguration>

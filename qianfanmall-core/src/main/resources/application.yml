@@ -9,4 +9,4 @@ logging:
     root:  ERROR
     org.springframework:  ERROR
     org.mybatis:  ERROR
-    org.linlinjava.qianfanmall.core:  DEBUG
+    com.lyqf.qianfanmall.core:  DEBUG

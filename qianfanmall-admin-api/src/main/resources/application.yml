@@ -12,8 +12,8 @@ logging:
     root:  ERROR
     org.springframework:  ERROR
     org.mybatis:  ERROR
-    org.linlinjava.qianfanmall.admin:  DEBUG
-    org.linlinjava.qianfanmall:  ERROR
+    com.lyqf.qianfanmall.admin:  DEBUG
+    com.lyqf.qianfanmall:  ERROR
 
 swagger:
   production: false

@@ -50,9 +50,9 @@
     </root>
     <logger name="org.mybatis" level="ERROR" />
     <logger name="org.springframework" level="ERROR" />
-    <logger name="org.linlinjava.qianfanmall.core" level="ERROR" />
-    <logger name="org.linlinjava.qianfanmall.db" level="ERROR" />
-    <logger name="org.linlinjava.qianfanmall.admin" level="DEBUG" />
-    <logger name="org.linlinjava.qianfanmall.wx" level="DEBUG" />
-    <logger name="org.linlinjava.qianfanmall" level="DEBUG" />
+    <logger name="com.lyqf.qianfanmall.core" level="ERROR" />
+    <logger name="com.lyqf.qianfanmall.db" level="ERROR" />
+    <logger name="com.lyqf.qianfanmall.admin" level="DEBUG" />
+    <logger name="com.lyqf.qianfanmall.wx" level="DEBUG" />
+    <logger name="com.lyqf.qianfanmall" level="DEBUG" />
 </configuration>

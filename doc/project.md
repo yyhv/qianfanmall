@@ -467,20 +467,20 @@ flush privilege
 ```
     <logger name="org.mybatis" level="ERROR" />
     <logger name="org.springframework" level="ERROR" />
-    <logger name="org.linlinjava.qianfanmall.core" level="DEBUG" />
-    <logger name="org.linlinjava.qianfanmall.db" level="DEBUG" />
-    <logger name="org.linlinjava.qianfanmall.admin" level="DEBUG" />
-    <logger name="org.linlinjava.qianfanmall.wx" level="DEBUG" />
-    <logger name="org.linlinjava.qianfanmall" level="DEBUG" />
+    <logger name="com.lyqf.qianfanmall.core" level="DEBUG" />
+    <logger name="com.lyqf.qianfanmall.db" level="DEBUG" />
+    <logger name="com.lyqf.qianfanmall.admin" level="DEBUG" />
+    <logger name="com.lyqf.qianfanmall.wx" level="DEBUG" />
+    <logger name="com.lyqf.qianfanmall" level="DEBUG" />
 ```
 
 具体如何配置，请自行学习Spring Boot的日志配置和logback日志配置。
 
-`org.linlinjava.qianfanmall.core`定义qianfanmall-core模块的日志级别
-`org.linlinjava.qianfanmall.db`定义qianfanmall-db模块的日志级别
-`org.linlinjava.qianfanmall.wx`定义qianfanmall-wx-api模块的日志级别
-`org.linlinjava.qianfanmall.admin`定义qianfanmall-admin-api模块的日志级别
-`org.linlinjava.qianfanmall`而定义qianfanmall所有后端模块的日志级别
+`com.lyqf.qianfanmall.core`定义qianfanmall-core模块的日志级别
+`com.lyqf.qianfanmall.db`定义qianfanmall-db模块的日志级别
+`com.lyqf.qianfanmall.wx`定义qianfanmall-wx-api模块的日志级别
+`com.lyqf.qianfanmall.admin`定义qianfanmall-admin-api模块的日志级别
+`com.lyqf.qianfanmall`而定义qianfanmall所有后端模块的日志级别
 
 当然，如果开发者这里启动qianfanmall后端模块级别是DEBUG时，可能会发现并没有很多日志，
 这是因为代码内部没有写很多日志，开发者可以根据需要添加。
