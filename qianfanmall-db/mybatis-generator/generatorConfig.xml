@@ -56,127 +56,127 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.lyqf.qianfanmall.db.dao"
                              targetProject="src/main/java"/>
         <!--表名-->
-        <table tableName="qianfanmall_ad">
+        <table tableName="def_ad">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_address">
+        <table tableName="def_address">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_admin">
+        <table tableName="def_admin">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="role_ids" javaType="java.lang.Integer[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
-        <table tableName="qianfanmall_brand">
+        <table tableName="def_brand">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_cart">
+        <table tableName="def_cart">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="specifications" javaType="java.lang.String[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
-        <table tableName="qianfanmall_category">
+        <table tableName="def_category">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_collect">
+        <table tableName="def_collect">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_comment">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="pic_urls" javaType="java.lang.String[]"
-                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
-        </table>
-
-        <table tableName="qianfanmall_feedback">
+        <table tableName="def_comment">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="pic_urls" javaType="java.lang.String[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
 
-        <table tableName="qianfanmall_footprint">
+        <table tableName="def_feedback">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="pic_urls" javaType="java.lang.String[]"
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+        </table>
+
+        <table tableName="def_footprint">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_goods">
+        <table tableName="def_goods">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="gallery" javaType="java.lang.String[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
-        <table tableName="qianfanmall_goods_attribute">
+        <table tableName="def_goods_attribute">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_goods_specification">
+        <table tableName="def_goods_specification">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_goods_product">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="specifications" javaType="java.lang.String[]"
-                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
-        </table>
-        <table tableName="qianfanmall_issue">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="qianfanmall_keyword">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="qianfanmall_order">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="qianfanmall_order_goods">
+        <table tableName="def_goods_product">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="specifications" javaType="java.lang.String[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
-        <table tableName="qianfanmall_region">
+        <table tableName="def_issue">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_search_history">
+        <table tableName="def_keyword">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_storage">
+        <table tableName="def_order">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_topic">
+        <table tableName="def_order_goods">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="specifications" javaType="java.lang.String[]"
+                            typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
+        </table>
+        <table tableName="def_region">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="def_search_history">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="def_storage">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="def_topic">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="goods" javaType="java.lang.Integer[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
-        <table tableName="qianfanmall_user">
+        <table tableName="def_user">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_system">
+        <table tableName="def_system">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
-        <table tableName="qianfanmall_groupon_rules">
+        <table tableName="def_groupon_rules">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_groupon">
+        <table tableName="def_groupon">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_coupon">
+        <table tableName="def_coupon">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="goods_value" javaType="java.lang.Integer[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonIntegerArrayTypeHandler"/>
         </table>
-        <table tableName="qianfanmall_coupon_user">
+        <table tableName="def_coupon_user">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_role">
+        <table tableName="def_role">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_permission">
+        <table tableName="def_permission">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_log">
+        <table tableName="def_log">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_notice">
+        <table tableName="def_notice">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_notice_admin">
+        <table tableName="def_notice_admin">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="qianfanmall_aftersale">
+        <table tableName="def_aftersale">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="pictures" javaType="java.lang.String[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>

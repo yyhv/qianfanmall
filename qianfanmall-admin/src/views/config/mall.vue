@@ -1,26 +1,26 @@
 <template>
   <div class="app-container">
     <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-width="300px">
-      <el-form-item :label="$t('config_mall.form.mall_name')" prop="qianfanmall_mall_name">
-        <el-input v-model="dataForm.qianfanmall_mall_name"/>
+      <el-form-item :label="$t('config_mall.form.mall_name')" prop="def_mall_name">
+        <el-input v-model="dataForm.def_mall_name"/>
       </el-form-item>
-      <el-form-item :label="$t('config_mall.form.mall_address')" prop="qianfanmall_mall_address">
-        <el-input v-model="dataForm.qianfanmall_mall_address"/>
+      <el-form-item :label="$t('config_mall.form.mall_address')" prop="def_mall_address">
+        <el-input v-model="dataForm.def_mall_address"/>
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_coordinates')">
         <el-col :span="11">
-          <el-input v-model="dataForm.qianfanmall_mall_longitude" :placeholder="$t('config_mall.placeholder.mall_longitude')" />
+          <el-input v-model="dataForm.def_mall_longitude" :placeholder="$t('config_mall.placeholder.mall_longitude')" />
         </el-col>
         <el-col :span="2" style="text-align: center;">-</el-col>
         <el-col :span="11">
-          <el-input v-model="dataForm.qianfanmall_mall_latitude" :placeholder="$t('config_mall.placeholder.mall_latitude')" />
+          <el-input v-model="dataForm.def_mall_latitude" :placeholder="$t('config_mall.placeholder.mall_latitude')" />
         </el-col>
       </el-form-item>
-      <el-form-item :label="$t('config_mall.form.mall_phone')" prop="qianfanmall_mall_phone">
-        <el-input v-model="dataForm.qianfanmall_mall_phone"/>
+      <el-form-item :label="$t('config_mall.form.mall_phone')" prop="def_mall_phone">
+        <el-input v-model="dataForm.def_mall_phone"/>
       </el-form-item>
-      <el-form-item :label="$t('config_mall.form.mall_qq')" prop="qianfanmall_mall_qq">
-        <el-input v-model="dataForm.qianfanmall_mall_qq"/>
+      <el-form-item :label="$t('config_mall.form.mall_qq')" prop="def_mall_qq">
+        <el-input v-model="dataForm.def_mall_qq"/>
       </el-form-item>
       <el-form-item>
         <el-button @click="cancel">{{ $t('app.button.cancel') }}</el-button>
@@ -38,24 +38,24 @@ export default {
   data() {
     return {
       dataForm: {
-        qianfanmall_mall_name: '',
-        qianfanmall_mall_address: '',
-        qianfanmall_mall_phone: '',
-        qianfanmall_mall_qq: '',
-        qianfanmall_mall_longitude: '',
-        qianfanmall_mall_latitude: ''
+        def_mall_name: '',
+        def_mall_address: '',
+        def_mall_phone: '',
+        def_mall_qq: '',
+        def_mall_longitude: '',
+        def_mall_latitude: ''
       },
       rules: {
-        qianfanmall_mall_name: [
+        def_mall_name: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_mall_address: [
+        def_mall_address: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_mall_phone: [
+        def_mall_phone: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_mall_qq: [
+        def_mall_qq: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
       }

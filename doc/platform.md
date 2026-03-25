@@ -76,13 +76,13 @@ mybatis数据库访问代码是指dao接口代码、dao数据库XML文件和doma
 例如，当需要访问两个表的数据时，这里是在业务层通过Java代码遍历的形式来访问两个表，
 也可以通过自定义的mapper文件来实现。
 
-接下来，以`qianfanmall_brand`表举例说明如何自动生成代码：
+接下来，以`def_brand`表举例说明如何自动生成代码：
 
 1. mybatis generator插件会读取`table`标签
 
     ```
     <generatorConfiguration>
-         <table tableName="qianfanmall_brand">
+         <table tableName="def_brand">
              <generatedKey column="id" sqlStatement="MySql" identity="true" />
          </table>
     </generatorConfiguration>
@@ -182,7 +182,7 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
 1. 实现JsonStringArrayTypeHandler类；
 2. 在mybatis generator配置文件中，配置需要的字段；
     ```
-        <table tableName="qianfanmall_goods">
+        <table tableName="def_goods">
             <columnOverride column="gallery" javaType="java.lang.String[]"
                             typeHandler="com.lyqf.qianfanmall.db.mybatis.JsonStringArrayTypeHandler"/>
         </table>
@@ -199,16 +199,16 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
 
 本节介绍如果基于一个表创建新的服务组件。
 
-1. 在数据库里面创建一个表，例如`qianfanmall_demo`:
+1. 在数据库里面创建一个表，例如`def_demo`:
 
     ```sql
-    CREATE TABLE `qianfanmall`.`qianfanmall_demo` (
+    CREATE TABLE `qianfanmall`.`def_demo` (
       `id` INT NOT NULL AUTO_INCREMENT,
       `name` VARCHAR(45) NULL,
       `address` VARCHAR(45) NULL,
       PRIMARY KEY (`id`));
       
-    INSERT INTO `qianfanmall`.`qianfanmall_demo` (`id`, `name`, `address`) 
+    INSERT INTO `qianfanmall`.`def_demo` (`id`, `name`, `address`) 
     VALUES ('1', 'hello', 'world');
     ```
 
@@ -216,7 +216,7 @@ mybatis generator自动生成代码时，通过内置类型转换器自动把数
 
     ```
     <generatorConfiguration>
-         <table tableName="qianfanmall_demo">
+         <table tableName="def_demo">
              <generatedKey column="id" sqlStatement="MySql" identity="true" />
          </table>
     </generatorConfiguration>
@@ -401,7 +401,7 @@ Jackson做一些设置。
 
 注意
 > 这里的util代码不会涉及具体业务，例如qianfanmall-db模块中存在一个
-> OrderUtil类处理数据库中qianfanmall_order表的一些转换工作。
+> OrderUtil类处理数据库中def_order表的一些转换工作。
 
 #### 2.3.2.1 ResponseUtil
 

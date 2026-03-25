@@ -1,20 +1,20 @@
 <template>
   <div class="app-container">
     <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-width="300px">
-      <el-form-item :label="$t('config_order.form.unpaid')" prop="qianfanmall_order_unpaid">
-        <el-input v-model="dataForm.qianfanmall_order_unpaid" class="input-width">
+      <el-form-item :label="$t('config_order.form.unpaid')" prop="def_order_unpaid">
+        <el-input v-model="dataForm.def_order_unpaid" class="input-width">
           <template slot="append">{{ $t('config_order.text.minutes') }}</template>
         </el-input>
         <span class="info">{{ $t('config_order.help.unpaid') }}</span>
       </el-form-item>
-      <el-form-item :label="$t('config_order.form.unconfirm')" prop="qianfanmall_order_unconfirm">
-        <el-input v-model="dataForm.qianfanmall_order_unconfirm" class="input-width">
+      <el-form-item :label="$t('config_order.form.unconfirm')" prop="def_order_unconfirm">
+        <el-input v-model="dataForm.def_order_unconfirm" class="input-width">
           <template slot="append"> {{ $t('config_order.text.days') }}</template>
         </el-input>
         <span class="info">{{ $t('config_order.help.unconfirm') }}</span>
       </el-form-item>
-      <el-form-item :label="$t('config_order.form.comment')" prop="qianfanmall_order_comment">
-        <el-input v-model="dataForm.qianfanmall_order_comment" class="input-width">
+      <el-form-item :label="$t('config_order.form.comment')" prop="def_order_comment">
+        <el-input v-model="dataForm.def_order_comment" class="input-width">
           <template slot="append">{{ $t('config_order.text.days') }}</template>
         </el-input>
         <span class="info">{{ $t('config_order.help.comment') }}</span>
@@ -35,18 +35,18 @@ export default {
   data() {
     return {
       dataForm: {
-        qianfanmall_order_unpaid: 0,
-        qianfanmall_order_unconfirm: 0,
-        qianfanmall_order_comment: 0
+        def_order_unpaid: 0,
+        def_order_unconfirm: 0,
+        def_order_comment: 0
       },
       rules: {
-        qianfanmall_order_unpaid: [
+        def_order_unpaid: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_order_unconfirm: [
+        def_order_unconfirm: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_order_comment: [
+        def_order_comment: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
       }

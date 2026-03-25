@@ -35,11 +35,11 @@ public class OrderJob {
     /**
      * 自动确认订单
      * <p>
-     * 定时检查订单未确认情况，如果超时 QIANFANMALL_ORDER_UNCONFIRM 天则自动确认订单
+     * 定时检查订单未确认情况，如果超时 def_ORDER_UNCONFIRM 天则自动确认订单
      * 定时时间是每天凌晨3点。
      * <p>
      * TODO
-     * 注意，因为是相隔一天检查，因此导致订单真正超时时间是 [QIANFANMALL_ORDER_UNCONFIRM, 1 + QIANFANMALL_ORDER_UNCONFIRM]
+     * 注意，因为是相隔一天检查，因此导致订单真正超时时间是 [def_ORDER_UNCONFIRM, 1 + def_ORDER_UNCONFIRM]
      */
     @Scheduled(cron = "0 0 3 * * ?")
     public void checkOrderUnconfirm() {
@@ -64,11 +64,11 @@ public class OrderJob {
     /**
      * 可评价订单商品超期
      * <p>
-     * 定时检查订单商品评价情况，如果确认商品超时 QIANFANMALL_ORDER_COMMENT 天则取消可评价状态
+     * 定时检查订单商品评价情况，如果确认商品超时 def_ORDER_COMMENT 天则取消可评价状态
      * 定时时间是每天凌晨4点。
      * <p>
      * TODO
-     * 注意，因为是相隔一天检查，因此导致订单真正超时时间是 [QIANFANMALL_ORDER_COMMENT, 1 + QIANFANMALL_ORDER_COMMENT]
+     * 注意，因为是相隔一天检查，因此导致订单真正超时时间是 [def_ORDER_COMMENT, 1 + def_ORDER_COMMENT]
      */
     @Scheduled(cron = "0 0 4 * * ?")
     public void checkOrderComment() {

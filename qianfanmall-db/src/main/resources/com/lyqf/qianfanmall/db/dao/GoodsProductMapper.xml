@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyqf.qianfanmall.db.dao.GoodsProductMapper">
     <update id="addStock" parameterType="map">
-        update qianfanmall_goods_product
+        update def_goods_product
         set number = number + #{num,jdbcType=INTEGER}, update_time = now()
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="reduceStock" parameterType="map">
-        update qianfanmall_goods_product
+        update def_goods_product
         set number = number - #{num,jdbcType=INTEGER}, update_time = now()
         where id = #{id,jdbcType=INTEGER} and number >= #{num,jdbcType=INTEGER}
     </update>

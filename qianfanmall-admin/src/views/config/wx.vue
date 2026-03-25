@@ -8,28 +8,28 @@
       label-width="300px">
       <el-tabs tab-position="left" >
         <el-tab-pane :label="$t('config_wx.section.home')">
-          <el-form-item :label="$t('config_wx.form.index_new')" prop="qianfanmall_wx_index_new">
-            <el-input v-model="dataForm.qianfanmall_wx_index_new"/>
+          <el-form-item :label="$t('config_wx.form.index_new')" prop="def_wx_index_new">
+            <el-input v-model="dataForm.def_wx_index_new"/>
           </el-form-item>
-          <el-form-item :label="$t('config_wx.form.index_hot')" prop="qianfanmall_wx_index_hot">
-            <el-input v-model="dataForm.qianfanmall_wx_index_hot"/>
+          <el-form-item :label="$t('config_wx.form.index_hot')" prop="def_wx_index_hot">
+            <el-input v-model="dataForm.def_wx_index_hot"/>
           </el-form-item>
-          <el-form-item :label="$t('config_wx.form.index_brand')" prop="qianfanmall_wx_index_brand">
-            <el-input v-model="dataForm.qianfanmall_wx_index_brand"/>
+          <el-form-item :label="$t('config_wx.form.index_brand')" prop="def_wx_index_brand">
+            <el-input v-model="dataForm.def_wx_index_brand"/>
           </el-form-item>
-          <el-form-item :label="$t('config_wx.form.index_topic')" prop="qianfanmall_wx_index_topic">
-            <el-input v-model="dataForm.qianfanmall_wx_index_topic"/>
+          <el-form-item :label="$t('config_wx.form.index_topic')" prop="def_wx_index_topic">
+            <el-input v-model="dataForm.def_wx_index_topic"/>
           </el-form-item>
-          <el-form-item :label="$t('config_wx.form.catlog_list')" prop="qianfanmall_wx_catlog_list">
-            <el-input v-model="dataForm.qianfanmall_wx_catlog_list"/>
+          <el-form-item :label="$t('config_wx.form.catlog_list')" prop="def_wx_catlog_list">
+            <el-input v-model="dataForm.def_wx_catlog_list"/>
           </el-form-item>
-          <el-form-item :label="$t('config_wx.form.catlog_goods')" prop="qianfanmall_wx_catlog_goods">
-            <el-input v-model="dataForm.qianfanmall_wx_catlog_goods"/>
+          <el-form-item :label="$t('config_wx.form.catlog_goods')" prop="def_wx_catlog_goods">
+            <el-input v-model="dataForm.def_wx_catlog_goods"/>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane :label="$t('config_wx.section.other')">
-          <el-form-item :label="$t('config_wx.form.share')" prop="qianfanmall_wx_share">
-            <el-switch v-model="dataForm.qianfanmall_wx_share"/>
+          <el-form-item :label="$t('config_wx.form.share')" prop="def_wx_share">
+            <el-switch v-model="dataForm.def_wx_share"/>
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
@@ -50,31 +50,31 @@ export default {
   data() {
     return {
       dataForm: {
-        qianfanmall_wx_index_new: 0,
-        qianfanmall_wx_index_hot: 0,
-        qianfanmall_wx_index_brand: 0,
-        qianfanmall_wx_index_topic: 0,
-        qianfanmall_wx_catlog_list: 0,
-        qianfanmall_wx_catlog_goods: 0,
-        qianfanmall_wx_share: false
+        def_wx_index_new: 0,
+        def_wx_index_hot: 0,
+        def_wx_index_brand: 0,
+        def_wx_index_topic: 0,
+        def_wx_catlog_list: 0,
+        def_wx_catlog_goods: 0,
+        def_wx_share: false
       },
       rules: {
-        qianfanmall_wx_index_new: [
+        def_wx_index_new: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_wx_index_hot: [
+        def_wx_index_hot: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_wx_index_brand: [
+        def_wx_index_brand: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_wx_index_topic: [
+        def_wx_index_topic: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_wx_catlog_list: [
+        def_wx_catlog_list: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_wx_catlog_goods: [
+        def_wx_catlog_goods: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
       }
@@ -87,7 +87,7 @@ export default {
     init: function() {
       listWx().then(response => {
         this.dataForm = response.data.data
-        this.dataForm.qianfanmall_wx_share = this.dataForm.qianfanmall_wx_share === 'true'
+        this.dataForm.def_wx_share = this.dataForm.def_wx_share === 'true'
       })
     },
     cancel() {

@@ -200,7 +200,7 @@
   * `项目`删除os模块，相关功能迁移至wx-api模块和admin-api模块
   * `项目`从默认单机多服务方案调整至默认单机单服务方案
   * `项目`暂时取消docker支持和.gitlab-ci.yml支持
-  * `项目`数据库添加qianfanmall_system表，存储系统配置信息
+  * `项目`数据库添加def_system表，存储系统配置信息
   * `项目`取消swagger支持
 
 ## V 0.7.0
@@ -236,7 +236,7 @@
   * `小商场`修复购物车商品不能删除
   * `小商场`支持微信支付
   * `管理后台`支持微信支付
-  * `基础系统`数据库qianfanmall_collect的id设置自增
+  * `基础系统`数据库def_collect的id设置自增
   * `基础系统`数据库删除region相关的四个临时表
   * `基础系统`qianfanmall-core模块swagger2配置，支持swagger文档
   * `项目`多模块maven结构重新设计

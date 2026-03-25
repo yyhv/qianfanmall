@@ -9,27 +9,27 @@ import java.util.Map;
  */
 public class SystemConfig {
     // 小程序相关配置
-    public final static String QIANFANMALL_WX_INDEX_NEW = "qianfanmall_wx_index_new";
-    public final static String QIANFANMALL_WX_INDEX_HOT = "qianfanmall_wx_index_hot";
-    public final static String QIANFANMALL_WX_INDEX_BRAND = "qianfanmall_wx_index_brand";
-    public final static String QIANFANMALL_WX_INDEX_TOPIC = "qianfanmall_wx_index_topic";
-    public final static String QIANFANMALL_WX_INDEX_CATLOG_LIST = "qianfanmall_wx_catlog_list";
-    public final static String QIANFANMALL_WX_INDEX_CATLOG_GOODS = "qianfanmall_wx_catlog_goods";
-    public final static String QIANFANMALL_WX_SHARE = "qianfanmall_wx_share";
+    public final static String def_WX_INDEX_NEW = "def_wx_index_new";
+    public final static String def_WX_INDEX_HOT = "def_wx_index_hot";
+    public final static String def_WX_INDEX_BRAND = "def_wx_index_brand";
+    public final static String def_WX_INDEX_TOPIC = "def_wx_index_topic";
+    public final static String def_WX_INDEX_CATLOG_LIST = "def_wx_catlog_list";
+    public final static String def_WX_INDEX_CATLOG_GOODS = "def_wx_catlog_goods";
+    public final static String def_WX_SHARE = "def_wx_share";
     // 运费相关配置
-    public final static String QIANFANMALL_EXPRESS_FREIGHT_VALUE = "qianfanmall_express_freight_value";
-    public final static String QIANFANMALL_EXPRESS_FREIGHT_MIN = "qianfanmall_express_freight_min";
+    public final static String def_EXPRESS_FREIGHT_VALUE = "def_express_freight_value";
+    public final static String def_EXPRESS_FREIGHT_MIN = "def_express_freight_min";
     // 订单相关配置
-    public final static String QIANFANMALL_ORDER_UNPAID = "qianfanmall_order_unpaid";
-    public final static String QIANFANMALL_ORDER_UNCONFIRM = "qianfanmall_order_unconfirm";
-    public final static String QIANFANMALL_ORDER_COMMENT = "qianfanmall_order_comment";
+    public final static String def_ORDER_UNPAID = "def_order_unpaid";
+    public final static String def_ORDER_UNCONFIRM = "def_order_unconfirm";
+    public final static String def_ORDER_COMMENT = "def_order_comment";
     // 商场相关配置
-    public final static String QIANFANMALL_MALL_NAME = "qianfanmall_mall_name";
-    public final static String QIANFANMALL_MALL_ADDRESS = "qianfanmall_mall_address";
-    public final static String QIANFANMALL_MALL_PHONE = "qianfanmall_mall_phone";
-    public final static String QIANFANMALL_MALL_QQ = "qianfanmall_mall_qq";
-    public final static String QIANFANMALL_MALL_LONGITUDE = "qianfanmall_mall_longitude";
-    public final static String QIANFANMALL_MALL_Latitude = "qianfanmall_mall_latitude";
+    public final static String def_MALL_NAME = "def_mall_name";
+    public final static String def_MALL_ADDRESS = "def_mall_address";
+    public final static String def_MALL_PHONE = "def_mall_phone";
+    public final static String def_MALL_QQ = "def_mall_qq";
+    public final static String def_MALL_LONGITUDE = "def_mall_longitude";
+    public final static String def_MALL_Latitude = "def_mall_latitude";
 
     //所有的配置均保存在该 HashMap 中
     private static Map<String, String> SYSTEM_CONFIGS = new HashMap<>();
@@ -51,75 +51,75 @@ public class SystemConfig {
     }
 
     public static Integer getNewLimit() {
-        return getConfigInt(QIANFANMALL_WX_INDEX_NEW);
+        return getConfigInt(def_WX_INDEX_NEW);
     }
 
     public static Integer getHotLimit() {
-        return getConfigInt(QIANFANMALL_WX_INDEX_HOT);
+        return getConfigInt(def_WX_INDEX_HOT);
     }
 
     public static Integer getBrandLimit() {
-        return getConfigInt(QIANFANMALL_WX_INDEX_BRAND);
+        return getConfigInt(def_WX_INDEX_BRAND);
     }
 
     public static Integer getTopicLimit() {
-        return getConfigInt(QIANFANMALL_WX_INDEX_TOPIC);
+        return getConfigInt(def_WX_INDEX_TOPIC);
     }
 
     public static Integer getCatlogListLimit() {
-        return getConfigInt(QIANFANMALL_WX_INDEX_CATLOG_LIST);
+        return getConfigInt(def_WX_INDEX_CATLOG_LIST);
     }
 
     public static Integer getCatlogMoreLimit() {
-        return getConfigInt(QIANFANMALL_WX_INDEX_CATLOG_GOODS);
+        return getConfigInt(def_WX_INDEX_CATLOG_GOODS);
     }
 
     public static boolean isAutoCreateShareImage() {
-        return getConfigBoolean(QIANFANMALL_WX_SHARE);
+        return getConfigBoolean(def_WX_SHARE);
     }
 
     public static BigDecimal getFreight() {
-        return getConfigBigDec(QIANFANMALL_EXPRESS_FREIGHT_VALUE);
+        return getConfigBigDec(def_EXPRESS_FREIGHT_VALUE);
     }
 
     public static BigDecimal getFreightLimit() {
-        return getConfigBigDec(QIANFANMALL_EXPRESS_FREIGHT_MIN);
+        return getConfigBigDec(def_EXPRESS_FREIGHT_MIN);
     }
 
     public static Integer getOrderUnpaid() {
-        return getConfigInt(QIANFANMALL_ORDER_UNPAID);
+        return getConfigInt(def_ORDER_UNPAID);
     }
 
     public static Integer getOrderUnconfirm() {
-        return getConfigInt(QIANFANMALL_ORDER_UNCONFIRM);
+        return getConfigInt(def_ORDER_UNCONFIRM);
     }
 
     public static Integer getOrderComment() {
-        return getConfigInt(QIANFANMALL_ORDER_COMMENT);
+        return getConfigInt(def_ORDER_COMMENT);
     }
 
     public static String getMallName() {
-        return getConfig(QIANFANMALL_MALL_NAME);
+        return getConfig(def_MALL_NAME);
     }
 
     public static String getMallAddress() {
-        return getConfig(QIANFANMALL_MALL_ADDRESS);
+        return getConfig(def_MALL_ADDRESS);
     }
 
     public static String getMallPhone() {
-        return getConfig(QIANFANMALL_MALL_PHONE);
+        return getConfig(def_MALL_PHONE);
     }
 
     public static String getMallQQ() {
-        return getConfig(QIANFANMALL_MALL_QQ);
+        return getConfig(def_MALL_QQ);
     }
 
     public static String getMallLongitude() {
-        return getConfig(QIANFANMALL_MALL_LONGITUDE);
+        return getConfig(def_MALL_LONGITUDE);
     }
 
     public static String getMallLatitude() {
-        return getConfig(QIANFANMALL_MALL_Latitude);
+        return getConfig(def_MALL_Latitude);
     }
 
     public static void setConfigs(Map<String, String> configs) {

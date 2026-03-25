@@ -1,4 +1,4 @@
-package com.lyqf.qianfanmall.wx;
+package com.lyqf.qianfanmall.admin;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -6,14 +6,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(scanBasePackages = {"com.lyqf.qianfanmall.db", "com.lyqf.qianfanmall.core", "com.lyqf.qianfanmall.wx"})
+@SpringBootApplication(scanBasePackages = {"com.lyqf.qianfanmall.db", "com.lyqf.qianfanmall.core",
+        "com.lyqf.qianfanmall.admin"})
 @MapperScan("com.lyqf.qianfanmall.db.dao")
 @EnableTransactionManagement
 @EnableScheduling
-public class Application {
+public class AdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 
 }

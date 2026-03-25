@@ -207,7 +207,7 @@ Error querying database. Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxError
 The error may exist in org/linlinjava/qianfanmall/db/dao/LitemallSystemMapper.xml
 The error may involve com.lyqf.qianfanmall.db.dao.LitemallSystemMapper.selectByExample-Inline
 The error occurred while setting parameters
-SQL: select id, key_name, key_value, add_time, update_time, deleted from qianfanmall_system
+SQL: select id, key_name, key_value, add_time, update_time, deleted from def_system
 Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'add_time' in 'field list'
 ```
 
@@ -224,7 +224,7 @@ Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column
 
 现象：
 
-开发者直接（或使用Navicat）运行qianfanmall_schema.sql时运行失败。
+开发者直接（或使用Navicat）运行def_schema.sql时运行失败。
 
 原因：
 
@@ -232,7 +232,7 @@ Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column
 
 解决:
 
-首先，请开发者请直接打开qianfanmall_schema.sql文件，可以看到
+首先，请开发者请直接打开def_schema.sql文件，可以看到
 ```
 drop database if exists qianfanmall;
 drop user if exists 'qianfanmall'@'localhost';
@@ -248,10 +248,10 @@ flush privileges;
 * 创建数据库用户
 * 分配该用户所有操作权限
 
-因此，如果开发者运行qianfanmall_schema.sql失败，开发者可以自行使用
+因此，如果开发者运行def_schema.sql失败，开发者可以自行使用
 相关SQL命令或者使用SQL工具创建数据库、用户和分配权限工作。
 
-此外实际上，**开发者也不应该在部署或者上线阶段运行qianfanmall_schema.sql**
+此外实际上，**开发者也不应该在部署或者上线阶段运行def_schema.sql**
 
 ## 4. 项目
 

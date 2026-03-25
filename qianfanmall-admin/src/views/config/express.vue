@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-width="300px">
-      <el-form-item :label="$t('config_express.form.freight_min')" prop="qianfanmall_express_freight_min">
-        <el-input v-model="dataForm.qianfanmall_express_freight_min"/>
+      <el-form-item :label="$t('config_express.form.freight_min')" prop="def_express_freight_min">
+        <el-input v-model="dataForm.def_express_freight_min"/>
       </el-form-item>
-      <el-form-item :label="$t('config_express.form.freight_value')" prop="qianfanmall_express_freight_value">
-        <el-input v-model="dataForm.qianfanmall_express_freight_value"/>
+      <el-form-item :label="$t('config_express.form.freight_value')" prop="def_express_freight_value">
+        <el-input v-model="dataForm.def_express_freight_value"/>
       </el-form-item>
       <el-form-item>
         <el-button @click="cancel">{{ $t('app.button.cancel') }}</el-button>
@@ -22,14 +22,14 @@ export default {
   data() {
     return {
       dataForm: {
-        qianfanmall_express_freight_min: 0,
-        qianfanmall_express_freight_value: 0
+        def_express_freight_min: 0,
+        def_express_freight_value: 0
       },
       rules: {
-        qianfanmall_express_freight_min: [
+        def_express_freight_min: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
-        qianfanmall_express_freight_value: [
+        def_express_freight_value: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
       }

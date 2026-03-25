@@ -93,10 +93,10 @@
 
 #### 4.1.9.1 权限设计
 
-权限控制在数据库层面涉及到三个表`qianfanmall_admin`, `qianfanmall_role`和`qianfanmall_permission`：
-* qianfanmall_admin表中存在roleId字段，保存角色ID数组；
-* qianfanmall_role表记录角色名称和角色介绍；
-* qianfanmall_permission表记录角色所用于的权限值。
+权限控制在数据库层面涉及到三个表`def_admin`, `def_role`和`def_permission`：
+* def_admin表中存在roleId字段，保存角色ID数组；
+* def_role表记录角色名称和角色介绍；
+* def_permission表记录角色所用于的权限值。
 
 权限控制在后端层面通过这三个表可以构建出管理员所属的角色以及所拥有的操作权限。
 当管理员登录以后，访问一些受权限保护的后端地址时，后端会验证当前管理员的操作权限和后端地址需要的操作权限；

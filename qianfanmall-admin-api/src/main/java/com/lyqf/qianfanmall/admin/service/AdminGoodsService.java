@@ -122,12 +122,12 @@ public class AdminGoodsService {
      * 编辑商品
      *
      * NOTE：
-     * 由于商品涉及到四个表，特别是qianfanmall_goods_product表依赖qianfanmall_goods_specification表，
+     * 由于商品涉及到四个表，特别是def_goods_product表依赖def_goods_specification表，
      * 这导致允许所有字段都是可编辑会带来一些问题，因此这里商品编辑功能是受限制：
-     * （1）qianfanmall_goods表可以编辑字段；
-     * （2）qianfanmall_goods_specification表只能编辑pic_url字段，其他操作不支持；
-     * （3）qianfanmall_goods_product表只能编辑price, number和url字段，其他操作不支持；
-     * （4）qianfanmall_goods_attribute表支持编辑、添加和删除操作。
+     * （1）def_goods表可以编辑字段；
+     * （2）def_goods_specification表只能编辑pic_url字段，其他操作不支持；
+     * （3）def_goods_product表只能编辑price, number和url字段，其他操作不支持；
+     * （4）def_goods_attribute表支持编辑、添加和删除操作。
      *
      * NOTE2:
      * 前后端这里使用了一个小技巧：
@@ -166,14 +166,14 @@ public class AdminGoodsService {
         }
         goods.setRetailPrice(retailPrice);
         
-        // 商品基本信息表qianfanmall_goods
+        // 商品基本信息表def_goods
         if (goodsService.updateById(goods) == 0) {
             throw new RuntimeException("更新数据失败");
         }
 
         Integer gid = goods.getId();
 
-        // 商品规格表qianfanmall_goods_specification
+        // 商品规格表def_goods_specification
         for (QianfanmallGoodsSpecification specification : specifications) {
             // 目前只支持更新规格表的图片字段
             if(specification.getUpdateTime() == null){
@@ -183,14 +183,14 @@ public class AdminGoodsService {
             }
         }
 
-        // 商品货品表qianfanmall_product
+        // 商品货品表def_product
         for (QianfanmallGoodsProduct product : products) {
             if(product.getUpdateTime() == null) {
                 productService.updateById(product);
             }
         }
 
-        // 商品参数表qianfanmall_goods_attribute
+        // 商品参数表def_goods_attribute
         for (QianfanmallGoodsAttribute attribute : attributes) {
             if (attribute.getId() == null || attribute.getId().equals(0)){
                 attribute.setGoodsId(goods.getId());
@@ -204,7 +204,7 @@ public class AdminGoodsService {
             }
         }
 
-        // 这里需要注意的是购物车qianfanmall_cart有些字段是拷贝商品的一些字段，因此需要及时更新
+        // 这里需要注意的是购物车def_cart有些字段是拷贝商品的一些字段，因此需要及时更新
         // 目前这些字段是goods_sn, goods_name, price, pic_url
         for (QianfanmallGoodsProduct product : products) {
             cartService.updateProduct(product.getId(), goods.getGoodsSn(), goods.getName(), product.getPrice(), product.getUrl());
@@ -255,7 +255,7 @@ public class AdminGoodsService {
         }
         goods.setRetailPrice(retailPrice);
 
-        // 商品基本信息表qianfanmall_goods
+        // 商品基本信息表def_goods
         goodsService.add(goods);
 
         //将生成的分享图片地址写入数据库
@@ -267,19 +267,19 @@ public class AdminGoodsService {
             }
         }
 
-        // 商品规格表qianfanmall_goods_specification
+        // 商品规格表def_goods_specification
         for (QianfanmallGoodsSpecification specification : specifications) {
             specification.setGoodsId(goods.getId());
             specificationService.add(specification);
         }
 
-        // 商品参数表qianfanmall_goods_attribute
+        // 商品参数表def_goods_attribute
         for (QianfanmallGoodsAttribute attribute : attributes) {
             attribute.setGoodsId(goods.getId());
             attributeService.add(attribute);
         }
 
-        // 商品货品表qianfanmall_product
+        // 商品货品表def_product
         for (QianfanmallGoodsProduct product : products) {
             product.setGoodsId(goods.getId());
             productService.add(product);

@@ -297,14 +297,14 @@ Spring Boot技术栈参考以下文档或者项目：
 2. 创建数据库、用户权限、数据库表和测试数据;
    数据库文件存放在qianfanmall-db/sql文件夹中，请开发者在MySQL中
    按照顺序运行以下脚本:
-   * qianfanmall_schema.sql，用于创建数据库、用户和权限;
-   * qianfanmall_table.sql，用于创建表;
-   * qianfanmall_data.sql，用于导入测试数据。
+   * def_schema.sql，用于创建数据库、用户和权限;
+   * def_table.sql，用于创建表;
+   * def_data.sql，用于导入测试数据。
 
 注意：
 > 建议采用命令行或者MySQL Workbench。如果采用Navicat可能导入失败。
 
-如果开发者运行qianfanmall_schema.sql失败，可以打开该文件：
+如果开发者运行def_schema.sql失败，可以打开该文件：
 ```
 drop database if exists qianfanmall;
 drop user if exists 'qianfanmall'@'%';
@@ -893,9 +893,9 @@ sudo mysql_secure_installation
 1. 在服务器或者开发机打包项目到deploy；
     ```
     cd qianfanmall
-    cat ./qianfanmall-db/sql/qianfanmall_schema.sql > ./deploy/db/qianfanmall.sql
-    cat ./qianfanmall-db/sql/qianfanmall_table.sql >> ./deploy/db/qianfanmall.sql
-    cat ./qianfanmall-db/sql/qianfanmall_data.sql >> ./deploy/db/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_schema.sql > ./deploy/db/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_table.sql >> ./deploy/db/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_data.sql >> ./deploy/db/qianfanmall.sql
     
     cd ./qianfanmall-admin
     npm install --registry=https://registry.npm.taobao.org

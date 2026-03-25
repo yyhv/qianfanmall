@@ -31,7 +31,7 @@ public class QianfanmallSystemConfigService {
 
     public Map<String, String> listMail() {
         QianfanmallSystemExample example = new QianfanmallSystemExample();
-        example.or().andKeyNameLike("qianfanmall_mall_%").andDeletedEqualTo(false);
+        example.or().andKeyNameLike("def_mall_%").andDeletedEqualTo(false);
         List<QianfanmallSystem> systemList = systemMapper.selectByExample(example);
         Map<String, String> data = new HashMap<>();
         for(QianfanmallSystem system : systemList){
@@ -42,7 +42,7 @@ public class QianfanmallSystemConfigService {
 
     public Map<String, String> listWx() {
         QianfanmallSystemExample example = new QianfanmallSystemExample();
-        example.or().andKeyNameLike("qianfanmall_wx_%").andDeletedEqualTo(false);
+        example.or().andKeyNameLike("def_wx_%").andDeletedEqualTo(false);
         List<QianfanmallSystem> systemList = systemMapper.selectByExample(example);
         Map<String, String> data = new HashMap<>();
         for(QianfanmallSystem system : systemList){
@@ -53,7 +53,7 @@ public class QianfanmallSystemConfigService {
 
     public Map<String, String> listOrder() {
         QianfanmallSystemExample example = new QianfanmallSystemExample();
-        example.or().andKeyNameLike("qianfanmall_order_%").andDeletedEqualTo(false);
+        example.or().andKeyNameLike("def_order_%").andDeletedEqualTo(false);
         List<QianfanmallSystem> systemList = systemMapper.selectByExample(example);
         Map<String, String> data = new HashMap<>();
         for(QianfanmallSystem system : systemList){
@@ -64,7 +64,7 @@ public class QianfanmallSystemConfigService {
 
     public Map<String, String> listExpress() {
         QianfanmallSystemExample example = new QianfanmallSystemExample();
-        example.or().andKeyNameLike("qianfanmall_express_%").andDeletedEqualTo(false);
+        example.or().andKeyNameLike("def_express_%").andDeletedEqualTo(false);
         List<QianfanmallSystem> systemList = systemMapper.selectByExample(example);
         Map<String, String> data = new HashMap<>();
         for(QianfanmallSystem system : systemList){
