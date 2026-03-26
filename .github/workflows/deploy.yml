@@ -1,0 +1,182 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '部署环境'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+          - prod
+          - test
+          - dev
+
+env:
+  DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/qianfanmall
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: qianfanmall-admin/package-lock.json
+
+    - name: Install Admin dependencies
+      run: |
+        cd qianfanmall-admin
+        npm ci --legacy-peer-deps
+
+    - name: Build Admin Frontend
+      run: |
+        cd qianfanmall-admin
+        npm run build:dep
+
+    - name: Build with Maven
+      run: mvn -B clean package -Dmaven.test.skip=true -pl qianfanmall-all -am
+
+    - name: Prepare Docker build context
+      run: |
+        cp ./qianfanmall-all/target/qianfanmall-all-*-exec.jar ./docker/qianfanmall/qianfanmall.jar
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.DOCKER_IMAGE }}
+        tags: |
+          type=sha,prefix=
+          type=raw,value=latest
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./docker/qianfanmall
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy-prod:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: prod
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod')
+
+    steps:
+    - name: Deploy to Prod Server
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /home/deploy/qianfanmall-prod
+
+          docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+          docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:prod
+
+          docker-compose -f docker-compose.prod.yml down || true
+          docker-compose -f docker-compose.prod.yml up -d --no-build
+
+          docker image prune -af --filter "until=24h"
+
+          docker-compose -f docker-compose.prod.yml ps
+
+    - name: Health Check
+      run: |
+        sleep 30
+        curl -f ${{ secrets.SERVER_HOST }}:8080/admin/index/index || exit 1
+
+  deploy-test:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: test
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'test'
+
+    steps:
+    - name: Deploy to Test Server
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /home/deploy/qianfanmall-test
+
+          docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+          docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:test
+
+          docker-compose -f docker-compose.test.yml down || true
+          docker-compose -f docker-compose.test.yml up -d --no-build
+
+          docker image prune -af --filter "until=24h"
+
+          docker-compose -f docker-compose.test.yml ps
+
+    - name: Health Check
+      run: |
+        sleep 30
+        curl -f ${{ secrets.SERVER_HOST }}:8081/admin/index/index || exit 1
+
+  deploy-dev:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: dev
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'dev'
+
+    steps:
+    - name: Deploy to Dev Server
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /home/deploy/qianfanmall-dev
+
+          docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+          docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:dev
+
+          docker-compose -f docker-compose.dev.yml down || true
+          docker-compose -f docker-compose.dev.yml up -d --no-build
+
+          docker image prune -af --filter "until=24h"
+
+          docker-compose -f docker-compose.dev.yml ps
+
+    - name: Health Check
+      run: |
+        sleep 30
+        curl -f ${{ secrets.SERVER_HOST }}:8082/admin/index/index || exit 1

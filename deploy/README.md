@@ -5,9 +5,9 @@
 1. 在服务器或者开发机打包项目到deploy；
     ```
     cd qianfanmall
-    cat ./qianfanmall-db/sql/qianfanmall_schema.sql > ./deploy/db/qianfanmall.sql
-    cat ./qianfanmall-db/sql/qianfanmall_table.sql >> ./deploy/db/qianfanmall.sql
-    cat ./qianfanmall-db/sql/qianfanmall_data.sql >> ./deploy/db/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_schema.sql > ./deploy/db/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_table.sql >> ./deploy/db/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_data.sql >> ./deploy/db/qianfanmall.sql
     
     cd ./qianfanmall-admin
     npm install --registry=https://registry.npm.taobao.org

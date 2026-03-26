@@ -5,9 +5,9 @@
 1. 在服务器或者开发机打包项目到docker；
     ```
     cd qianfanmall
-    cat ./qianfanmall-db/sql/qianfanmall_schema.sql > ./docker/db/init-sql/qianfanmall.sql
-    cat ./qianfanmall-db/sql/qianfanmall_table.sql >> ./docker/db/init-sql/qianfanmall.sql
-    cat ./qianfanmall-db/sql/qianfanmall_data.sql >> ./docker/db/init-sql/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_schema.sql > ./docker/db/init-sql/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_table.sql >> ./docker/db/init-sql/qianfanmall.sql
+    cat ./qianfanmall-db/sql/def_data.sql >> ./docker/db/init-sql/qianfanmall.sql
     
     cd ./qianfanmall-admin
     npm install --registry=https://registry.npm.taobao.org

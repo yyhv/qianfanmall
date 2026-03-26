@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: qianfanmall-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-qianfanmall123456}
+      MYSQL_DATABASE: qianfanmall
+      MYSQL_USER: ${MYSQL_USER:-qianfanmall}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-qianfanmall123456}
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./init-sql:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "3306:3306"
+    networks:
+      - qianfanmall-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  qianfanmall:
+    image: ${DOCKER_USERNAME:-your-docker-hub-username}/qianfanmall:latest
+    container_name: qianfanmall
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./storage:/storage
+      - ./logs:/logs
+      - ./backup:/backup
+    environment:
+      - TZ=Asia/Shanghai
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER:-qianfanmall}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:-qianfanmall123456}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - qianfanmall-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/admin/index/index"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  qianfanmall-network:
+    driver: bridge
