@@ -6,3 +6,4 @@ use qianfanmall;
 create user 'qianfanmall'@'%' identified by 'qianfanmall123456';
 grant all privileges on qianfanmall.* to 'qianfanmall'@'%';
 flush privileges;
+-- ALTER USER 'qianfanmall'@'%' IDENTIFIED WITH mysql_native_password BY 'qianfanmall123456';

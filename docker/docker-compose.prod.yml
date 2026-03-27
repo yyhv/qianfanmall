@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   qianfanmall:
-    image: ${DOCKER_USERNAME:-your-docker-hub-username}/qianfanmall:latest
+    image: ${DOCKER_USERNAME}/qianfanmall:latest
     container_name: qianfanmall
     restart: always
     ports:
@@ -13,8 +13,7 @@ services:
       - ./backup:/backup
     environment:
       - TZ=Asia/Shanghai
-      # 连接服务器上已有的 MySQL，使用 host.docker.internal 访问宿主机
-      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-host.docker.internal}:${MYSQL_PORT:-56033}/${MYSQL_DATABASE:-qianfanmall}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=${MYSQL_USER:-qianfanmall}
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:-qianfanmall123456}
     extra_hosts:
