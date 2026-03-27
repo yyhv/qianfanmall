@@ -77,6 +77,10 @@
             <artifactId>weixin-java-pay</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.lyqf</groupId>
             <artifactId>qianfanmall-db</artifactId>
         </dependency>

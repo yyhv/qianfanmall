@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: db, core, admin, wx
+    active: env-prod, env, db, core, admin, wx
   messages:
     encoding: UTF-8
   servlet:
@@ -14,6 +14,11 @@ server:
     enabled: true
     min-response-size: 2048
     mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
+  ssl:
+    enabled: ${qianfanmall.env.ssl.enabled}
+    key-store-password: ${qianfanmall.env.ssl.key-store-password}
+    key-store: classpath:${qianfanmall.env.ssl.key-store}
+    key-store-type: JKS
 
 logging:
   config: classpath:logback-spring.xml

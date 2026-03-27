@@ -1,0 +1,11 @@
+qianfanmall:
+  env:
+    domain: http://localhost:8080
+    ssl:
+      enabled: false
+      key-store-password:
+      key-store:
+    subscription-notice:
+      cert-domain-name:
+      cert-expired-time:
+  storage-path: storage

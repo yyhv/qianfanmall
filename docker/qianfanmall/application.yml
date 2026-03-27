@@ -5,7 +5,7 @@ spring:
     encoding: UTF-8
   datasource:
     druid:
-      url:  jdbc:mysql://mysql:3306/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=true
+      url:  jdbc:mysql://localhost:3306/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false
       driver-class-name:  com.mysql.cj.jdbc.Driver
       username:  qianfanmall
       password:  qianfanmall123456
@@ -24,6 +24,11 @@ spring:
 
 server:
   port: 8080
+  ssl:
+    enabled: true
+    key-store-password: ${SSL_KEYSTORE_PASSWORD}
+    key-store: classpath:dev.yys.lingyiqianfan.com.jks
+    key-store-type: JKS
 
 logging:
   config: classpath:logback-spring.xml
@@ -35,16 +40,43 @@ pagehelper:
   params: count=countSql
 
 qianfanmall:
+  env:
+    domain: https://dev.yys.lingyiqianfan.com
+    ssl:
+      enabled: true
+      key-store-password: ${SSL_KEYSTORE_PASSWORD}
+      key-store: dev.yys.lingyiqianfan.com.jks
+  storage-path: storage
+
   # 开发者应该设置成自己的wx相关信息
   wx:
-    app-id: wxa5b486c6b918ecfb
-    app-secret: e04004829d4c383b4db7769d88dfbca1
-    mch-id: 111111
-    mch-key: xxxxxx
-    notify-url: http://122.51.199.160:8080/wx/order/pay-notify
-    # 商户证书文件路径
-    # 请参考“商户证书”一节 https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=4_3
-    key-path: xxxxx
+    mini-app:
+      app-id: wx19431592accd1990  # zlm-prod
+      app-secret: 6a17d4edfd442e2186b46791180aa055
+      mch-id: 1702609589
+      mch-key: Ling1QF010624ZLMLing1QF010624ZLM
+      api-v3-key: 0YiQianFan010624zlm0YiQianFan010
+      key-path: classpath:wechat-certs/apiclient_cert.p12
+      private-key-path: classpath:wechat-certs/apiclient_key.pem
+      private-cert-path: classpath:wechat-certs/apiclient_cert.pem
+      notify-url: https://dev.yys.lingyiqianfan.com/wx/pay/notify
+      token:
+      aes-key:
+      page-path: pages/index/index
+      use-sandbox: false
+    mp:
+      app-id: wxc4ae2df6dadccb72  # zlm-prod
+      app-secret: 8955452e5666a51b1454d320d64cefeb
+      mch-id: 1702609589
+      mch-key: Ling1QF010624ZLMLing1QF010624ZLM
+      api-v3-key: 0YiQianFan010624zlm0YiQianFan010
+      key-path: classpath:wechat-certs/apiclient_cert.p12
+      private-key-path: classpath:wechat-certs/apiclient_key.pem
+      private-cert-path: classpath:wechat-certs/apiclient_cert.pem
+      notify-url: https://dev.yys.lingyiqianfan.com/wx/pay/notify
+      token:
+      aes-key:
+      use-sandbox: false
 
   #通知相关配置
   notify:
@@ -123,7 +155,7 @@ qianfanmall:
     # 本地对象存储配置信息
     local:
       storagePath: storage
-      address: http://122.51.199.160:8080/wx/storage/fetch/
+      address: https://dev.yys.lingyiqianfan.com/wx/storage/fetch/
     # 阿里云对象存储配置信息
     aliyun:
       endpoint: oss-cn-shenzhen.aliyuncs.com
