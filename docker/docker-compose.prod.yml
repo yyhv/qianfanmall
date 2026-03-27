@@ -6,16 +6,20 @@ services:
     container_name: qianfanmall
     restart: always
     ports:
-      - "8080:8080"
+      - "80:8080"      # HTTP端口映射
+      - "443:8443"     # HTTPS端口映射（容器内部使用8443）
     volumes:
       - ./storage:/storage
       - ./logs:/app/logs
       - ./backup:/backup
+      - ./certs:/app/certs:ro  # SSL证书挂载（只读）
     environment:
       - TZ=Asia/Shanghai
       - SPRING_DATASOURCE_DRUID_URL=jdbc:mysql://host.docker.internal:56033/${MYSQL_DATABASE:-qianfanmall}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_DRUID_USERNAME=${MYSQL_USER:-root}
       - SPRING_DATASOURCE_DRUID_PASSWORD=${MYSQL_PASSWORD:-qianfanmall123456}
+      # SSL证书密码（通过环境变量传递）
+      - QIANFANMALL_ENV_SSL_KEY-STORE-PASSWORD=${SSL_KEYSTORE_PASSWORD:-your-password}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
