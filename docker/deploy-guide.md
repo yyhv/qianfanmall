@@ -2,7 +2,7 @@
 
 ## 概述
 
-本项目使用 GitHub Actions + Docker 实现自动部署。支持多环境（staging/production）部署。
+本项目使用 GitHub Actions + Docker 实现自动部署。支持多环境（prod/test/dev）部署。
 
 ## 一、GitHub Secrets 配置
 
@@ -14,6 +14,8 @@
 |------------|------|------|
 | `DOCKER_USERNAME` | Docker Hub 用户名 | `myusername` |
 | `DOCKER_PASSWORD` | Docker Hub Access Token | `dckr_pat_xxxx` |
+| `DB_USERNAME` | MySQL 用户名 | `root` |
+| `DB_PASSWORD` | MySQL 密码 | `your_password` |
 
 ### 2. Environment Secrets（每个环境独立）
 
@@ -31,6 +33,14 @@
 | `SERVER_HOST` | 该环境的服务器 IP |
 | `SERVER_USER` | SSH 登录用户名 |
 | `SSH_PRIVATE_KEY` | SSH 私钥内容 |
+| `DB_URL` | 数据库连接 URL |
+| `DB_USERNAME` | 数据库用户名（可选，默认使用 Repository Secret） |
+| `DB_PASSWORD` | 数据库密码（可选，默认使用 Repository Secret） |
+
+**DB_URL 格式示例：**
+```
+jdbc:mysql://host.docker.internal:56033/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+```
 
 **配置示例：**
 
@@ -39,16 +49,25 @@ prod 环境:
   SERVER_HOST = 123.45.67.89
   SERVER_USER = deploy
   SSH_PRIVATE_KEY = -----BEGIN RSA PRIVATE KEY-----...
+  DB_URL = jdbc:mysql://host.docker.internal:56033/qianfanmall?...
+  DB_USERNAME = root
+  DB_PASSWORD = your_password
 
 test 环境:
-  SERVER_HOST = 98.76.54.32
+  SERVER_HOST = 123.45.67.89
   SERVER_USER = deploy
   SSH_PRIVATE_KEY = -----BEGIN RSA PRIVATE KEY-----...
+  DB_URL_TEST = jdbc:mysql://host.docker.internal:56034/qianfanmall_test?...
+  DB_USERNAME = root
+  DB_PASSWORD = your_password
 
 dev 环境:
-  SERVER_HOST = 192.168.1.100
+  SERVER_HOST = 123.45.67.89
   SERVER_USER = deploy
   SSH_PRIVATE_KEY = -----BEGIN RSA PRIVATE KEY-----...
+  DB_URL_DEV = jdbc:mysql://host.docker.internal:56035/qianfanmall_dev?...
+  DB_USERNAME = root
+  DB_PASSWORD = your_password
 ```
 
 ### 获取 Docker Hub Access Token
