@@ -86,27 +86,39 @@ exit
 # 重新 SSH 登录
 ```
 
-### 2. 安装 Docker Compose
+### 2. 验证 Docker Compose
+
+Docker Compose V2 已作为 Docker 插件自动安装，验证：
 
 ```bash
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+docker compose version
 ```
+
+如果显示版本号（如 `Docker Compose version v2.21.0`）则已安装成功。
+
+> 注意：使用 `docker compose`（中间有空格）而不是旧版的 `docker-compose`（中间有横杠）
 
 ### 3. 创建部署目录
 
 ```bash
-sudo mkdir -p /home/deploy/qianfanmall
-sudo chown $USER:$USER /home/deploy/qianfanmall
-cd /home/deploy/qianfanmall
+# 创建生产环境目录
+sudo mkdir -p /home/deploy/qianfanmall-prod/{storage,logs,backup,init-sql,data/mysql}
+sudo chown -R $USER:$USER /home/deploy/qianfanmall-prod
 
-# 创建必要目录
-mkdir -p storage logs backup init-sql
+# 创建测试环境目录（可选）
+sudo mkdir -p /home/deploy/qianfanmall-test/{storage,logs,backup,init-sql,data/mysql}
+sudo chown -R $USER:$USER /home/deploy/qianfanmall-test
+
+# 创建开发环境目录（可选）
+sudo mkdir -p /home/deploy/qianfanmall-dev/{storage,logs,backup,init-sql,data/mysql}
+sudo chown -R $USER:$USER /home/deploy/qianfanmall-dev
 ```
 
 ### 4. 创建环境变量文件
 
 ```bash
+cd /home/deploy/qianfanmall-prod
+
 cat > .env << 'EOF'
 DOCKER_USERNAME=your-docker-hub-username
 MYSQL_ROOT_PASSWORD=your-secure-password
@@ -117,72 +129,15 @@ EOF
 chmod 600 .env
 ```
 
-### 5. 复制 docker-compose.prod.yml 到服务器
+### 5. 上传 docker-compose.prod.yml 到服务器
+
+在本地电脑执行：
 
 ```bash
-# 在服务器上创建配置文件
-cat > docker-compose.prod.yml << 'EOF'
-version: '3.8'
-
-services:
-  mysql:
-    image: mysql:8.0
-    container_name: qianfanmall-mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: qianfanmall
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    command:
-      --character-set-server=utf8mb4
-      --collation-server=utf8mb4_general_ci
-      --default-authentication-plugin=mysql_native_password
-    volumes:
-      - ./data/mysql:/var/lib/mysql
-      - ./init-sql:/docker-entrypoint-initdb.d:ro
-    ports:
-      - "3306:3306"
-    networks:
-      - qianfanmall-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  qianfanmall:
-    image: ${DOCKER_USERNAME}/qianfanmall:latest
-    container_name: qianfanmall
-    restart: always
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./storage:/storage
-      - ./logs:/logs
-      - ./backup:/backup
-    environment:
-      - TZ=Asia/Shanghai
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
-    depends_on:
-      mysql:
-        condition: service_healthy
-    networks:
-      - qianfanmall-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/admin/index/index"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-
-networks:
-  qianfanmall-network:
-    driver: bridge
-EOF
+scp docker/docker-compose.prod.yml 用户名@服务器IP:/home/deploy/qianfanmall-prod/
 ```
+
+或者直接在服务器上创建（内容见 `docker/docker-compose.prod.yml` 文件）。
 
 ### 6. 初始化数据库
 
@@ -225,7 +180,7 @@ git push origin master
 ### 1. 检查容器状态
 
 ```bash
-docker-compose -f docker-compose.prod.yml ps
+docker compose -f docker-compose.prod.yml ps
 ```
 
 ### 2. 查看应用日志
@@ -244,19 +199,19 @@ docker logs qianfanmall -f
 
 ```bash
 # 查看容器状态
-docker-compose -f docker-compose.prod.yml ps
+docker compose -f docker-compose.prod.yml ps
 
 # 查看日志
 docker logs qianfanmall -f --tail 100
 
 # 重启服务
-docker-compose -f docker-compose.prod.yml restart qianfanmall
+docker compose -f docker-compose.prod.yml restart qianfanmall
 
 # 停止所有服务
-docker-compose -f docker-compose.prod.yml down
+docker compose -f docker-compose.prod.yml down
 
 # 启动所有服务
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d
 
 # 进入容器
 docker exec -it qianfanmall /bin/bash
