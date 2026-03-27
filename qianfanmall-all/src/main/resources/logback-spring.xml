@@ -1,58 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
-    <contextName>logback</contextName>
-    <property name="log.path" value="logs" />
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+    <!-- 定义日志文件 输入位置 -->
+    <property name="log.path" value="logs"/>
+    <!-- 日志最大的历史 30天 -->
+    <property name="maxHistory" value="30"/>
+    <property name="cleanHistoryOnStart" value="true"/>
+    <property name="totalSizeCap" value="2048MB"/>
+    <property name="maxFileSize" value="100MB"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] %logger{36} [%file : %line] - %msg%n"/>
 
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>debug</level>
+            <level>DEBUG</level>
         </filter>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n
-            </pattern>
-        </encoder>
     </appender>
 
-    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/log.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/log-%d{yyyy-MM-dd}.log</fileNamePattern>
+    <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 此日志文件只记录WARN级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <file>${log.path}/warn_mall.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyyMMdd}_mall_warn_%i.log.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <cleanHistoryOnStart>${cleanHistoryOnStart}</cleanHistoryOnStart>
         </rollingPolicy>
 
         <encoder>
-            <pattern>%date %level [%thread] %logger{36} [%file : %line] %msg%n
-            </pattern>
+            <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/error.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+
+    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <file>${log.path}/info_mall.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyyMMdd}_mall_info_%i.log.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <cleanHistoryOnStart>${cleanHistoryOnStart}</cleanHistoryOnStart>
         </rollingPolicy>
 
         <encoder>
-            <pattern>%date %level [%thread] %logger{36} [%file : %line] %msg%n
-            </pattern>
+            <pattern>${LOG_PATTERN}</pattern>
         </encoder>
-        <!-- 此日志文件只记录ERROR级别的 -->
+    </appender>
+
+    <appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <file>${log.path}/debug_mall.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyyMMdd}_mall_debug_%i.log.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <cleanHistoryOnStart>${cleanHistoryOnStart}</cleanHistoryOnStart>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
+
+        <file>${log.path}/error_mall.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyyMMdd}_mall_error_%i.log.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <cleanHistoryOnStart>${cleanHistoryOnStart}</cleanHistoryOnStart>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
     </appender>
 
-    <root level="ERROR">
-        <appender-ref ref="console" />
-        <appender-ref ref="file" />
-        <appender-ref ref="error" />
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_ERROR"/>
+        <appender-ref ref="FILE_WARN"/>
+        <appender-ref ref="FILE_INFO"/>
+        <appender-ref ref="FILE_DEBUG"/>
     </root>
-    <logger name="org.mybatis" level="ERROR" />
-    <logger name="org.springframework" level="ERROR" />
-    <logger name="com.lyqf.qianfanmall.core" level="ERROR" />
-    <logger name="com.lyqf.qianfanmall.db" level="ERROR" />
-    <logger name="com.lyqf.qianfanmall.admin" level="DEBUG" />
-    <logger name="com.lyqf.qianfanmall.wx" level="DEBUG" />
-    <logger name="com.lyqf.qianfanmall" level="DEBUG" />
+    <logger name="com.alibaba.druid.pool" level="ERROR"/>
+    <logger name="org.mybatis" level="ERROR"/>
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="com.lyqf.qianfanmall.core" level="ERROR"/>
+    <logger name="com.lyqf.qianfanmall.db" level="ERROR"/>
+    <logger name="com.lyqf.qianfanmall.admin" level="DEBUG"/>
+    <logger name="com.lyqf.qianfanmall.wx" level="DEBUG"/>
+    <logger name="com.lyqf.qianfanmall" level="DEBUG"/>
+    <logger name="springfox.documentation" level="ERROR" />
 </configuration>

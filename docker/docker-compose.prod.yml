@@ -13,9 +13,9 @@ services:
       - ./backup:/backup
     environment:
       - TZ=Asia/Shanghai
-      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-host.docker.internal}:${MYSQL_PORT:-56033}/${MYSQL_DATABASE:-qianfanmall}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER:-qianfanmall}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:-qianfanmall123456}
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:56033/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Maple_2023
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
