@@ -41,7 +41,7 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-        cache-dependency-path: qianfanmall-admin/package-lock.json
+        cache-dependency-path: qianfanmall-admin/package.json
 
     - name: Install Admin dependencies
       run: |
