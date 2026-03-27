@@ -52,9 +52,16 @@ jobs:
       run: |
         cd qianfanmall-admin
         npm run build:dep
+        ls -la dist/
+
+    - name: List dist directory
+      run: ls -la qianfanmall-admin/dist/
 
     - name: Build with Maven
       run: mvn -B clean package -Dmaven.test.skip=true -pl qianfanmall-all -am
+
+    - name: Verify static resources
+      run: ls -la qianfanmall-all/target/classes/static/ || echo "No static directory found"
 
     - name: Prepare Docker build context
       run: |

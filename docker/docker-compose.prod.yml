@@ -2,20 +2,20 @@ version: '3.8'
 
 services:
   qianfanmall:
-    image: ${DOCKER_USERNAME}/qianfanmall:latest
+    image: ${DOCKER_USERNAME:-lingyiqianfan}/qianfanmall:latest
     container_name: qianfanmall
     restart: always
     ports:
       - "8080:8080"
     volumes:
       - ./storage:/storage
-      - ./logs:/logs
+      - ./logs:/app/logs
       - ./backup:/backup
     environment:
       - TZ=Asia/Shanghai
-      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:56033/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=Maple_2023
+      - SPRING_DATASOURCE_DRUID_URL=jdbc:mysql://host.docker.internal:56033/${MYSQL_DATABASE:-qianfanmall}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_DRUID_USERNAME=${MYSQL_USER:-root}
+      - SPRING_DATASOURCE_DRUID_PASSWORD=${MYSQL_PASSWORD:-qianfanmall123456}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
