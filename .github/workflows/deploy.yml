@@ -104,8 +104,7 @@ jobs:
         script: |
           cd /home/deploy/qianfanmall-prod
 
-          docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
-          docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:prod
+          docker pull ${{ env.DOCKER_IMAGE }}:latest
 
           docker compose -f docker-compose.prod.yml down || true
           docker compose -f docker-compose.prod.yml up -d --no-build
@@ -135,8 +134,7 @@ jobs:
         script: |
           cd /home/deploy/qianfanmall-test
 
-          docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
-          docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:test
+          docker pull ${{ env.DOCKER_IMAGE }}:latest
 
           docker compose -f docker-compose.test.yml down || true
           docker compose -f docker-compose.test.yml up -d --no-build
@@ -166,8 +164,7 @@ jobs:
         script: |
           cd /home/deploy/qianfanmall-dev
 
-          docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
-          docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:dev
+          docker pull ${{ env.DOCKER_IMAGE }}:latest
 
           docker compose -f docker-compose.dev.yml down || true
           docker compose -f docker-compose.dev.yml up -d --no-build
