@@ -107,12 +107,12 @@ jobs:
           docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
           docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:prod
 
-          docker-compose -f docker-compose.prod.yml down || true
-          docker-compose -f docker-compose.prod.yml up -d --no-build
+          docker compose -f docker-compose.prod.yml down || true
+          docker compose -f docker-compose.prod.yml up -d --no-build
 
           docker image prune -af --filter "until=24h"
 
-          docker-compose -f docker-compose.prod.yml ps
+          docker compose -f docker-compose.prod.yml ps
 
     - name: Health Check
       run: |
@@ -138,12 +138,12 @@ jobs:
           docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
           docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:test
 
-          docker-compose -f docker-compose.test.yml down || true
-          docker-compose -f docker-compose.test.yml up -d --no-build
+          docker compose -f docker-compose.test.yml down || true
+          docker compose -f docker-compose.test.yml up -d --no-build
 
           docker image prune -af --filter "until=24h"
 
-          docker-compose -f docker-compose.test.yml ps
+          docker compose -f docker-compose.test.yml ps
 
     - name: Health Check
       run: |
@@ -169,12 +169,12 @@ jobs:
           docker pull ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
           docker tag ${{ env.DOCKER_IMAGE }}:${{ github.sha }} ${{ env.DOCKER_IMAGE }}:dev
 
-          docker-compose -f docker-compose.dev.yml down || true
-          docker-compose -f docker-compose.dev.yml up -d --no-build
+          docker compose -f docker-compose.dev.yml down || true
+          docker compose -f docker-compose.dev.yml up -d --no-build
 
           docker image prune -af --filter "until=24h"
 
-          docker-compose -f docker-compose.dev.yml ps
+          docker compose -f docker-compose.dev.yml ps
 
     - name: Health Check
       run: |
