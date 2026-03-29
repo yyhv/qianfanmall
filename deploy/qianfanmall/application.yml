@@ -5,38 +5,38 @@ spring:
     encoding: UTF-8
   datasource:
     druid:
-      url:  jdbc:mysql://mysql:3306/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=true
-      driver-class-name:  com.mysql.cj.jdbc.Driver
-      username:  qianfanmall
-      password:  qianfanmall123456
-      initial-size:  10
-      max-active:  50
-      min-idle:  10
-      max-wait:  60000
-      pool-prepared-statements:  true
-      max-pool-prepared-statement-per-connection-size:  20
-      validation-query:  SELECT 1 FROM DUAL
-      test-on-borrow:  false
-      test-on-return:  false
-      test-while-idle:  true
-      time-between-eviction-runs-millis:  60000
-      filters:  stat,wall
+      url: jdbc:mysql://mysql:3306/qianfanmall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: qianfanmall
+      password: qianfanmall123456
+      initial-size: 10
+      max-active: 50
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      filters: stat,wall
 
 server:
   port: 8080
   ssl:
-    enabled: true
-    key-store-password: ${SSL_KEYSTORE_PASSWORD}
-    key-store: classpath:dev.yys.lingyiqianfan.com.jks
+    enabled: ${qianfanmall.env.ssl.enabled:false}
+    key-store-password: ${qianfanmall.env.ssl[key-store-password]:}
+    key-store: classpath:${qianfanmall.env.ssl[key-store]:}
     key-store-type: JKS
 
 logging:
   config: classpath:logback-spring.xml
 
 pagehelper:
-  helperDialect:  mysql
+  helperDialect: mysql
   reasonable: true
-  supportMethodsArguments:  true
+  supportMethodsArguments: true
   params: count=countSql
 
 qianfanmall:
@@ -44,7 +44,7 @@ qianfanmall:
     domain: https://dev.yys.lingyiqianfan.com
     ssl:
       enabled: true
-      key-store-password: ${SSL_KEYSTORE_PASSWORD}
+      key-store-password: 7m45pnkb
       key-store: dev.yys.lingyiqianfan.com.jks
   storage-path: storage
 
@@ -78,7 +78,7 @@ qianfanmall:
       aes-key:
       use-sandbox: false
 
-  #通知相关配置
+  # 通知相关配置
   notify:
     mail:
       # 邮件通知配置,邮箱一般用于接收业务通知例如收到新的订单，sendto 定义邮件接收者，通常为商城运营人员
