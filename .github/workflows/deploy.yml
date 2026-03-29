@@ -61,7 +61,10 @@ jobs:
       run: mvn -B clean package -Dmaven.test.skip=true -pl qianfanmall-all -am
 
     - name: Verify static resources
-      run: ls -la qianfanmall-all/target/classes/static/ || echo "No static directory found"
+      run: |
+        echo "Checking static resources in JAR..."
+        ls -la qianfanmall-all/target/classes/static/ || echo "No static directory found"
+        jar tf qianfanmall-all/target/qianfanmall-all-*-exec.jar | grep "static/js/runtime" || echo "WARNING: runtime.js not found in JAR!"
 
     - name: Prepare Docker build context
       run: |
@@ -94,6 +97,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        no-cache: true
 
   deploy-prod:
     needs: build
