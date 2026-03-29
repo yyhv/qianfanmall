@@ -3,7 +3,7 @@ qianfanmall:
     domain: https://dev.yys.lingyiqianfan.com
     ssl:
       enabled: true
-      key-store-password: your-keystore-password  # 请替换为实际的SSL证书密码
+      key-store-password: 7m45pnkb  # 请替换为实际的SSL证书密码
       key-store: dev.yys.lingyiqianfan.com.jks  # SSL证书文件名
     subscription-notice:
       cert-domain-name: dev.yys
