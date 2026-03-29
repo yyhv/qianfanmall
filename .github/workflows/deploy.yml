@@ -142,8 +142,17 @@ jobs:
 
     - name: Health Check
       run: |
-        sleep 30
-        curl -fk https://${{ secrets.SERVER_HOST }}/admin/index/index || exit 1
+        echo "Waiting for service to start..."
+        for i in {1..10}; do
+          sleep 10
+          echo "Attempt $i/10..."
+          if curl -fk --connect-timeout 5 --max-time 10 "https://${{ secrets.SERVER_HOST }}/admin/index/index" 2>/dev/null; then
+            echo "Health check passed!"
+            exit 0
+          fi
+        done
+        echo "Health check failed after 10 attempts"
+        exit 1
 
   deploy-test:
     needs: build
