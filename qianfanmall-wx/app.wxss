@@ -17,3 +17,8 @@ view, text {
   font-size: 29rpx;
   color: #333;
 }
+
+.van-checkbox__icon--checked {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}

@@ -367,7 +367,8 @@ page {
   border-top-right-radius: 50rpx;
   border-bottom-right-radius: 50rpx;
   letter-spacing: 3rpx;
-  background-image: linear-gradient(to right, #9a9ba1 0%, #ae8b9c 100%);
+  background-color: #999999;
+  /* background-image: linear-gradient(to right, #9a9ba1 0%, #ae8b9c 100%); */
 }
 
 .cart-bottom .checkout {
@@ -410,7 +411,8 @@ page {
   border-bottom-right-radius: 50rpx;
   letter-spacing: 3rpx;
   /* background-image: linear-gradient(to right, #ff7701 100%); */
-  background-image: linear-gradient(to right, #ab956d 0%, #ab956d 100%);
+  /* background-image: linear-gradient(to right, #ab956d 0%, #ab956d 100%); */
+  background-color: #000000;
 }
 
 .action_btn_area .checkout {
@@ -469,7 +471,8 @@ page {
   border-top-right-radius: 50rpx;
   border-bottom-right-radius: 50rpx;
   letter-spacing: 3rpx;
-  background-image: linear-gradient(to right, #ab956d 0%, #ab956d 100%);
+  background-color: #000000;
+  /* background-image: linear-gradient(to right, #ab956d 0%, #ab956d 100%); */
   /* background-image: linear-gradient(to right, #ff7701 0%, #fe4800 100%); */
 }
 
