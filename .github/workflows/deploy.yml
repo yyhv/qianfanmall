@@ -119,10 +119,12 @@ jobs:
           docker run -d \
             --name qianfanmall \
             --restart always \
-            -p 8080:8080 \
+            -p 80:8080 \
+            -p 443:8080 \
             -v $(pwd)/storage:/storage \
             -v $(pwd)/logs:/app/logs \
             -v $(pwd)/backup:/backup \
+            -v $(pwd)/certs:/app/certs:ro \
             -e TZ=Asia/Shanghai \
             -e SPRING_DATASOURCE_DRUID_URL="${{ secrets.DB_URL }}" \
             -e SPRING_DATASOURCE_DRUID_USERNAME="${{ secrets.DB_USERNAME }}" \
@@ -137,7 +139,7 @@ jobs:
     - name: Health Check
       run: |
         sleep 30
-        curl -f ${{ secrets.SERVER_HOST }}:8080/admin/index/index || exit 1
+        curl -fk https://${{ secrets.SERVER_HOST }}/admin/index/index || exit 1
 
   deploy-test:
     needs: build
