@@ -124,9 +124,9 @@ jobs:
             -v $(pwd)/logs:/app/logs \
             -v $(pwd)/backup:/backup \
             -e TZ=Asia/Shanghai \
-            -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL }}" \
-            -e SPRING_DATASOURCE_USERNAME="${{ secrets.DB_USERNAME }}" \
-            -e SPRING_DATASOURCE_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+            -e SPRING_DATASOURCE_DRUID_URL="${{ secrets.DB_URL }}" \
+            -e SPRING_DATASOURCE_DRUID_USERNAME="${{ secrets.DB_USERNAME }}" \
+            -e SPRING_DATASOURCE_DRUID_PASSWORD="${{ secrets.DB_PASSWORD }}" \
             --add-host=host.docker.internal:host-gateway \
             ${{ env.DOCKER_IMAGE }}:latest
 
@@ -167,9 +167,9 @@ jobs:
             -v $(pwd)/storage:/storage \
             -v $(pwd)/logs:/app/logs \
             -e TZ=Asia/Shanghai \
-            -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL_TEST }}" \
-            -e SPRING_DATASOURCE_USERNAME="${{ secrets.DB_USERNAME }}" \
-            -e SPRING_DATASOURCE_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+            -e SPRING_DATASOURCE_DRUID_URL="${{ secrets.DB_URL_TEST }}" \
+            -e SPRING_DATASOURCE_DRUID_USERNAME="${{ secrets.DB_USERNAME }}" \
+            -e SPRING_DATASOURCE_DRUID_PASSWORD="${{ secrets.DB_PASSWORD }}" \
             --add-host=host.docker.internal:host-gateway \
             ${{ env.DOCKER_IMAGE }}:latest
 
@@ -210,9 +210,9 @@ jobs:
             -v $(pwd)/storage:/storage \
             -v $(pwd)/logs:/app/logs \
             -e TZ=Asia/Shanghai \
-            -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL_DEV }}" \
-            -e SPRING_DATASOURCE_USERNAME="${{ secrets.DB_USERNAME }}" \
-            -e SPRING_DATASOURCE_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+            -e SPRING_DATASOURCE_DRUID_URL="${{ secrets.DB_URL_DEV }}" \
+            -e SPRING_DATASOURCE_DRUID_USERNAME="${{ secrets.DB_USERNAME }}" \
+            -e SPRING_DATASOURCE_DRUID_PASSWORD="${{ secrets.DB_PASSWORD }}" \
             --add-host=host.docker.internal:host-gateway \
             ${{ env.DOCKER_IMAGE }}:latest
 
